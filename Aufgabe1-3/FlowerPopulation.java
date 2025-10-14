@@ -16,8 +16,9 @@ public class FlowerPopulation {
     double Bestäubungswahrscheinlichkeit;
 
 
-    public void Tagessimulation(){
-
+    public int Tagessimulation(double groundMoisture, int sunshineHours, int beePopulation){
+        int availableFood = 0; //Nahrungsangebot einer Pflanze (y * b) siehe Angabe.
+        return availableFood;
     }
 
 
