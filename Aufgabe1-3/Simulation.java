@@ -49,7 +49,7 @@ public class Simulation {
         }
         //winter is comming
 
-        //Bienenpopulation muss mit 0.1 bis 0.3 multipliziert werden
+        //Bienenpopulation muss mit 0.1 bis 0.3 multipliziert werden --> Habe ich schon mit der Funktion simulateRest in der BeePopulation Klasse gemacht, hoffe das passt :)
 
 
 
