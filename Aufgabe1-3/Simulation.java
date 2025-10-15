@@ -9,11 +9,11 @@ public class Simulation {
     private int totalSunshineHours;
     private double groundMoisture;
 
-    private List<FlowerPopulation> _flowers;
+    private TotalFlowerPopulation flowers;
     private BeePopulation bees;
 
-    public Simulation(int yearsToSim, List<FlowerPopulation> flowers, BeePopulation initialBees){
-        _flowers = flowers;
+    public Simulation(int yearsToSim, TotalFlowerPopulation flowers, BeePopulation initialBees){
+        this.flowers = flowers;
         bees = initialBees;
         yearsToSimulate = yearsToSim;
         numberGenerator = new Random(1);//for testing always the same seed
@@ -30,14 +30,12 @@ public class Simulation {
         int dailySunshine = numberGenerator.nextInt(13);
         totalSunshineHours += dailySunshine;
 
-        int availableFood = 0;
-        for(var flower : _flowers){
-            availableFood += flower.Tagessimulation(groundMoisture, dailySunshine, bees.getPopulation());
-        }
+        double availableFood = flowers.getNahrungsAngebot();
 
-        bees.Tagessimulation(availableFood);
+        bees.Tagessimulation((int) availableFood);
 
         groundMoisture += numberGenerator.nextDouble(-0.1, Math.nextUp(0.1));
+        flowers.Tagessimulation(groundMoisture,dailySunshine,bees.getPopulation(),availableFood,false);
     }
 
     private void simulateYear(){
