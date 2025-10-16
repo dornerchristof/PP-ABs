@@ -47,6 +47,12 @@ public class Simulation {
         for(int i = 0; i < runs; i++) {
             for (int year = 1; year <= yearsPerRun; year++) {
                     simulateYear();
+                    if(yearlyOutput){
+                    debugInfos.append("Year ").append(year).append(" results:\n");
+                    debugInfos.append(workingBees);
+                    debugInfos.append(workingFlowers);
+                    debugInfos.append("\n");
+                }
                     if(dailyOutput) dailyOutput = false;
             }
             if(yearlyOutput) yearlyOutput = false;
@@ -76,11 +82,7 @@ public class Simulation {
         groundMoisture += numberGenerator.nextDouble(-0.1, Math.nextUp(0.1));
         workingFlowers.Tagessimulation(groundMoisture,dailySunshine,
                 workingBees.getPopulation(),availableFood,false);
-        if(dailyOutput){
-            debugInfos.append("Daily output");
-            debugInfos.append(workingFlowers);
-            debugInfos.append(workingBees);
-        }
+
     }
 
     //Nominale Abstraktion.
@@ -89,14 +91,16 @@ public class Simulation {
         groundMoisture = numberGenerator.nextDouble(Math.nextUp(1));
         for(int d = 1; d <= 270; d++){
             growingDay();
+            if(dailyOutput){
+                debugInfos.append("Result of day ").append(d).append(":\n");
+                debugInfos.append(workingBees);
+                debugInfos.append(workingFlowers);
+                debugInfos.append("\n");
+            }
         }
         workingBees.simulateRest();
         workingFlowers.Tagessimulation(0,0,0,0,true);
-        if(yearlyOutput){
-            debugInfos.append("End of year results:\n");
-            debugInfos.append("bee population: ").append(workingBees.population).append('\n');
-            debugInfos.append(workingFlowers);
-        }
+
     }
 
     public void printDebugInfos(){

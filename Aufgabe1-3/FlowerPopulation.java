@@ -11,6 +11,7 @@ public class FlowerPopulation {
     double Samenqualitaet;       // si - 0 <= si <= 1
     double bestaeubungswahrscheinlichkeit;
     double bluehintensitaet;      // qi - 0 < qi < 1/15
+    String name;
 
     BlueteEnum inBluete;
 
@@ -18,14 +19,16 @@ public class FlowerPopulation {
     RestrictedDouble feuchtegrenzen;
     RestrictedDouble bluehgrenzen;
 
-    public FlowerPopulation(double wuchskraft, RestrictedDouble vermehrungsgrenzen, RestrictedDouble feuchtegrenzen, RestrictedDouble bluehgrenzen, double bluehintensitaet, double bestaeubungswahrscheinlichkeit) {
+    public FlowerPopulation(String name, double wuchskraft, RestrictedDouble vermehrungsgrenzen,
+                            RestrictedDouble feuchtegrenzen, RestrictedDouble bluehgrenzen,
+                            double bluehintensitaet, double bestaeubungswahrscheinlichkeit) {
         this.Wuchskraft = wuchskraft;
         this.vermehrungsgrenzen = vermehrungsgrenzen;
         this.feuchtegrenzen = feuchtegrenzen;
         this.bluehgrenzen = bluehgrenzen;
         this.bluehintensitaet = bluehintensitaet;
         this.bestaeubungswahrscheinlichkeit = bestaeubungswahrscheinlichkeit;
-
+        this.name = name;
         this.inBluete = BlueteEnum.VORBEI;
 
         startVegetationsPeriode();
@@ -116,11 +119,13 @@ public class FlowerPopulation {
     @Override
     public String toString() {
         var sB = new StringBuilder();
-        sB.append("Wuchskraft: ").append(String.format("%.2f; ", Wuchskraft));
-        sB.append("InBlüte: ").append(String.format("%.2f", ProzentInBluete)).append("%; ");
-        sB.append("Samenqualität: ").append(String.format("%.2f; ", Samenqualitaet));
-        sB.append("Feuchtegrenze: ").append(String.format("%.2f; ", feuchtegrenzen.getValue()));//untere und obere Grenze
-        sB.append("Blühgrenze: ").append(String.format("%.2f; ", bluehgrenzen.getValue()));//untere und obere Grenze
+        sB.append(name).append(" (");
+        sB.append("Wuchskraft: ").append(String.format("%.2f, ", Wuchskraft));
+        sB.append("InBlüte: ").append(String.format("%.2f", ProzentInBluete)).append("%, ");
+        sB.append("Samenqualität: ").append(String.format("%.2f, ", Samenqualitaet));
+        sB.append("Feuchtegrenze: ").append(String.format("%.2f, ", feuchtegrenzen.getValue()));//untere und obere Grenze
+        sB.append("Blühgrenze: ").append(String.format("%.2f", bluehgrenzen.getValue()));//untere und obere Grenze
+        sB.append(")");
         return sB.toString();
     }
 }

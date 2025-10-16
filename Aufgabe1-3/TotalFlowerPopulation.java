@@ -41,7 +41,8 @@ public class TotalFlowerPopulation {
             }
             double bluehintensitaet = rand.nextDouble() * (1.0/15);
             double bestaeubungswahrscheinlichkeit = (1.0/(bgH-bgL));
-            this.flowers.add(new FlowerPopulation(wuchskraft,vermehrungsgrenzen,feuchtegrenzen,bluehgrenzen,bluehintensitaet,bestaeubungswahrscheinlichkeit));
+            this.flowers.add(new FlowerPopulation(String.valueOf(i), wuchskraft,vermehrungsgrenzen,feuchtegrenzen,
+                    bluehgrenzen,bluehintensitaet,bestaeubungswahrscheinlichkeit));
             if(i == 0){
                 System.out.println("Vermehrungsgrenzen: " + vermehrungsgrenzen.getMin() + " - " + vermehrungsgrenzen.getMax() + "");
                 System.out.println("Feuchtegrenzebezug: " + feuchtegrenzen.getMin() + " - " + feuchtegrenzen.getMax() + "");
