@@ -43,11 +43,11 @@ public class TotalFlowerPopulation {
             double bestaeubungswahrscheinlichkeit = (1.0/(bgH-bgL));
             this.flowers.add(new FlowerPopulation(String.valueOf(i), wuchskraft,vermehrungsgrenzen,feuchtegrenzen,
                     bluehgrenzen,bluehintensitaet,bestaeubungswahrscheinlichkeit));
-            if(i == 0){
-                System.out.println("Vermehrungsgrenzen: " + vermehrungsgrenzen.getMin() + " - " + vermehrungsgrenzen.getMax() + "");
-                System.out.println("Feuchtegrenzebezug: " + feuchtegrenzen.getMin() + " - " + feuchtegrenzen.getMax() + "");
-                System.out.println("Bluegrenhzenezug: " + bluehgrenzen.getMin() + " - " + bluehgrenzen.getMax() + "");
-            }
+//            if(i == 0){
+//                System.out.println("Vermehrungsgrenzen: " + vermehrungsgrenzen.getMin() + " - " + vermehrungsgrenzen.getMax() + "");
+//                System.out.println("Feuchtegrenzebezug: " + feuchtegrenzen.getMin() + " - " + feuchtegrenzen.getMax() + "");
+//                System.out.println("Bluegrenhzenezug: " + bluehgrenzen.getMin() + " - " + bluehgrenzen.getMax() + "");
+//            }
 
         }
     }
@@ -83,9 +83,11 @@ public class TotalFlowerPopulation {
         return sB.toString();
     }
 
-    public void printParameters(){
-        System.out.println("Flower paramters:");
-       //Alle Parameter von allen PFlanzen
+    public void printStartingParameters(){
+        for(var flower : flowers){
+            System.out.print(flower.printParameters());
+        }
+        System.out.println();
     }
 
     public void Tagessimulation(double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {

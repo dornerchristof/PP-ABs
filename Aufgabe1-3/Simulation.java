@@ -41,10 +41,10 @@ public class Simulation {
        }
 
         System.out.println("Starting simulation with "  + runs + " runs");
-        System.out.println("PARAMETER:");
-        System.out.println("Bee population: " + workingBees.population);
-        workingFlowers.printParameters();
-        for(int i = 0; i < runs; i++) {
+        System.out.println("Starting parameters:");
+        System.out.print(workingBees);
+        workingFlowers.printStartingParameters();
+        for(int i = 1; i <= runs; i++) {
             for (int year = 1; year <= yearsPerRun; year++) {
                     simulateYear();
                     if(yearlyOutput){
@@ -57,11 +57,9 @@ public class Simulation {
             }
             if(yearlyOutput) yearlyOutput = false;
 
-            System.out.println("simulation of " + yearsPerRun + " years completed");
-            System.out.println("RESULTS:");
-            System.out.println("bee population: " + workingBees.population);
+            System.out.println("Results of " + i + ". simulation run:");
+            System.out.print(workingBees);
             workingFlowers.printFlowers();
-            System.out.println("Resetting parameters");
 
             workingBees = initialBees;
             workingFlowers = initialFlowers;

@@ -116,14 +116,28 @@ public class FlowerPopulation {
         return Wuchskraft;
     }
 
+    public String printParameters(){
+        return name + "(" +
+                "Wuchskraft: " + String.format("%.2f, ", Wuchskraft) +
+                "Vermehrungsgrenze: " + String.format("%.2f", vermehrungsgrenzen.getMin()) + "-" +
+                String.format("%.2f, ", vermehrungsgrenzen.getMax()) +
+                "Feuchtegrenze: " + String.format("%.2f", feuchtegrenzen.getMin()) + "-" +
+                String.format("%.2f, ", feuchtegrenzen.getMax()) +
+                "Blühgrenzen: " + String.format("%.2f", bluehgrenzen.getMin()) + "-" +
+                String.format("%.2f, ", bluehgrenzen.getMax()) +
+                "Blühintensität: " + String.format("%.2f, ", bluehintensitaet) +
+                "Bestäubungswahrscheinlichkeit: " + String.format("%.2f", bestaeubungswahrscheinlichkeit) +
+                ")" + "\n";
+    }
+
     @Override
     public String toString() {
         var sB = new StringBuilder();
-        sB.append(name).append(" (");
+        sB.append(name).append("(");
         sB.append("Wuchskraft: ").append(String.format("%.2f, ", Wuchskraft));
         sB.append("InBlüte: ").append(String.format("%.2f", ProzentInBluete)).append("%, ");
         sB.append("Samenqualität: ").append(String.format("%.2f, ", Samenqualitaet));
-        sB.append("Feuchtegrenze: ").append(String.format("%.2f, ", feuchtegrenzen.getValue()));//untere und obere Grenze
+        sB.append("Feuchtegrenze: ").append(String.format("%.2f ", feuchtegrenzen.getValue()));//untere und obere Grenze
         sB.append("Blühgrenze: ").append(String.format("%.2f", bluehgrenzen.getValue()));//untere und obere Grenze
         sB.append(")");
         return sB.toString();

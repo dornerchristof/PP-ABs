@@ -15,7 +15,7 @@ public class Test {
         var flowers1 = new TotalFlowerPopulation();
         var bees1 = new BeePopulation(200);
         var sim1 = new Simulation(flowers1, bees1);
-        sim1.simulate(1, 25, true);
+        sim1.simulate(1, 25, false );
 
 
         //Simulation 2:
