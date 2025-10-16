@@ -10,17 +10,17 @@ public class BeePopulation {
     }
 
     public void Tagessimulation(double availableFood){
-        System.out.println("Available Food: "+ availableFood);
+       // System.out.println("Available Food: "+ availableFood);
         if(availableFood >= population){
             population = population * 1.03;
         }
         else {
             double percentage = ((6.0 * availableFood/population) - 3);
-            System.out.println("percentage: " + percentage);
+            //System.out.println("percentage: " + percentage);
             population = population * (1 + percentage / 100);
             if(population < 0) population = 0;
         }
-        System.out.println("Bienenanzahl: " + population);
+        //System.out.println("Bienenanzahl: " + population);
     }
 
     public void simulateRest(){

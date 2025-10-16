@@ -90,14 +90,12 @@ public class Simulation {
         for(int d = 1; d <= 270; d++){
             growingDay();
         }
-        System.out.println("winter is comming");
         workingBees.simulateRest();
         workingFlowers.Tagessimulation(0,0,0,0,true);
         if(yearlyOutput){
-            debugInfos.append("simulation of years completed");
-            debugInfos.append("RESULTS:");
-            debugInfos.append("bee population: ").append(workingBees.population);
-            workingFlowers.printFlowers(); //string builder
+            debugInfos.append("End of year results:\n");
+            debugInfos.append("bee population: ").append(workingBees.population).append('\n');
+            debugInfos.append(workingFlowers);
         }
     }
 

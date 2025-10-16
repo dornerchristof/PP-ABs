@@ -72,6 +72,16 @@ public class TotalFlowerPopulation {
         System.out.println(sb);
     }
 
+    @Override
+    public String toString() {
+        var sB = new StringBuilder();
+        for(var flower : flowers){
+            sB.append(flower);
+            sB.append('\n');
+        }
+        return sB.toString();
+    }
+
     public void printParameters(){
         System.out.println("Flower paramters:");
        //Alle Parameter von allen PFlanzen
@@ -82,6 +92,6 @@ public class TotalFlowerPopulation {
         for (FlowerPopulation fp : flowers) {
             fp.Tagessimulation(groundMoisture,sunshineHours,beePopulation,nahrungsangebot, isRuhePhase);
         }
-        System.out.println(flowers.getFirst());
+        //System.out.println(flowers.getFirst());
     }
 }

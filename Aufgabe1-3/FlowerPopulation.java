@@ -115,12 +115,12 @@ public class FlowerPopulation {
 
     @Override
     public String toString() {
-        return "FlowerPopulation{" +
-                "Wuchskraft=" + Wuchskraft +
-                ", ProzentInBluete=" + ProzentInBluete +
-                ", Samenqualitaet=" + Samenqualitaet +
-                ", Feuchtegrenze=" + feuchtegrenzen.getValue() +
-                ", Sonenstunden=" + bluehgrenzen.getValue() +
-                '}';
+        var sB = new StringBuilder();
+        sB.append("Wuchskraft: ").append(String.format("%.2f; ", Wuchskraft));
+        sB.append("InBlüte: ").append(String.format("%.2f", ProzentInBluete)).append("%; ");
+        sB.append("Samenqualität: ").append(String.format("%.2f; ", Samenqualitaet));
+        sB.append("Feuchtegrenze: ").append(String.format("%.2f; ", feuchtegrenzen.getValue()));//untere und obere Grenze
+        sB.append("Blühgrenze: ").append(String.format("%.2f; ", bluehgrenzen.getValue()));//untere und obere Grenze
+        return sB.toString();
     }
 }
