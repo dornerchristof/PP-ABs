@@ -61,8 +61,9 @@ public class Simulation {
         for(int d = 1; d <= 270; d++){
             growingDay();
         }
-        //winter is comming
+        System.out.println("winter is comming");
         workingBees.simulateRest();
+        workingFlowers.Tagessimulation(0,0,0,0,true);
 
     }
 }

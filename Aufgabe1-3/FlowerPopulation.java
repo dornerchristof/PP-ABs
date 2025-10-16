@@ -50,8 +50,8 @@ public class FlowerPopulation {
     }
 
     private void changeBestaeubungswahrscheinlichkeit(double factor) {
-        double newBestaeubungswahrscheinlichkeit = bestaeubungswahrscheinlichkeit + bestaeubungswahrscheinlichkeit * ProzentInBluete * factor;
-        this.bestaeubungswahrscheinlichkeit = Math.max(0, Math.min(1/(this.bluehgrenzen.getMax() - this.bluehgrenzen.getMin()), newBestaeubungswahrscheinlichkeit));
+        double newSamenqualitaet = Samenqualitaet + bestaeubungswahrscheinlichkeit * ProzentInBluete * factor;
+        this.Samenqualitaet = Math.max(0, Math.min(1, newSamenqualitaet));
     }
 
 
@@ -90,10 +90,10 @@ public class FlowerPopulation {
                 }
                 break;
             case SETZT_EIN:
-                changeProzentInBluete(bluehintensitaet * (this.bluehgrenzen.getValue() + 3));
+                changeProzentInBluete(bluehintensitaet * (sunshineHours + 3));
                 break;
             case ENDED:
-                changeProzentInBluete(-bluehintensitaet * (this.bluehgrenzen.getValue() + 3));
+                changeProzentInBluete(-bluehintensitaet * (sunshineHours + 3));
                 break;
         }
 
@@ -113,15 +113,14 @@ public class FlowerPopulation {
         return Wuchskraft;
     }
 
-//    @Override
-//    public String toString() {
-//        return "FlowerPopulation{" +
-//                "Wuchskraft=" + Wuchskraft +
-//                ", ProzentInBluete=" + ProzentInBluete +
-//                ", Samenqualitaet=" + Samenqualitaet +
-//                ", Feuchtegrenze=" + Feuchtegrenze +
-//                ", Bluehgrenze=" + Bluehgrenze +
-//                ", Bestaeubungswahrscheinlichkeit=" + Bestaeubungswahrscheinlichkeit +
-//                '}';
-//    }
+    @Override
+    public String toString() {
+        return "FlowerPopulation{" +
+                "Wuchskraft=" + Wuchskraft +
+                ", ProzentInBluete=" + ProzentInBluete +
+                ", Samenqualitaet=" + Samenqualitaet +
+                ", Feuchtegrenze=" + feuchtegrenzen.getValue() +
+                ", Sonenstunden=" + bluehgrenzen.getValue() +
+                '}';
+    }
 }
