@@ -15,23 +15,20 @@ public class Test {
         var flowers1 = new TotalFlowerPopulation();
         var bees1 = new BeePopulation(1200);
         var sim1 = new Simulation(25, flowers1, bees1);
-        System.out.println("Parameter");
-        sim1.simulate();
+        sim1.simulate(10);
 
 
         //Simulation 2:
         var flowers2 = new TotalFlowerPopulation();
         var bees2 = new BeePopulation(900);
         var sim2 = new Simulation(25, flowers2, bees2);
-        System.out.println("Parameter");
-        sim2.simulate();
+        sim2.simulate(10);
 
         // Simulation 3:
         var flowers3 = new TotalFlowerPopulation();
         var bees3 = new BeePopulation(2000);
         var sim3 = new Simulation(25, flowers3, bees3);
-        System.out.println("Parameter");
-        sim3.simulate();
+        sim3.simulate(10);
 
         System.out.println("DebugInfos (genau Infos)");
     }

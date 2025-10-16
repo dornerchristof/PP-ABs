@@ -48,6 +48,11 @@ public class TotalFlowerPopulation {
         System.out.println(sb);
     }
 
+    public void printParameters(){
+        System.out.println("Flower paramters:");
+       //Alle Parameter von allen PFlanzen
+    }
+
     public void Tagessimulation(double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
         for (FlowerPopulation fp : flowers) {
             fp.Tagessimulation(groundMoisture,sunshineHours,beePopulation,nahrungsangebot, isRuhePhase);

@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.Random;
 
 public class Simulation {
@@ -9,33 +8,50 @@ public class Simulation {
     private int totalSunshineHours;
     private double groundMoisture;
 
-    private TotalFlowerPopulation flowers;
-    private BeePopulation bees;
+    private TotalFlowerPopulation initialFlowers;
+    private BeePopulation initialBees;
+    private TotalFlowerPopulation workingFlowers;
+    private BeePopulation workingBees;
 
-    public Simulation(int yearsToSim, TotalFlowerPopulation flowers, BeePopulation initialBees){
-        this.flowers = flowers;
-        bees = initialBees;
+    public Simulation(int yearsToSim, TotalFlowerPopulation flowers, BeePopulation bees){
+        initialFlowers = flowers;
+        initialBees = bees;
         yearsToSimulate = yearsToSim;
         numberGenerator = new Random(1);//for testing always the same seed
     }
 
-    public void simulate(){
-        for(int year = 1; year <= yearsToSimulate; year++){
-            simulateYear();
+    public void simulate(int runs){
+        workingBees = initialBees;
+        workingFlowers = initialFlowers;
+
+        System.out.println("Starting simulation with "  + runs + " runs");
+        System.out.println("PARAMETER:");
+        System.out.println("Bee population: " + workingBees.population);
+        workingFlowers.printParameters();
+        for(int i = 0; i < runs; i++) {
+            for (int year = 1; year <= yearsToSimulate; year++) {
+                simulateYear();
+            }
+            System.out.println("simulation of " + yearsToSimulate + " years completed");
+            System.out.println("RESULTS:");
+            System.out.println("bee population: " + workingBees.population);
+            workingFlowers.printFlowers();
+            System.out.println("Resetting parameters");
+            workingBees = initialBees;
+            workingFlowers = initialFlowers;
         }
-        System.out.println("Ergebnisse");
     }
 
     private void growingDay(){
         int dailySunshine = numberGenerator.nextInt(13);
         totalSunshineHours += dailySunshine;
 
-        double availableFood = flowers.getNahrungsAngebot();
+        double availableFood = workingFlowers.getNahrungsAngebot();
 
-        bees.Tagessimulation((int) availableFood);
+        workingBees.Tagessimulation((int) availableFood);
 
         groundMoisture += numberGenerator.nextDouble(-0.1, Math.nextUp(0.1));
-        flowers.Tagessimulation(groundMoisture,dailySunshine,bees.getPopulation(),availableFood,false);
+        workingFlowers.Tagessimulation(groundMoisture,dailySunshine, workingBees.getPopulation(),availableFood,false);
     }
 
     private void simulateYear(){
@@ -46,10 +62,7 @@ public class Simulation {
             growingDay();
         }
         //winter is comming
-
-        //Bienenpopulation muss mit 0.1 bis 0.3 multipliziert werden --> Habe ich schon mit der Funktion simulateRest in der BeePopulation Klasse gemacht, hoffe das passt :)
-
-
+        workingBees.simulateRest();
 
     }
 }
