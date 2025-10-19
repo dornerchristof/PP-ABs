@@ -2,12 +2,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/*
+Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Verwaltet eine Sammlung verschiedener
+Blütenpflanzen-Populationen und bietet Methoden, um deren kollektives Verhalten zu simulieren
+und Informationen über den Gesamtzustand abzufragen.
+ */
 public class TotalFlowerPopulation {
     private List<FlowerPopulation> flowers;
 
+    //Erstellt eine neue Sammlung von Blütenpflanzen aus der übergebenen Liste.
     public TotalFlowerPopulation(List<FlowerPopulation> flowers) {
         this.flowers = flowers;
     }
+    //Erstellt eine neue Sammlung von zufällig generierten Blütenpflanzen-Populationen
+    //mit verschiedenen Eigenschaften für die Simulation.
     public TotalFlowerPopulation() {
         this.flowers = new ArrayList<>();
         Random rand = new Random(324234234);
@@ -52,6 +60,7 @@ public class TotalFlowerPopulation {
         }
     }
 
+    //Gibt das gesamte Nahrungsangebot der verschiedenen Pflanzenpopulationen zurück
     public double getNahrungsAngebot(){
         double nahrungsAngebot=0;
         for (FlowerPopulation fp : flowers){
@@ -60,6 +69,7 @@ public class TotalFlowerPopulation {
         return nahrungsAngebot;
     }
 
+    //Erstellt aus den verschiedenen Eigenschaften des Objekts einen String.
     public void printFlowers(){
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < flowers.size(); i++) {
@@ -83,6 +93,7 @@ public class TotalFlowerPopulation {
         return sB.toString();
     }
 
+    //Gibt die Parameter der verschiedenen Pflanzen aus.
     public void printStartingParameters(){
         for(var flower : flowers){
             System.out.print(flower.printParameters());
@@ -90,6 +101,7 @@ public class TotalFlowerPopulation {
         System.out.println();
     }
 
+    //Führt Berechnungen für die Simulation eines Tages für alle Pflanzenpopulationen durch
     public void Tagessimulation(double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
 //        System.out.println("sunshinehours: " +sunshineHours);
         for (FlowerPopulation fp : flowers) {
