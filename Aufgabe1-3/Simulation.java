@@ -6,12 +6,12 @@ das aus Pflanzen und Bienen besteht, die voneinander abhängig sind, um überleb
  */
 public class Simulation {
 
-    private StringBuilder debugInfos;
-    private Random numberGenerator;
+    private final StringBuilder debugInfos;
+    private final Random numberGenerator;
     private double groundMoisture;
 
-    private TotalFlowerPopulation initialFlowers;
-    private BeePopulation initialBees;
+    private final TotalFlowerPopulation initialFlowers;
+    private final BeePopulation initialBees;
     private TotalFlowerPopulation workingFlowers;
     private BeePopulation workingBees;
 
@@ -103,6 +103,7 @@ public class Simulation {
 
     }
 
+    //Nominale Abstraktion. Ausgabe genauerer Informationen über den Simulationsablauf.
     public void printDebugInfos(){
         System.out.println(debugInfos);
     }
