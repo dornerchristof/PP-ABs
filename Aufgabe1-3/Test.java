@@ -5,7 +5,12 @@
 
 import java.util.Random;
 
+/*
+ * Test-Klasse: Modularisierungseinheit: Modul
+ * Einstiegspunkt zur ausführung der Simulation.
+ */
 public class Test {
+    //Hauptmethode (Nominale Abstraktion). Modularisierungseinheit: Modul. Einstiegspunkt des Programms
     public static void main(String[] args) {
 
         //initDaten
