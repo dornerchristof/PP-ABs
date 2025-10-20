@@ -20,11 +20,11 @@ public class Simulation {
 
     //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als
     //Ausgangspunkt für die Simulation.
-    public Simulation(TotalFlowerPopulation flowers, BeePopulation bees){
+    public Simulation(TotalFlowerPopulation flowers, BeePopulation bees, long seed){
         initialFlowers = flowers;
         initialBees = bees;
         debugInfos = new StringBuilder();
-        numberGenerator = new Random(1);//for testing always the same seed
+        numberGenerator = new Random(seed);//for testing always the same seed
     }
 
     //Nominale Abstraktion.
@@ -33,18 +33,18 @@ public class Simulation {
     //Die Ergebnisse der Simulation werden auf der Konsole ausgegeben. Wenn debug aktiv ist,
     //werden zusätzliche Informationen für bestimmte Tage und Jahre ausgegeben.
     public void simulate(int runs, int yearsPerRun, boolean debug){
-        workingBees = initialBees;
-        workingFlowers = initialFlowers;
 
-       if(debug) {
-           yearlyOutput = dailyOutput = true;
-       }
+        if(debug) {
+            yearlyOutput = dailyOutput = true;
+        }
 
         System.out.println("Starting simulation with "  + runs + " runs");
         System.out.println("Starting parameters:");
-        System.out.print(workingBees);
-        workingFlowers.printStartingParameters();
+        System.out.print(initialBees);
+        initialFlowers.printStartingParameters();
         for(int i = 1; i <= runs; i++) {
+            workingBees = new BeePopulation(initialBees);
+            workingFlowers = new TotalFlowerPopulation(initialFlowers);
             for (int year = 1; year <= yearsPerRun; year++) {
                     simulateYear();
                     if(yearlyOutput){
@@ -75,9 +75,11 @@ public class Simulation {
 
         double availableFood = workingFlowers.getNahrungsAngebot();
 
-        workingBees.Tagessimulation((int) availableFood);
+        workingBees.Tagessimulation(availableFood);
 
         groundMoisture += numberGenerator.nextDouble(-0.1, Math.nextUp(0.1));
+        if(groundMoisture > 1) groundMoisture = 1;
+        if(groundMoisture < 0) groundMoisture = 0;
         workingFlowers.Tagessimulation(groundMoisture,dailySunshine,
                 workingBees.getPopulation(),availableFood,false);
 
