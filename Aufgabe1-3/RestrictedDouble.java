@@ -15,6 +15,12 @@ public class RestrictedDouble {
         this.min = min;
         this.max = max;
     }
+    public RestrictedDouble(RestrictedDouble other) {
+        this.min = other.min;
+        this.max = other.max;
+        this.value = other.value;
+    }
+
 
     //Setzt den aktuellen Wert des RestrictedDouble-Objekts.
     public void setValue(double value) {

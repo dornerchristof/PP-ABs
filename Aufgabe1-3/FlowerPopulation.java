@@ -39,6 +39,19 @@ public class FlowerPopulation {
 
         startVegetationsPeriode();
     }
+    //Erstellt eine unabhängige Kopie von einer Instanz der Klasse FlowerPopulation
+    public FlowerPopulation(FlowerPopulation other) {
+        this.Wuchskraft = other.Wuchskraft;
+        this.ProzentInBluete = other.ProzentInBluete;
+        this.Samenqualitaet = other.Samenqualitaet;
+        this.bestaeubungswahrscheinlichkeit = other.bestaeubungswahrscheinlichkeit;
+        this.bluehintensitaet = other.bluehintensitaet;
+        this.name = other.name;
+        this.inBluete = other.inBluete;
+        this.vermehrungsgrenzen = new RestrictedDouble(other.vermehrungsgrenzen);
+        this.feuchtegrenzen = new RestrictedDouble(other.feuchtegrenzen);
+        this.bluehgrenzen = new RestrictedDouble(other.bluehgrenzen);
+    }
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
     private void startVegetationsPeriode() {
@@ -140,7 +153,7 @@ public class FlowerPopulation {
                 "Blühgrenzen: " + String.format("%.2f", bluehgrenzen.getMin()) + "-" +
                 String.format("%.2f, ", bluehgrenzen.getMax()) +
                 "Blühintensität: " + String.format("%.2f, ", bluehintensitaet) +
-                "Bestäubungswahrscheinlichkeit: " + String.format("%.2f", bestaeubungswahrscheinlichkeit) +
+                "Bestäubungswahrscheinlichkeit: " + String.format("%.4f", bestaeubungswahrscheinlichkeit) +
                 ")" + "\n";
     }
 
@@ -151,8 +164,8 @@ public class FlowerPopulation {
         sB.append("Wuchskraft: ").append(String.format("%.2f, ", Wuchskraft));
         sB.append("InBlüte: ").append(String.format("%.2f", ProzentInBluete)).append("%, ");
         sB.append("Samenqualität: ").append(String.format("%.2f, ", Samenqualitaet));
-        sB.append("Feuchtegrenze: ").append(String.format("%.2f ", feuchtegrenzen.getValue()));//untere und obere Grenze
-        sB.append("Blühgrenze: ").append(String.format("%.2f", bluehgrenzen.getValue()));//untere und obere Grenze
+        sB.append("Feuchtigkeit: ").append(String.format("%.2f ", feuchtegrenzen.getValue()));
+        sB.append("Blühgrenze: ").append(String.format("%.2f", bluehgrenzen.getValue()));
         sB.append(")");
         return sB.toString();
     }

@@ -16,39 +16,37 @@ public class TotalFlowerPopulation {
     }
     //Erstellt eine neue Sammlung von zufällig generierten Blütenpflanzen-Populationen
     //mit verschiedenen Eigenschaften für die Simulation.
-    public TotalFlowerPopulation() {
+    public TotalFlowerPopulation(int numberOfRandomFlowers, int wuchskraftfaktor, int wuchsstart, double vermehrungsuntergrenze, double vermehrungsobergrenze, double fMinus, double fPlus, long seed) {
         this.flowers = new ArrayList<>();
-        Random rand = new Random(324234234);
-        int randomNumber = rand.nextInt(15) + 10;
-        for (int i = 0; i < randomNumber; i++) {
-            double wuchskraft = rand.nextDouble() * 1000 + 200;
-            double vg = rand.nextDouble() * 0.5525;
-            RestrictedDouble vermehrungsgrenzen = new RestrictedDouble(5, 20);
-            double fg = rand.nextDouble() * 0.5;
-            RestrictedDouble  feuchtegrenzen = new RestrictedDouble(0,  1);
+        Random rand = new Random(seed);
+        for (int i = 0; i < numberOfRandomFlowers; i++) {
+            double wuchskraft = rand.nextDouble() * wuchskraftfaktor + wuchsstart;
+            double vg = rand.nextDouble() * 3;
+            RestrictedDouble vermehrungsgrenzen = new RestrictedDouble(vermehrungsuntergrenze, vg + vermehrungsobergrenze);
+            double fg = rand.nextDouble() * 0.2;
+            RestrictedDouble  feuchtegrenzen = new RestrictedDouble(Math.max(0,fMinus - fg), Math.min(1,fPlus - fg));
             RestrictedDouble bluehgrenzen;
             double bgL;
             double bgH;
-            if (i <= randomNumber / 3 ){
-                double randomOffset = rand.nextDouble() * 500 ;
-                bgL = rand.nextInt(2);
-                bgH = rand.nextInt(600) + randomOffset + bgL;
-                bluehgrenzen = new RestrictedDouble(bgL, bgH);
+            // Frühlingsblumen
+            double randomLength = rand.nextDouble() * 200 + 500;
+            if (i <= numberOfRandomFlowers / 3 ){
+                bgL = rand.nextInt(800) ;
+                bgH = randomLength + bgL;
             }
-            else   if (i <= randomNumber / 3 * 2 ){
-                double randomOffset = rand.nextDouble() * 500;
-                bgL = rand.nextInt(600) + 400;
-                bgH = rand.nextInt(6000) + randomOffset + bgL;
-                bluehgrenzen = new RestrictedDouble(bgL, bgH);
+            // Sommerblumen
+            else   if (i <= numberOfRandomFlowers / 3 * 2 ){
+                bgL = rand.nextInt(400) + 900d;
+                bgH = randomLength + bgL;
             }
+            //Herbstblumen
             else {
-                double randomOffset = rand.nextDouble() * 500;
-                bgL = rand.nextInt(600) + 1500;
-                bgH = rand.nextInt(600) + randomOffset + bgL;
-                bluehgrenzen = new RestrictedDouble(bgL, bgH);
+                bgL = rand.nextInt(400) +  800;
+                bgH = randomLength + bgL;
             }
+            bluehgrenzen = new RestrictedDouble(bgL, bgH);
             double bluehintensitaet = rand.nextDouble() * (1.0/15);
-            double bestaeubungswahrscheinlichkeit = (1.0/(bgH-bgL));
+            double bestaeubungswahrscheinlichkeit = Math.min(0.5,rand.nextDouble()) * (1.0 / (bgH - bgL));
             this.flowers.add(new FlowerPopulation(String.valueOf(i), wuchskraft,vermehrungsgrenzen,feuchtegrenzen,
                     bluehgrenzen,bluehintensitaet,bestaeubungswahrscheinlichkeit));
 //            if(i == 0){
@@ -57,6 +55,15 @@ public class TotalFlowerPopulation {
 //                System.out.println("Bluegrenhzenezug: " + bluehgrenzen.getMin() + " - " + bluehgrenzen.getMax() + "");
 //            }
 
+        }
+    }
+
+    //Erstellt eine Kopie einer Instanz des Klasse TotalFlowerpopulation
+    public TotalFlowerPopulation(TotalFlowerPopulation other) {
+        this.flowers = new ArrayList<>();
+        for (FlowerPopulation flower : other.flowers) {
+            // Create a NEW FlowerPopulation for each one
+            this.flowers.add(new FlowerPopulation(flower));
         }
     }
 

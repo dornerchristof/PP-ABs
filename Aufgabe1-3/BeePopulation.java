@@ -1,12 +1,17 @@
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Locale;
+import java.util.Random;
 
 public class BeePopulation {
     double population;
+    Random rand;
 
-    public BeePopulation(int population){
-        this.population = population;
+    public BeePopulation(int population, Random rand){
+        this.population = population; this.rand = rand;
+    }
+    public BeePopulation(BeePopulation other) {
+        this.population = other.population;
+        this.rand = other.rand;
     }
 
     public double getPopulation(){
@@ -28,7 +33,7 @@ public class BeePopulation {
     }
 
     public void simulateRest(){
-        double random = 0.1 + Math.random() * 0.2;
+        double random = 0.1 + rand.nextDouble() * 0.2;
         population = population * random;
     }
 
@@ -39,6 +44,6 @@ public class BeePopulation {
 
         DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
 
-        return "Bienenpopulation: " + df.format(population) + '\n';
+        return "Bienenpopulation: " + df.format(population) +'\n' ;
     }
 }
