@@ -1,7 +1,12 @@
+//Aufgabenverteilung:
 //Patrick - Simulation der Pflanzen
 //Tobias - Simulation der Bienen + Parameterfinden
 //Christof - Simulationsklasse und Ausgabe
 
+//Aufgabe 2
+//Patrick - Pflanzen, Wetter, Naturkatastrophen
+//Tobias - Bienenstock und Ausgabe
+//Christof - Welt, Parameter, Zusammenspiel zwischen den Klassen
 
 import java.util.Random;
 
