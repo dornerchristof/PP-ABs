@@ -1,13 +1,18 @@
-//Aufgabenverteilung:
-//Patrick - Simulation der Pflanzen
-//Tobias - Simulation der Bienen + Parameterfinden
-//Christof - Simulationsklasse und Ausgabe
+/*
+Aufgabenverteilung
+Aufgabe 1:
+Patrick:  Implementierung der Klassen FlowerPopulation, TotalFlowerPopulation,
+          RestrictedDouble. Fehlerbehebung in den genannten Klassen gemeinsam mit Tobias.
+Tobias:   Implementierung der Klasse BeePopulation. Testen der Gesamtapplikation und Feinabstimmung der
+          Simulation (Parameterfinden). In Zuge dessen, Fehlerbehebung gemeinsam mit Tobias.
+Christof: Implementierung der Simulationsklasse. Implementierung der Ausgabe über alle Klassen hinweg.
+---------------
+Aufgabe 2 (vorläufig):
+Patrick - Pflanzen, Wetter, Naturkatastrophen
+Tobias - Bienenstock und Ausgabe
+Christof - Welt, Parameter, Zusammenspiel zwischen den Klassen
 
-//Aufgabe 2
-//Patrick - Pflanzen, Wetter, Naturkatastrophen
-//Tobias - Bienenstock und Ausgabe
-//Christof - Welt, Parameter, Zusammenspiel zwischen den Klassen
-
+*/
 import java.util.Random;
 
 /*
