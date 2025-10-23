@@ -4,7 +4,7 @@ Aufgabe 1:
 Patrick:  Implementierung der Klassen FlowerPopulation, TotalFlowerPopulation,
           RestrictedDouble. Fehlerbehebung in den genannten Klassen gemeinsam mit Tobias.
 Tobias:   Implementierung der Klasse BeePopulation. Testen der Gesamtapplikation und Feinabstimmung der
-          Simulation (Parameterfinden). In Zuge dessen, Fehlerbehebung gemeinsam mit Tobias.
+          Simulation (Parameterfinden). In Zuge dessen, Fehlerbehebung gemeinsam mit Patrick.
 Christof: Implementierung der Simulationsklasse. Implementierung der Ausgabe über alle Klassen hinweg.
 ---------------
 Aufgabe 2 (vorläufig):
