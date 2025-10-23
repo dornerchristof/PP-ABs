@@ -90,6 +90,64 @@ public class TotalFlowerPopulation {
         System.out.println(sb);
     }
 
+    //Gibt eine Übersicht über die Werte aller Pflanzen zurück.
+    public String GetAverages(){
+        if(flowers.isEmpty()) return "";
+        var sB = new StringBuilder();
+        sB.append("Feuchtigkeit: ").append(String.format("%.2f", flowers.getFirst().feuchtegrenzen.getValue()));
+        sB.append("\nBlühgrenze: ").append(String.format("%.2f", flowers.getFirst().bluehgrenzen.getValue()));
+        sB.append("\n");
+        double minWuchskraft = 0;
+        double avgWuchskraft = 0;
+        double maxWuchskraft = 0;
+        double minInBluete = 0;
+        double avgInBluete = 0;
+        double maxInBluete = 0;
+        double minSamenqualitaet = 0;
+        double avgSamenqualitaet = 0;
+        double maxSamenqualitaet = 0;
+
+        for(var flower : flowers){
+            if(flower.getWuchskraft() < minWuchskraft)
+                minWuchskraft = flower.getWuchskraft();
+            else if (flower.getWuchskraft() > maxWuchskraft)
+                maxWuchskraft = flower.getWuchskraft();
+            avgWuchskraft += flower.getWuchskraft();
+
+            if(flower.getProzentInBluete() < minInBluete)
+                minInBluete = flower.getProzentInBluete();
+            else if (flower.getProzentInBluete() > maxInBluete)
+                maxInBluete = flower.getProzentInBluete();
+            avgInBluete += flower.getProzentInBluete();
+
+            if(flower.getSamenqualitaet() < minSamenqualitaet)
+                minSamenqualitaet = flower.getSamenqualitaet();
+            else if (flower.getSamenqualitaet() > maxSamenqualitaet)
+                maxSamenqualitaet = flower.getSamenqualitaet();
+            avgSamenqualitaet += flower.getSamenqualitaet();
+        }
+        avgWuchskraft /= flowers.size();
+        avgInBluete /= flowers.size();
+        avgSamenqualitaet /= flowers.size();
+
+        sB.append("Wuchskraft: {min: ").append(String.format("%.2f,", minWuchskraft));
+        sB.append(" avg: ").append(String.format("%.2f,", avgWuchskraft));
+        sB.append(" max: ").append(String.format("%.2f", maxWuchskraft));
+        sB.append("}\n");
+
+        sB.append("InBlüte: {min: ").append(String.format("%.2f,", minInBluete));
+        sB.append(" avg: ").append(String.format("%.2f,", avgInBluete));
+        sB.append(" max: ").append(String.format("%.2f", maxInBluete));
+        sB.append("}\n");
+
+        sB.append("Samenqualität: {min: ").append(String.format("%.2f,", minSamenqualitaet));
+        sB.append(" avg: ").append(String.format("%.2f,", avgSamenqualitaet));
+        sB.append(" max: ").append(String.format("%.2f", maxSamenqualitaet));
+        sB.append("}\n");
+
+        return sB.toString();
+    }
+
     @Override
     public String toString() {
         var sB = new StringBuilder();
@@ -99,6 +157,8 @@ public class TotalFlowerPopulation {
         }
         return sB.toString();
     }
+
+
 
     //Gibt die Parameter der verschiedenen Pflanzen aus.
     public void printStartingParameters(){

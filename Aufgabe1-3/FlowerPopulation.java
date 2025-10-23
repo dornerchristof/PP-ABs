@@ -80,6 +80,14 @@ public class FlowerPopulation {
     }
 
 
+    public double getProzentInBluete(){
+        return ProzentInBluete;
+    }
+
+    public double getSamenqualitaet(){
+        return Samenqualitaet;
+    }
+
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages für die Pflanzenpopulation durch
     public void Tagessimulation(double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
@@ -159,14 +167,10 @@ public class FlowerPopulation {
 
     @Override
     public String toString() {
-        var sB = new StringBuilder();
-        sB.append(name).append("(");
-        sB.append("Wuchskraft: ").append(String.format("%.2f, ", Wuchskraft));
-        sB.append("InBlüte: ").append(String.format("%.2f", ProzentInBluete)).append("%, ");
-        sB.append("Samenqualität: ").append(String.format("%.2f, ", Samenqualitaet));
-        sB.append("Feuchtigkeit: ").append(String.format("%.2f ", feuchtegrenzen.getValue()));
-        sB.append("Blühgrenze: ").append(String.format("%.2f", bluehgrenzen.getValue()));
-        sB.append(")");
-        return sB.toString();
+        return name + "(" +
+                "Wuchskraft: " + String.format("%.2f, ", Wuchskraft) +
+                "InBlüte: " + String.format("%.2f", ProzentInBluete) + "%, " +
+                "Samenqualität: " + String.format("%.2f, ", Samenqualitaet) +
+                ")";
     }
 }

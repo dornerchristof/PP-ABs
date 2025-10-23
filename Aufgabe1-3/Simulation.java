@@ -94,7 +94,7 @@ public class Simulation {
             if(dailyOutput){
                 debugInfos.append("Result of day ").append(d).append(":\n");
                 debugInfos.append(workingBees);
-                debugInfos.append(workingFlowers);
+                debugInfos.append(workingFlowers.GetAverages());
                 debugInfos.append("\n");
             }
         }
