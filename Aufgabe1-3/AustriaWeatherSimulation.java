@@ -4,7 +4,6 @@
 // https://de.statista.com/statistik/daten/studie/1088493/umfrage/niederschlag-in-oesterreich/
 
 
-import java.util.Arrays;
 import java.util.Random;
 
 public class AustriaWeatherSimulation implements Weather {
@@ -33,6 +32,7 @@ public class AustriaWeatherSimulation implements Weather {
         startNewYear();
     }
 
+    @Override
     public void startNewYear() {
         this.currentDay = 0;
         this.soilMoisture = random.nextDouble();
@@ -102,11 +102,11 @@ public class AustriaWeatherSimulation implements Weather {
         int rainHours = year[currentDay][1];
         int sunHours = year[currentDay][0];
         if (rainHours > 0) {
-            this.soilMoisture += this.soilMoisture* random.nextDouble() * 0.08 * rainHours;
+            this.soilMoisture += random.nextDouble() * 0.08 * rainHours;
         }
-
-        this.soilMoisture -= this.soilMoisture * random.nextDouble() * 0.0083 * sunHours;
-
+        else {
+            this.soilMoisture -= random.nextDouble() * 0.01 * sunHours;
+        }
         if (this.soilMoisture < 0) this.soilMoisture = 0;
         else if (this.soilMoisture > 1) this.soilMoisture = 1;
     }
@@ -122,12 +122,12 @@ public class AustriaWeatherSimulation implements Weather {
     }
 
     @Override
-    public double getSunshineHours() {
+    public int getSunshineHours() {
         return year[currentDay][0];
     }
 
     @Override
-    public double rainfallHours() {
+    public int rainfallHours() {
         return year[currentDay][1];
     }
 

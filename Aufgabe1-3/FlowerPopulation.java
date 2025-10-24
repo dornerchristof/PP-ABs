@@ -6,7 +6,7 @@ enum BlueteEnum {
 
 /*
 Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Repräsentiert eine Population von
-Blütenpflanzen derselben Art, mit spezifischen Eigenschaften wie Wuchskraft, Blütezeit und
+Blütenpflanzen derselben Art in einem Chunk, mit spezifischen Eigenschaften wie Wuchskraft, Blütezeit und
 Samenqualität. Simuliert das Verhalten der Pflanzen unter verschiedenen Umweltbedingungen.
  */
 public class FlowerPopulation {
@@ -15,7 +15,9 @@ public class FlowerPopulation {
     double Samenqualitaet;       // si - 0 <= si <= 1
     double bestaeubungswahrscheinlichkeit;
     double bluehintensitaet;      // qi - 0 < qi < 1/15
-    String name;
+
+    private final Flower flower;
+    private double flowersInChunk;
 
     BlueteEnum inBluete;
 
@@ -25,7 +27,7 @@ public class FlowerPopulation {
 
     //Erstellt eine neue Population von Blütenpflanzen mit den angegebenen Parametern,
     //die die Eigenschaften und Verhaltensweise der Pflanzenart definieren.
-    public FlowerPopulation(String name, double wuchskraft, RestrictedDouble vermehrungsgrenzen,
+    public FlowerPopulation(Flower flower, double wuchskraft, RestrictedDouble vermehrungsgrenzen,
                             RestrictedDouble feuchtegrenzen, RestrictedDouble bluehgrenzen,
                             double bluehintensitaet, double bestaeubungswahrscheinlichkeit) {
         this.Wuchskraft = wuchskraft;
@@ -34,7 +36,7 @@ public class FlowerPopulation {
         this.bluehgrenzen = bluehgrenzen;
         this.bluehintensitaet = bluehintensitaet;
         this.bestaeubungswahrscheinlichkeit = bestaeubungswahrscheinlichkeit;
-        this.name = name;
+        this.flower= flower;
         this.inBluete = BlueteEnum.VORBEI;
 
         startVegetationsPeriode();
@@ -46,7 +48,8 @@ public class FlowerPopulation {
         this.Samenqualitaet = other.Samenqualitaet;
         this.bestaeubungswahrscheinlichkeit = other.bestaeubungswahrscheinlichkeit;
         this.bluehintensitaet = other.bluehintensitaet;
-        this.name = other.name;
+        this.flower= other.flower;
+        this.flowersInChunk = other.flowersInChunk;
         this.inBluete = other.inBluete;
         this.vermehrungsgrenzen = new RestrictedDouble(other.vermehrungsgrenzen);
         this.feuchtegrenzen = new RestrictedDouble(other.feuchtegrenzen);
@@ -152,7 +155,7 @@ public class FlowerPopulation {
 
     //Erstellt aus den verschiedenen Eigenschaften des Objekts einen String.
     public String printParameters(){
-        return name + "(" +
+        return flower.getName() + "(" +
                 "Wuchskraft: " + String.format("%.2f, ", Wuchskraft) +
                 "Vermehrungsgrenze: " + String.format("%.2f", vermehrungsgrenzen.getMin()) + "-" +
                 String.format("%.2f, ", vermehrungsgrenzen.getMax()) +
@@ -167,7 +170,7 @@ public class FlowerPopulation {
 
     @Override
     public String toString() {
-        return name + "(" +
+        return flower.getName() + "(" +
                 "Wuchskraft: " + String.format("%.2f, ", Wuchskraft) +
                 "InBlüte: " + String.format("%.2f", ProzentInBluete) + "%, " +
                 "Samenqualität: " + String.format("%.2f, ", Samenqualitaet) +
