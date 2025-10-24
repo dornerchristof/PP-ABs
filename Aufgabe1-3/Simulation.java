@@ -14,16 +14,18 @@ public class Simulation {
     private final BeePopulation initialBees;
     private TotalFlowerPopulation workingFlowers;
     private BeePopulation workingBees;
+    private Weather weather;
 
     private boolean yearlyOutput;
     private boolean dailyOutput;
 
     //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als
     //Ausgangspunkt für die Simulation.
-    public Simulation(TotalFlowerPopulation flowers, BeePopulation bees, long seed){
+    public Simulation(TotalFlowerPopulation flowers, BeePopulation bees, long seed, Weather weather) {
         initialFlowers = flowers;
         initialBees = bees;
         debugInfos = new StringBuilder();
+        this.weather = weather;
         numberGenerator = new Random(seed);//for testing always the same seed
     }
 
@@ -71,13 +73,14 @@ public class Simulation {
     //Führt Berechnungen für die Simulation eines Tages während der
     //Wachstumszeit durch.
     private void growingDay(){
-        int dailySunshine = numberGenerator.nextInt(13);
+        weather.updateWeather();
+        int dailySunshine = weather.getSunshineHours();
+        groundMoisture = weather.getSoilMoisture();
 
         double availableFood = workingFlowers.getNahrungsAngebot();
 
         workingBees.Tagessimulation(availableFood);
 
-        groundMoisture += numberGenerator.nextDouble(-0.1, Math.nextUp(0.1));
         if(groundMoisture > 1) groundMoisture = 1;
         if(groundMoisture < 0) groundMoisture = 0;
         workingFlowers.Tagessimulation(groundMoisture,dailySunshine,
@@ -100,6 +103,7 @@ public class Simulation {
         }
         workingBees.simulateRest();
         workingFlowers.Tagessimulation(0,0,0,0,true);
+        weather.startNewYear();
 
     }
 
