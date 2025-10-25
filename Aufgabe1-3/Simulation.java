@@ -48,6 +48,8 @@ public class Simulation {
         populateWorld();
         printFertility();
         printBeeHives();
+        plantSeeds();
+        printWorldVerbose();
     }
 
     private void generateWorld(){
@@ -83,7 +85,40 @@ public class Simulation {
         int x = numberGenerator.nextInt(0, worldLength);
         int y = numberGenerator.nextInt(0, worldWidth);
         for (int i = 0; i < (worldLength * worldWidth)/4; i++) {
-            world[x>
+            int flowerCount = numberGenerator.nextInt(1, 3);
+            for (int j = 0; j < flowerCount; j++) {
+                var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size() - 1));
+                var size = numberGenerator.nextGaussian(100, 20);
+                world[x][y].plantFlower(f, size);
+            }
+        }
+    }
+
+    private void printWorldVerbose(){
+        for (int i = 0; i < worldLength; i++) {
+            var s = new StringBuilder();
+            for (int j = 0; j < worldWidth; j++) {
+                s.append(String.format("f%.3f ",  world[i][j].getGroundFertility()));
+            }
+            System.out.println(s);
+            s =new StringBuilder();
+            for (int j = 0; j < worldWidth; j++) {
+                s.append(String.format("b%5.0f ",  world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
+            }
+            System.out.println(s);
+            s = new StringBuilder();
+            for (int j = 0; j < worldWidth; j++) {
+                var f =world[i][j].getFlowers();
+                    f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getFlowersInChunk).reversed());
+                for (int k = 0; k < 3; k++) {
+                    if(k >= f.size()){
+                        s.append("     ");
+                    }else{
+                        s.append(String.format("x%5.0f ", f.get(k).getFlowersInChunk()));
+                    }
+                }
+            }
+            System.out.println(s);
         }
     }
 

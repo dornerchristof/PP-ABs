@@ -19,6 +19,8 @@ public class FlowerPopulation {
     private final Flower flower;
     private double flowersInChunk;
 
+    public double getFlowersInChunk() {return flowersInChunk;}
+
     BlueteEnum inBluete;
 
     RestrictedDouble vermehrungsgrenzen;
@@ -54,6 +56,11 @@ public class FlowerPopulation {
         this.vermehrungsgrenzen = new RestrictedDouble(other.vermehrungsgrenzen);
         this.feuchtegrenzen = new RestrictedDouble(other.feuchtegrenzen);
         this.bluehgrenzen = new RestrictedDouble(other.bluehgrenzen);
+    }
+
+    public FlowerPopulation(Flower flower, double initialPopulation) {
+        this.flower = flower;
+        this.flowersInChunk = initialPopulation;
     }
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.

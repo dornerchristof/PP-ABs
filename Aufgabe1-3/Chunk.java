@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Chunk {
@@ -13,6 +14,7 @@ public class Chunk {
         this.x = x;
         this.y = y;
         this.groundFertility = groundFertility;
+        flowers = new ArrayList<FlowerPopulation>();
     }
 
     public void SetBeePopulation(BeePopulation bees){
@@ -21,8 +23,16 @@ public class Chunk {
 
     public double getGroundFertility(){return groundFertility;}
 
+    public List<FlowerPopulation> getFlowers(){return flowers;}
+
+    public BeePopulation getBeePopulation(){return bees;}
+
     public boolean BeeHive(){
         return bees != null;
+    }
+
+    public void plantFlower(Flower flower, double initialPopulation){
+        flowers.add(new FlowerPopulation(flower, initialPopulation));
     }
 
 }
