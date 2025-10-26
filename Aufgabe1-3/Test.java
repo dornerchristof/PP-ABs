@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+//javac -cp ".:flow-noise-1.0.0.jar" Test.java
+
 /*
  * Test-Klasse: Modularisierungseinheit: Modul
  * Einstiegspunkt zur ausführung der Simulation.
@@ -64,6 +66,10 @@ public class Test {
     private static List<Flower> generateFlowerParameter(){
         var flowers = new ArrayList<Flower>();
         Random rand = new Random(1234);
+        /*„STYLE:“
+        Hier wird ein prozeduralen Prog. Paradigmus angewendet. Dies sieht man daran, dass es eine Abfolge von
+        Statements sind, die nur auf die davor ausgeführten Statements angewiesen sind.
+        */
         for (int i = 0; i < 10; i++) {
             double wuchskraft = rand.nextDouble() * 1000 + 5000;
             double vg = rand.nextDouble() * 3;
