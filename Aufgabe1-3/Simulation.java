@@ -87,8 +87,9 @@ public class Simulation {
         int y;
         for (int i = 0; i < (worldLength * worldWidth) / 6; i++) {
             x = numberGenerator.nextInt(0, worldLength);
-            y = numberGenerator.nextInt(0, worldWidth)
-            ;if (!world[x][y].getFlowers().isEmpty()) continue;
+            y = numberGenerator.nextInt(0, worldWidth);
+            if (!world[x][y].getFlowers().isEmpty()) continue;
+
             int flowerCount = numberGenerator.nextInt(1, 3);
             for (int j = 0; j < flowerCount; j++) {
                 var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size() - 1));
@@ -111,6 +112,7 @@ public class Simulation {
                 s.append(String.format("b%5.0f ", world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
             }
             System.out.println(s);
+            //Gibt die 3 größten Pflanzenpopulationen pro Chunk aus.
             for (int k = 0; k < 3; k++) {
                 s = new StringBuilder();
                 for (int j = 0; j < worldWidth; j++) {
@@ -119,7 +121,8 @@ public class Simulation {
                     if (k >= f.size()) {
                         s.append("       ");
                     } else {
-                        s.append(String.format("x%5.0f ", f.get(k).getFlowersInChunk()));
+                        s.append(f.get(k).getShortName());
+                        s.append(String.format("%5.0f ", f.get(k).getFlowersInChunk()));
                     }
                 }
                 System.out.println(s);

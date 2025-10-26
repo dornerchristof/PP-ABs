@@ -21,6 +21,8 @@ public class FlowerPopulation {
 
     public double getFlowersInChunk() {return flowersInChunk;}
 
+    public char getShortName(){return flower.getShortName();}
+
     BlueteEnum inBluete;
 
     RestrictedDouble vermehrungsgrenzen;
