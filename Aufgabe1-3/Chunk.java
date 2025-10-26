@@ -46,8 +46,13 @@ public class Chunk {
         //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
         double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
         for (FlowerPopulation fp : flowers) {
-            //fp.Tagessimulation(weather, growingFactor);//TODO Welche Werte?
+            if (beesVisited>= getNahrungsangebot()) {
+                fp.Tagessimulation(weather, 1 * growingFactor, false);
+            } else {
+                fp.Tagessimulation(weather, 0.7 * growingFactor, false);
+            }
         }
+        beesVisited = 0;
     }
 
     public void simulateBeeDay(Chunk[][] world){

@@ -87,9 +87,9 @@ public class FlowerPopulation {
 
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages für die Pflanzenpopulation durch
-    public void Tagessimulation(Weather weather, double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
-        groundMoisture = weather.getSoilMoisture();
-        sunshineHours = weather.getSunshineHours();
+    public void Tagessimulation(Weather weather, double faktor, boolean isRuhePhase) {
+        var groundMoisture = weather.getSoilMoisture();
+        var sunshineHours = weather.getSunshineHours();
         if (isRuhePhase) {
             double randomNumber = Math.random() * (vermehrungsgrenzen.getMax()  - vermehrungsgrenzen.getMin()) + vermehrungsgrenzen.getMin();
             this.Wuchskraft *= this.Samenqualitaet * randomNumber;
@@ -130,12 +130,7 @@ public class FlowerPopulation {
                 changeProzentInBluete(-bluehintensitaet * (sunshineHours + 3));
                 break;
         }
-
-        if (beePopulation >= nahrungsangebot) {
-            changeBestaeubungswahrscheinlichkeit(this.bluehgrenzen.getValue() + 1);
-        } else {
-            changeBestaeubungswahrscheinlichkeit((this.bluehgrenzen.getValue() + 1) * beePopulation / nahrungsangebot);
-        }
+            changeBestaeubungswahrscheinlichkeit(faktor);
 
     }
 
