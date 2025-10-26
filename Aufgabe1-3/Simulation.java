@@ -101,7 +101,7 @@ public class Simulation {
             int flowerCount = numberGenerator.nextInt(1, 3);
             for (int j = 0; j < flowerCount; j++) {
                 var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size() - 1));
-                var size = numberGenerator.nextGaussian(100, 20);
+                var size = numberGenerator.nextGaussian(1000, 20);
                 world[x][y].plantFlower(f, size);
             }
 

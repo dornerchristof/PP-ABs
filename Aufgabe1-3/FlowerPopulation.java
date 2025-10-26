@@ -137,6 +137,8 @@ public class FlowerPopulation {
         return Wuchskraft * ProzentInBluete;
     }
 
+    public Flower getFlower() {return flower;}
+
     //Gibt die Wuchskraft zurück
     public double getWuchskraft() {
         return Wuchskraft;

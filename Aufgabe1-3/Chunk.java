@@ -34,6 +34,7 @@ public class Chunk {
     }
 
     public void plantFlower(Flower flower, double initialPopulation){
+        if(flowers.size() > 3) return;
         flowers.add(new FlowerPopulation(flower, initialPopulation));
     }
 
@@ -87,9 +88,15 @@ public class Chunk {
             // Simulate Rest Phase
             bees.simulateRest();
         }
-        for(FlowerPopulation fp : flowers){
+        //Pflanzenverbreitung
+        if(flowers.isEmpty()) return;
+        int xOffset = x + r.nextInt(-1, 1);
+        int yOffset = y + r.nextInt(-1, 1);
+        int flowerIndex = flowers.size() == 1 ? 0 : r.nextInt(flowers.size() - 1);
+        if(Simulation.isInWorldBounds(world, xOffset, yOffset) ){
+            world[xOffset][yOffset].plantFlower((flowers.get(flowerIndex)).getFlower(), 1000);
         }
-        //TODO: Simulation von Pflanzenvermehrung.
+
     }
 
     public double getNahrungsangebot(){
