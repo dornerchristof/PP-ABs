@@ -75,6 +75,7 @@ public class Simulation {
             y = numberGenerator.nextInt(ySpacing, worldWidth);
             world[x][y].SetBeePopulation(new BeePopulation(1000, numberGenerator));
         }
+
     }
 
     //Simuliert durch Wind zufällig verteilte Pflanzensamen, die im Frühling keimen werden.
@@ -200,7 +201,17 @@ public class Simulation {
     //Wachstumszeit durch.
     private void growingDay() {
         weather.updateWeather();
-        int dailySunshine = weather.getSunshineHours();
+        for (int i = 0; i < worldLength; i++) {
+            for (int j = 0; j < worldWidth; j++) {
+               world[i][j].simulatePlantDay(weather);
+            }
+        }
+        for (int i = 0; i < worldLength; i++) {
+            for (int j = 0; j < worldWidth; j++) {
+                world[i][j].simulateBeeDay(world);
+            }
+        }
+        //int dailySunshine = weather.getSunshineHours();
 //        groundMoisture = weather.getSoilMoisture();
 //
 //        double availableFood = workingFlowers.getNahrungsAngebot();

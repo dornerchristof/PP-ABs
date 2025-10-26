@@ -35,4 +35,27 @@ public class Chunk {
         flowers.add(new FlowerPopulation(flower, initialPopulation));
     }
 
+
+    public void simulatePlantDay(Weather weather){
+        double flowerCount = 0;
+        for(FlowerPopulation fp : flowers){
+           flowerCount += fp.getFlowersInChunk();
+        }
+        //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
+        double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
+        for (FlowerPopulation fp : flowers) {
+            //fp.Tagessimulation(weather, growingFactor);//TODO Welche Werte?
+        }
+    }
+
+    public void simulateBeeDay(Chunk[][] world){
+        if (bees != null){
+        //bees.Tagessimulation(world); //TODO Welche Werte?
+        }
+    }
+
+    public void simulateWinter(){
+
+    }
+
 }
