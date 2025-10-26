@@ -1,3 +1,4 @@
+import java.awt.image.CropImageFilter;
 import java.util.List;
 import java.util.Random;
 //https://github.com/SpongePowered/noise
@@ -15,6 +16,7 @@ public class Simulation {
 
     private Weather weather;
     private Chunk[][] world;
+    private Chunk[][] backupWorld;
     private List<Flower> flowerSpecies;
     private int worldLength;
     private int worldWidth;
@@ -44,16 +46,14 @@ public class Simulation {
         this.worldWidth = worldWidth;
         this.startingHives = startingHives;
 
+
         world = new Chunk[worldLength][worldWidth];
         generateWorld();
         populateWorld();
         plantSeeds();
-        printFertility();
+        //printFertility();
         //printBeeHives();
         //printWorldVerbose();
-        simulateYear();
-        simulateWinter();
-        printWorldVerbose();
     }
 
     public static boolean isInWorldBounds(Chunk[][] world, int x, int y) {
@@ -171,31 +171,36 @@ public class Simulation {
 
         System.out.println("Starting simulation with " + runs + " runs");
         System.out.println("Starting parameters:");
-//        System.out.print(initialBees);
-//        flowerSpecies.printStartingParameters();
-//        for(int i = 1; i <= runs; i++) {
-//            workingBees = new BeePopulation(initialBees);
-//            workingFlowers = new TotalFlowerPopulation(flowerSpecies);
-//            for (int year = 1; year <= yearsPerRun; year++) {
-//                    simulateYear();
-//                    if(yearlyOutput){
-//                    debugInfos.append("Year ").append(year).append(" results:\n");
-//                    debugInfos.append(workingBees);
-//                    debugInfos.append(workingFlowers);
-//                    debugInfos.append("\n");
-//                }
-//                    if(dailyOutput) dailyOutput = false;
-//            }
-//            if(yearlyOutput) yearlyOutput = false;
-//
-//            System.out.println("Results of " + i + ". simulation run:");
-//            System.out.print(workingBees);
-//            workingFlowers.printFlowers();
-//
-//            workingBees = initialBees;
-//            workingFlowers = flowerSpecies;
-//        }
 
+        backupWorld = deepCopyWorld(world);
+
+        for(int i = 1; i <= runs; i++) {
+            for (int year = 1; year <= yearsPerRun; year++) {
+                simulateYear();
+                simulateWinter();
+                if(yearlyOutput){
+                    debugInfos.append("Year ").append(year).append(" results:\n");
+                    printWorldVerbose();
+                    debugInfos.append("\n");
+                }
+                    if(dailyOutput) dailyOutput = false;
+            }
+            if(yearlyOutput) yearlyOutput = false;
+            System.out.println("Results of " + i + ". simulation run:");
+            printWorldVerbose();
+            world = backupWorld; // Reset World am Ende jedes Runs
+        }
+
+    }
+
+    private Chunk[][] deepCopyWorld(Chunk[][] original) {
+        Chunk[][] copy = new Chunk[original.length][original[0].length];
+        for (int i = 0; i < original.length; i++) {
+            for (int j = 0; j < original[i].length; j++) {
+                copy[i][j] =  new Chunk(original[i][j]); // You'll need to implement copy() in Chunk class
+            }
+        }
+        return copy;
     }
 
     //Nominale Abstraktion.
@@ -242,14 +247,39 @@ public class Simulation {
             growingDay();
             if(dailyOutput){
                 debugInfos.append("Result of day ").append(d).append(":\n");
-                //debugInfos.append(workingBees);
-                //debugInfos.append(workingFlowers.GetAverages());
+                debugInfos.append(String.format("Bee population: %8.0f\n", getTotalBees()));
+                debugInfos.append(String.format("Flower population: %8.0f\n", getTotalFlowers()));
                 debugInfos.append("\n");
             }
         }
         simulateWinter();
         weather.startNewYear();
 
+    }
+
+    private double getTotalBees() {
+        double total = 0;
+        for(Chunk[] chunk : world){
+            for(Chunk c : chunk){
+                if(c.BeeHive()){
+                    total += c.getBeePopulation().getPopulation();
+                }
+            }
+        }
+        return total;
+    }
+
+    private double getTotalFlowers(){
+        double totalWuchskraft = 0;
+        for(Chunk[] chunk : world){
+            for(Chunk c : chunk){
+                List<FlowerPopulation> fps = c.getFlowers();
+                for (FlowerPopulation fp : fps){
+                   totalWuchskraft += fp.getWuchskraft();
+                }
+            }
+        }
+        return totalWuchskraft;
     }
 
     //Nominale Abstraktion. Ausgabe genauerer Informationen über den Simulationsablauf.

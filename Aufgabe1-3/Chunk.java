@@ -19,6 +19,21 @@ public class Chunk {
         flowers = new ArrayList<FlowerPopulation>();
     }
 
+    public Chunk(Chunk other){
+        this.x = other.x;
+        this.y = other.y;
+        this.groundFertility = other.groundFertility;
+
+        if (other.bees != null) {
+            this.bees = new BeePopulation(other.bees);
+        }
+
+        this.flowers = new ArrayList<>();
+        for (FlowerPopulation flower : other.flowers) {
+            this.flowers.add(new FlowerPopulation(flower));
+        }
+    }
+
     public void SetBeePopulation(BeePopulation bees){
         this.bees = bees;
     }

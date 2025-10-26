@@ -47,6 +47,19 @@ public class FlowerPopulation {
         Wuchskraft = initialPopulation;
     }
 
+    public FlowerPopulation(FlowerPopulation other) {
+        this.flower = other.flower;
+        this.inBluete = BlueteEnum.VORBEI;
+        this.vermehrungsgrenzen = new RestrictedDouble(other.vermehrungsgrenzen);
+        this.feuchtegrenzen = new RestrictedDouble(other.feuchtegrenzen);
+        this.bluehgrenzen = new RestrictedDouble(other.bluehgrenzen);
+        this.bluehintensitaet = other.bluehintensitaet;
+        this.bestaeubungswahrscheinlichkeit = other.bestaeubungswahrscheinlichkeit;
+        this.Wuchskraft = other.Wuchskraft;
+        this.ProzentInBluete = other.ProzentInBluete;
+        this.Samenqualitaet = other.Samenqualitaet;
+    }
+
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
     private void startVegetationsPeriode() {
         this.ProzentInBluete = 0;

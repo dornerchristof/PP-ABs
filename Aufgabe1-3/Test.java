@@ -40,7 +40,7 @@ public class Test {
 
         var sim1 = new Simulation(20, 20,  weather1, flowerList, 6, 50);
 
-        sim1.simulate(10, 25, true);
+        sim1.simulate(1, 25, true);
 
 
         //Simulation 2:

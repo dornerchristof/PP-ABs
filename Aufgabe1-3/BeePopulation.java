@@ -81,7 +81,7 @@ public class BeePopulation {
                 }
             }
         }
-        System.out.printf("Nahrung %7.2f:%n", gesammelteNahrung);
+        //System.out.printf("Nahrung %7.2f:%n", gesammelteNahrung);
         return gesammelteNahrung;
     }
 
