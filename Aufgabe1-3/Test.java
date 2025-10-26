@@ -27,20 +27,14 @@ public class Test {
     //Hauptmethode (Nominale Abstraktion). Modularisierungseinheit: Modul. Einstiegspunkt des Programms
     public static void main(String[] args) {
 
-        //initDaten
-        //Liste an Blumen
-        //Bienenpopulation
         // Simulation 1:
         Random beeRandom1 = new Random(67246021);
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
-        var flowers1 = new TotalFlowerPopulation(21, 1000, 5000, 4.5, 13, 0.3,0.7,394234234);
-        var bees1 = new BeePopulation(800, 3, beeRandom1, false);
         var flowerList = generateFlowerParameter();
 
+        var sim1 = new Simulation(20, 20,  weather1, flowerList, 15, 200);
 
-        var sim1 = new Simulation(20, 20,  weather1, flowerList, 6, 50);
-
-        sim1.simulate(1, 25, true);
+        sim1.simulate(1, 1, true);
 
 
         //Simulation 2:

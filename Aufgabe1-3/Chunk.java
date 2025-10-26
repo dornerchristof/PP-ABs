@@ -91,14 +91,14 @@ public class Chunk {
             int[] queensResult = bees.beeQueens();
             for (int i = 0; i < queensResult[0]; i++) {
                 for (int j = 0; j < 2; j++) { // Jede Königin bekommt zwei Versuche wenn sie es dann nicht schafft stirbt sie
-
+                    int xOffset = x + r.nextInt(-6, 6);
+                    int yOffset = y + r.nextInt(-6, 6);
+                    //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
+                    if(Simulation.isInWorldBounds(world, xOffset, yOffset) && !world[xOffset][yOffset].BeeHive()){
+                        world[xOffset][yOffset].SetBeePopulation(new BeePopulation(queensResult[1], 3, r, true));
+                        break;
+                    }
                 }
-                int xOffset = x + r.nextInt(-6, 6);
-                int yOffset = y + r.nextInt(-6, 6);
-                //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
-                if(Simulation.isInWorldBounds(world, xOffset, yOffset) && !world[xOffset][yOffset].BeeHive())
-                    continue;
-                world[xOffset][yOffset].SetBeePopulation(new BeePopulation(queensResult[1], 3, r, true));
             }
             // Simulate Rest Phase
             bees.simulateRest();

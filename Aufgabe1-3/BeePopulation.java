@@ -46,7 +46,7 @@ public class BeePopulation {
         double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
         foundFood += availableFood;
         if(availableFood >= population){
-            population = population * 1.03;
+            population = population * Math.pow(1.03, availableFood / population);
         }
         else {
             double percentage = ((6.0 * availableFood/population) - 3);
@@ -73,7 +73,7 @@ public class BeePopulation {
                         int newY = yUrsprung + dy;
 
                         if (Simulation.isInWorldBounds(world, newX, newY)) {
-                            double beesReachingChunk = (Math.pow(0.7 , (distance + 1) * 2) * percentageOfFlyingBees);
+                            double beesReachingChunk = (Math.pow(0.9 , (distance + 1) ) * percentageOfFlyingBees);
                             gesammelteNahrung += world[newX][newY].getNahrungsangebot() * beesReachingChunk;
                             world[newX][newY].updateBeesVisited(beesReachingChunk);
                         }

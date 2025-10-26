@@ -93,7 +93,7 @@ public class Simulation {
 
         int x;
         int y;
-        for (int i = 0; i < (worldLength * worldWidth) / 6; i++) {
+        for (int i = 0; i < (worldLength * worldWidth) / 2; i++) {
             x = numberGenerator.nextInt(0, worldLength);
             y = numberGenerator.nextInt(0, worldWidth);
             if (!world[x][y].getFlowers().isEmpty()) continue;
@@ -101,7 +101,7 @@ public class Simulation {
             int flowerCount = numberGenerator.nextInt(1, 3);
             for (int j = 0; j < flowerCount; j++) {
                 var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size() - 1));
-                var size = numberGenerator.nextGaussian(1000, 20);
+                var size = numberGenerator.nextGaussian(2000, 20);
                 world[x][y].plantFlower(f, size);
             }
 
