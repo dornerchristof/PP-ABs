@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Chunk {
 
@@ -54,7 +55,16 @@ public class Chunk {
         }
     }
 
-    public void simulateWinter(){
+    public void simulateWinter(Chunk[][] world, Random r){
+        int queens = bees.beeQueens();
+        for (int i = 0; i < queens; i++) {
+            int xOffset = x + r.nextInt(-6, 6);
+            int yOffset = y + r.nextInt(-6, 6);
+            //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
+            if(xOffset < 0 || xOffset >= world.length || yOffset < 0 || yOffset >= world[0].length)
+                continue;
+            world[xOffset][yOffset].SetBeePopulation(new BeePopulation(100, r));
+        }
 
     }
 

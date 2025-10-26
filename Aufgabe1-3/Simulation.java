@@ -225,22 +225,28 @@ public class Simulation {
 
     }
 
+    private void simulateWinter(){
+        for(int i = 0; i < worldLength; i++){
+            for(int j = 0; j < worldWidth; j++){
+                world[i][j].simulateWinter(world, numberGenerator);
+            }
+        }
+    }
+
     //Nominale Abstraktion.
     //Lässt die Simulation für ein ganzes Jahr (Wachstumsphase und Ruhephase) laufen.
     private void simulateYear() {
-//        groundMoisture = numberGenerator.nextDouble(Math.nextUp(1));
-//        for(int d = 1; d <= 270; d++){
-//            growingDay();
-//            if(dailyOutput){
-//                debugInfos.append("Result of day ").append(d).append(":\n");
-//                debugInfos.append(workingBees);
-//                debugInfos.append(workingFlowers.GetAverages());
-//                debugInfos.append("\n");
-//            }
-//        }
-//        workingBees.simulateRest();
-//        workingFlowers.Tagessimulation(0,0,0,0,true);
-//        weather.startNewYear();
+        for(int d = 1; d <= 270; d++){
+            growingDay();
+            if(dailyOutput){
+                debugInfos.append("Result of day ").append(d).append(":\n");
+                //debugInfos.append(workingBees);
+                //debugInfos.append(workingFlowers.GetAverages());
+                debugInfos.append("\n");
+            }
+        }
+        simulateWinter();
+        weather.startNewYear();
 
     }
 

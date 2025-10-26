@@ -57,6 +57,13 @@ public class BeePopulation {
     }
 
     /*
+    Anzahl an Bienenköniginen, die das Nest am Ende des Jahres gezeugt hat und ausfliegen.
+     */
+    public int beeQueens(){
+        return 0;
+    }
+
+    /*
      * toString-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Erstellt eine formatierte String-Repräsentation der Bienenpopulation
      */
