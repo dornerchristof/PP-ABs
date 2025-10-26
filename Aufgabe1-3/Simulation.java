@@ -77,10 +77,10 @@ public class Simulation {
         for (int i = 0; i < (startingHives / 2); i++) {
             int x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             int y = numberGenerator.nextInt(0, ySpacing);
-            world[x][y].SetBeePopulation(new BeePopulation(1000, 3, numberGenerator, false));
+            world[x][y].SetBeePopulation(new BeePopulation(500, 5, numberGenerator, false));
             x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             y = numberGenerator.nextInt(ySpacing, worldWidth);
-            world[x][y].SetBeePopulation(new BeePopulation(1000, 3, numberGenerator, false));
+            world[x][y].SetBeePopulation(new BeePopulation(500, 5, numberGenerator, false));
         }
 
     }
@@ -101,7 +101,7 @@ public class Simulation {
             int flowerCount = numberGenerator.nextInt(1, 3);
             for (int j = 0; j < flowerCount; j++) {
                 var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size() - 1));
-                var size = numberGenerator.nextGaussian(2000, 20);
+                var size = numberGenerator.nextGaussian(2000, 40);
                 world[x][y].plantFlower(f, size);
             }
 

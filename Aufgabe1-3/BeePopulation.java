@@ -11,6 +11,7 @@ import java.util.Random;
 public class BeePopulation {
     double population;
     int maximaleDistanz;
+    double savedFood = 0;
     double initialPopulation;
     double foundFood = 0;
     boolean newHive = false;
@@ -42,14 +43,18 @@ public class BeePopulation {
      */
     public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate, Weather weather){
        // System.out.println("Available Food: "+ availableFood);
-        double percentageOfFlyingBees = 1 - (double) weather.rainfallHours() / 24;
+        double percentageOfFlyingBees = 1 - (double) weather.rainfallHours() / 12;
         double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
         foundFood += availableFood;
-        if(availableFood >= population){
-            population = population * Math.pow(1.03, availableFood / population);
+        if(availableFood + savedFood >= population){
+            if(availableFood < population){
+                savedFood -= population - availableFood;
+            }
+            population = population * 1.1;
+            savedFood += availableFood - population/ 2;
         }
         else {
-            double percentage = ((12.0 * availableFood/population) - 3);
+            double percentage = ((3.0 * availableFood/population) - 3);
             //System.out.println("percentage: " + percentage);
             population = population * (1 + percentage / 100);
             if(population < 0) population = 0;
@@ -73,7 +78,7 @@ public class BeePopulation {
                         int newY = yUrsprung + dy;
 
                         if (Simulation.isInWorldBounds(world, newX, newY)) {
-                            double beesReachingChunk = (Math.pow(0.9 , (distance + 1) ) * percentageOfFlyingBees);
+                            double beesReachingChunk = (Math.pow(0.99 , (distance + 1) ) * percentageOfFlyingBees);
                             gesammelteNahrung += world[newX][newY].getNahrungsangebot() * beesReachingChunk;
                             world[newX][newY].updateBeesVisited(beesReachingChunk);
                         }
@@ -103,7 +108,7 @@ public class BeePopulation {
      */
     public int[] beeQueens(){
         int newQueenBees = 0;
-        if(foundFood >= 2* initialPopulation){
+        if(foundFood >= 2 * initialPopulation && population >= initialPopulation){
             newQueenBees = (int) rand.nextInt(1,5);
         };
         int newHiveSize = (int) (population / 10);

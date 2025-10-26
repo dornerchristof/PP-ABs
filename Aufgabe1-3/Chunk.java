@@ -95,7 +95,7 @@ public class Chunk {
                     int yOffset = y + r.nextInt(-6, 6);
                     //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
                     if(Simulation.isInWorldBounds(world, xOffset, yOffset) && !world[xOffset][yOffset].BeeHive()){
-                        world[xOffset][yOffset].SetBeePopulation(new BeePopulation(queensResult[1], 3, r, true));
+                        world[xOffset][yOffset].SetBeePopulation(new BeePopulation(queensResult[1], 4, r, true));
                         break;
                     }
                 }

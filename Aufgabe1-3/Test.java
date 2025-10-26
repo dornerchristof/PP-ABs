@@ -32,9 +32,9 @@ public class Test {
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
         var flowerList = generateFlowerParameter();
 
-        var sim1 = new Simulation(20, 20,  weather1, flowerList, 15, 200);
+        var sim1 = new Simulation(20, 20,  weather1, flowerList, 15, 300);
 
-        sim1.simulate(1, 5, true);
+        sim1.simulate(1, 25, true);
 
 
         //Simulation 2:
@@ -76,17 +76,17 @@ public class Test {
             // Frühlingsblumen
             double randomLength = rand.nextDouble() * 200 + 500;
             if (i <= 10 / 3) {
-                bgL = rand.nextInt(800);
+                bgL = rand.nextInt(600);
                 bgH = randomLength + bgL;
             }
             // Sommerblumen
             else if (i <= 10 / 3 * 2) {
-                bgL = rand.nextInt(400) + 900d;
+                bgL = rand.nextInt(600) + 400;
                 bgH = randomLength + bgL;
             }
             //Herbstblumen
             else {
-                bgL = rand.nextInt(400) + 800;
+                bgL = rand.nextInt(600) + 800;
                 bgH = randomLength + bgL;
             }
             bluehgrenzen = new RestrictedDouble(bgL, bgH);
