@@ -32,7 +32,7 @@ public class Test {
         Random beeRandom1 = new Random(67246021);
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
         var flowers1 = new TotalFlowerPopulation(21, 1000, 5000, 4.5, 13, 0.3,0.7,394234234);
-        var bees1 = new BeePopulation(800, beeRandom1);
+        var bees1 = new BeePopulation(800, 3, beeRandom1, false);
         var flowerList = new ArrayList<Flower>();
         flowerList.add(new Flower("Rose"));
         flowerList.add(new Flower("Edelweiss"));

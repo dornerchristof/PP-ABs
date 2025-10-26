@@ -1,5 +1,6 @@
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.List;
 import java.util.Random;
 
 /*
@@ -9,13 +10,18 @@ import java.util.Random;
  */
 public class BeePopulation {
     double population;
+    int maximaleDistanz;
+    double initialPopulation;
+    double foundFood = 0;
+    boolean newHive = false;
     Random rand;
     /*
      * Konstruktor  (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Erstellt eine neue Bienenpopulation mit einer Anfangsgröße und einem Zufallsgenerator.
      */
-    public BeePopulation(int population, Random rand){
-        this.population = population; this.rand = rand;
+    public BeePopulation(int population, int maximaleDistanz, Random rand, boolean newHive){
+        this.population = population; this.rand = rand; this.maximaleDistanz = maximaleDistanz;
+        this.initialPopulation = population; this.newHive = newHive;
     }
     /*
      * Kopierkonstruktor (Nominale Abstraktion). Modularisierungseinheit: Objekt
@@ -34,8 +40,10 @@ public class BeePopulation {
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * FSimulation eines Tages der Vegitationsphase.
      */
-    public void Tagessimulation(double availableFood){
+    public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate){
        // System.out.println("Available Food: "+ availableFood);
+        double availableFood = sammleEssen(world, xKoordinate, yKoordinate);
+        foundFood += availableFood;
         if(availableFood >= population){
             population = population * 1.03;
         }
@@ -47,20 +55,51 @@ public class BeePopulation {
         }
         //System.out.println("Bienenanzahl: " + population);
     }
+
+    private double sammleEssen(Chunk[][] world, int xUrsprung, int yUrsprung){
+        double gesammelteNahrung = 0;
+        for (int distance = 0; distance <= maximaleDistanz; distance++) {
+            // Iterate through all positions at this distance
+            for (int dx = -distance; dx <= distance; dx++) {
+                for (int dy = -distance; dy <= distance; dy++) {
+                    // Only process elements at exactly this distance (forms a square border)
+                    if (Math.abs(dx) == distance || Math.abs(dy) == distance) {
+                        int newX = xUrsprung + dx;
+                        int newY = yUrsprung + dy;
+
+                        if (Simulation.isInWorldBounds(world, newX, newY)) {
+                            gesammelteNahrung += world[newX][newY].getNahrungsangebot() * (Math.pow(0.7 , distance + 1));
+                        }
+                    }
+                }
+            }
+        }
+        System.out.printf("Nahrung %7.2f:%n", gesammelteNahrung);
+        return gesammelteNahrung;
+    }
+
     /*
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Simulation der ganzen Winterruhephase
      */
     public void simulateRest(){
-        double random = 0.1 + rand.nextDouble() * 0.2;
-        population = population * random;
+        if(!newHive){
+            double random = 0.1 + rand.nextDouble() * 0.2;
+            population = population * random;
+        } else { newHive = false;}
+        foundFood = 0;
+        initialPopulation = population;
     }
 
     /*
     Anzahl an Bienenköniginen, die das Nest am Ende des Jahres gezeugt hat und ausfliegen.
      */
-    public int beeQueens(){
-        return 0;
+    public int[] beeQueens(){
+        int newQueenBees = (int) (foundFood / initialPopulation / 10);
+        int newHiveSize = (int) (population / 10);
+        population = population - population * 0.1 * newQueenBees; // Ziehe die ausgeflogenen Bienen von der Population ab
+        System.out.printf("New Queen Bees: %d", newQueenBees);
+        return new int[]{newQueenBees, newHiveSize};
     }
 
     /*

@@ -50,7 +50,14 @@ public class Simulation {
         plantSeeds();
         //printFertility();
         //printBeeHives();
+        //printWorldVerbose();
+        simulateYear();
+        simulateWinter();
         printWorldVerbose();
+    }
+
+    public static boolean isInWorldBounds(Chunk[][] world, int x, int y) {
+        return x >= 0 && x < world.length && y >= 0 && y < world[0].length;
     }
 
     private void generateWorld() {
@@ -70,10 +77,10 @@ public class Simulation {
         for (int i = 0; i < (startingHives / 2); i++) {
             int x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             int y = numberGenerator.nextInt(0, ySpacing);
-            world[x][y].SetBeePopulation(new BeePopulation(1000, numberGenerator));
+            world[x][y].SetBeePopulation(new BeePopulation(1000, 3, numberGenerator, false));
             x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             y = numberGenerator.nextInt(ySpacing, worldWidth);
-            world[x][y].SetBeePopulation(new BeePopulation(1000, numberGenerator));
+            world[x][y].SetBeePopulation(new BeePopulation(1000, 3, numberGenerator, false));
         }
 
     }
@@ -105,12 +112,7 @@ public class Simulation {
         for (int i = 0; i < worldLength; i++) {
             var s = new StringBuilder();
             for (int j = 0; j < worldWidth; j++) {
-                s.append(String.format("f%.3f ", world[i][j].getGroundFertility()));
-            }
-            System.out.println(s);
-            s = new StringBuilder();
-            for (int j = 0; j < worldWidth; j++) {
-                s.append(String.format("b%5.0f ", world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
+                s.append(String.format("|b%8.0f", world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
             }
             System.out.println(s);
             //Gibt die 3 größten Pflanzenpopulationen pro Chunk aus.
@@ -120,14 +122,14 @@ public class Simulation {
                     var f = world[i][j].getFlowers();
                     f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getFlowersInChunk).reversed());
                     if (k >= f.size()) {
-                        s.append("       ");
+                        s.append("|f       0");
                     } else {
-                        s.append(f.get(k).getShortName());
-                        s.append(String.format("%5.0f ", f.get(k).getFlowersInChunk()));
+                        s.append(String.format("|%c%8.0f", f.get(k).getShortName(), f.get(k).getFlowersInChunk()));
                     }
                 }
                 System.out.println(s);
             }
+                System.out.println(new String(new char[worldWidth * 10]).replace("\0", "-"));
         }
     }
 

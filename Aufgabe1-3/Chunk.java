@@ -51,21 +51,39 @@ public class Chunk {
 
     public void simulateBeeDay(Chunk[][] world){
         if (bees != null){
-        //bees.Tagessimulation(world); //TODO Welche Werte?
+        bees.Tagessimulation(world, x, y); //TODO Welche Werte?
         }
     }
 
     public void simulateWinter(Chunk[][] world, Random r){
-        int queens = bees.beeQueens();
-        for (int i = 0; i < queens; i++) {
-            int xOffset = x + r.nextInt(-6, 6);
-            int yOffset = y + r.nextInt(-6, 6);
-            //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
-            if(xOffset < 0 || xOffset >= world.length || yOffset < 0 || yOffset >= world[0].length)
-                continue;
-            world[xOffset][yOffset].SetBeePopulation(new BeePopulation(100, r));
+        if(bees != null){
+            // Versuche die neuen Bienenschwärme anzulegen
+            int[] queensResult = bees.beeQueens();
+            for (int i = 0; i < queensResult[0]; i++) {
+                for (int j = 0; j < 2; j++) { // Jede Königin bekommt zwei Versuche wenn sie es dann nicht schafft stirbt sie
+
+                }
+                int xOffset = x + r.nextInt(-6, 6);
+                int yOffset = y + r.nextInt(-6, 6);
+                //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
+                if(Simulation.isInWorldBounds(world, xOffset, yOffset) && !world[xOffset][yOffset].BeeHive())
+                    continue;
+                world[xOffset][yOffset].SetBeePopulation(new BeePopulation(queensResult[1], 3, r, true));
+            }
+            // Simulate Rest Phase
+            bees.simulateRest();
+        }
+        for(FlowerPopulation fp : flowers){
         }
 
+    }
+
+    public double getNahrungsangebot(){
+        double nahrungsangebot = 0;
+        for(FlowerPopulation fp : flowers){
+            nahrungsangebot += fp.getNahrungsangebot();
+        }
+        return nahrungsangebot;
     }
 
 }
