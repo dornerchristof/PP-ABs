@@ -31,34 +31,19 @@ public class FlowerPopulation {
 
     //Erstellt eine neue Population von Blütenpflanzen mit den angegebenen Parametern,
     //die die Eigenschaften und Verhaltensweise der Pflanzenart definieren.
-    public FlowerPopulation(Flower flower, double wuchskraft, RestrictedDouble vermehrungsgrenzen,
-                            RestrictedDouble feuchtegrenzen, RestrictedDouble bluehgrenzen,
-                            double bluehintensitaet, double bestaeubungswahrscheinlichkeit) {
-        this.Wuchskraft = wuchskraft;
-        this.vermehrungsgrenzen = vermehrungsgrenzen;
-        this.feuchtegrenzen = feuchtegrenzen;
-        this.bluehgrenzen = bluehgrenzen;
-        this.bluehintensitaet = bluehintensitaet;
-        this.bestaeubungswahrscheinlichkeit = bestaeubungswahrscheinlichkeit;
+    public FlowerPopulation(Flower flower) {
+        this.Wuchskraft = flower.getWuchskraft();
+        this.vermehrungsgrenzen = flower.getVermehrungsgrenzen();
+        this.feuchtegrenzen = flower.getFeuchtegrenzen();
+        this.bluehgrenzen = flower.getBluehgrenzen();
+        this.bluehintensitaet = flower.getBluehintensitaet();
+        this.bestaeubungswahrscheinlichkeit = flower.getBestaeubungswahrscheinlichkeit();
         this.flower= flower;
         this.inBluete = BlueteEnum.VORBEI;
 
         startVegetationsPeriode();
     }
-    //Erstellt eine unabhängige Kopie von einer Instanz der Klasse FlowerPopulation
-    public FlowerPopulation(FlowerPopulation other) {
-        this.Wuchskraft = other.Wuchskraft;
-        this.ProzentInBluete = other.ProzentInBluete;
-        this.Samenqualitaet = other.Samenqualitaet;
-        this.bestaeubungswahrscheinlichkeit = other.bestaeubungswahrscheinlichkeit;
-        this.bluehintensitaet = other.bluehintensitaet;
-        this.flower= other.flower;
-        this.flowersInChunk = other.flowersInChunk;
-        this.inBluete = other.inBluete;
-        this.vermehrungsgrenzen = new RestrictedDouble(other.vermehrungsgrenzen);
-        this.feuchtegrenzen = new RestrictedDouble(other.feuchtegrenzen);
-        this.bluehgrenzen = new RestrictedDouble(other.bluehgrenzen);
-    }
+
 
     public FlowerPopulation(Flower flower, double initialPopulation) {
         this.flower = flower;
@@ -102,7 +87,9 @@ public class FlowerPopulation {
 
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages für die Pflanzenpopulation durch
-    public void Tagessimulation(double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
+    public void Tagessimulation(Weather weather, double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
+        groundMoisture = weather.getSoilMoisture();
+        sunshineHours = weather.getSunshineHours();
         if (isRuhePhase) {
             double randomNumber = Math.random() * (vermehrungsgrenzen.getMax()  - vermehrungsgrenzen.getMin()) + vermehrungsgrenzen.getMin();
             this.Wuchskraft *= this.Samenqualitaet * randomNumber;

@@ -10,6 +10,7 @@ public class Chunk {
     private int y;
     private double groundFertility; //0 <= n <= 1
 
+    private double beesVisited;
 
     public Chunk(int x, int y, double groundFertility){
         this.x = x;
@@ -75,7 +76,7 @@ public class Chunk {
         }
         for(FlowerPopulation fp : flowers){
         }
-
+        //TODO: Simulation von Pflanzenvermehrung.
     }
 
     public double getNahrungsangebot(){

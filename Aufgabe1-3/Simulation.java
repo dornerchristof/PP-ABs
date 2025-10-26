@@ -48,7 +48,7 @@ public class Simulation {
         generateWorld();
         populateWorld();
         plantSeeds();
-        //printFertility();
+        printFertility();
         //printBeeHives();
         //printWorldVerbose();
         simulateYear();

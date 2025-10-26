@@ -33,9 +33,8 @@ public class Test {
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
         var flowers1 = new TotalFlowerPopulation(21, 1000, 5000, 4.5, 13, 0.3,0.7,394234234);
         var bees1 = new BeePopulation(800, 3, beeRandom1, false);
-        var flowerList = new ArrayList<Flower>();
-        flowerList.add(new Flower("Rose"));
-        flowerList.add(new Flower("Edelweiss"));
+        var flowerList = generateFlowerParameter();
+
 
         var sim1 = new Simulation(20, 20,  weather1, flowerList, 6, 50);
 
@@ -60,5 +59,42 @@ public class Test {
 
         System.out.println("DebugInfos (genau Infos)");
         sim1.printDebugInfos();
+    }
+
+    private static List<Flower> generateFlowerParameter(){
+        var flowers = new ArrayList<Flower>();
+        Random rand = new Random(1234);
+        for (int i = 0; i < 10; i++) {
+            double wuchskraft = rand.nextDouble() * 1000 + 5000;
+            double vg = rand.nextDouble() * 3;
+            RestrictedDouble vermehrungsgrenzen = new RestrictedDouble(4.5, vg + 13);
+            double fg = rand.nextDouble() * 0.2;
+            RestrictedDouble feuchtegrenzen = new RestrictedDouble(Math.max(0, 0.3 - fg), Math.min(1, 0.7 - fg));
+            RestrictedDouble bluehgrenzen;
+            double bgL;
+            double bgH;
+            // Frühlingsblumen
+            double randomLength = rand.nextDouble() * 200 + 500;
+            if (i <= 10 / 3) {
+                bgL = rand.nextInt(800);
+                bgH = randomLength + bgL;
+            }
+            // Sommerblumen
+            else if (i <= 10 / 3 * 2) {
+                bgL = rand.nextInt(400) + 900d;
+                bgH = randomLength + bgL;
+            }
+            //Herbstblumen
+            else {
+                bgL = rand.nextInt(400) + 800;
+                bgH = randomLength + bgL;
+            }
+            bluehgrenzen = new RestrictedDouble(bgL, bgH);
+            double bluehintensitaet = rand.nextDouble() * (1.0 / 15);
+            double bestaeubungswahrscheinlichkeit = Math.min(0.5, rand.nextDouble()) * (1.0 / (bgH - bgL));
+            flowers.add(new Flower("test", wuchskraft, vermehrungsgrenzen, feuchtegrenzen,
+                    bluehgrenzen, bluehintensitaet, bestaeubungswahrscheinlichkeit));
+        }
+        return flowers;
     }
 }

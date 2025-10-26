@@ -49,11 +49,11 @@ public class TotalFlowerPopulation {
             double bestaeubungswahrscheinlichkeit = Math.min(0.5,rand.nextDouble()) * (1.0 / (bgH - bgL));
 //            this.flowers.add(new FlowerPopulation(String.valueOf(i), wuchskraft,vermehrungsgrenzen,feuchtegrenzen,
 //                    bluehgrenzen,bluehintensitaet,bestaeubungswahrscheinlichkeit));
-//            if(i == 0){
-//                System.out.println("Vermehrungsgrenzen: " + vermehrungsgrenzen.getMin() + " - " + vermehrungsgrenzen.getMax() + "");
-//                System.out.println("Feuchtegrenzebezug: " + feuchtegrenzen.getMin() + " - " + feuchtegrenzen.getMax() + "");
-//                System.out.println("Bluegrenhzenezug: " + bluehgrenzen.getMin() + " - " + bluehgrenzen.getMax() + "");
-//            }
+            if(i == 0){
+                System.out.println("Vermehrungsgrenzen: " + vermehrungsgrenzen.getMin() + " - " + vermehrungsgrenzen.getMax() + "");
+                System.out.println("Feuchtegrenzebezug: " + feuchtegrenzen.getMin() + " - " + feuchtegrenzen.getMax() + "");
+                System.out.println("Bluegrenhzenezug: " + bluehgrenzen.getMin() + " - " + bluehgrenzen.getMax() + "");
+            }
 
         }
     }
@@ -63,7 +63,7 @@ public class TotalFlowerPopulation {
         this.flowers = new ArrayList<>();
         for (FlowerPopulation flower : other.flowers) {
             // Create a NEW FlowerPopulation for each one
-            this.flowers.add(new FlowerPopulation(flower));
+            //this.flowers.add(new FlowerPopulation(flower));
         }
     }
 
@@ -172,7 +172,7 @@ public class TotalFlowerPopulation {
     public void Tagessimulation(double groundMoisture, int sunshineHours, double beePopulation, double nahrungsangebot, boolean isRuhePhase) {
 //        System.out.println("sunshinehours: " +sunshineHours);
         for (FlowerPopulation fp : flowers) {
-            fp.Tagessimulation(groundMoisture,sunshineHours,beePopulation,nahrungsangebot, isRuhePhase);
+            //fp.Tagessimulation(groundMoisture,sunshineHours,beePopulation,nahrungsangebot, isRuhePhase);
         }
         //System.out.println(flowers.getFirst());
     }
