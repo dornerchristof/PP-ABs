@@ -12,7 +12,6 @@ public class Flower {
     private RestrictedDouble bluehgrenzen;
     double bestaeubungswahrscheinlichkeit;
     double bluehintensitaet;
-    double wuchskraft;
 
     public Flower(String name, double wuchskraft, RestrictedDouble vermehrungsgrenzen,
                             RestrictedDouble feuchtegrenzen, RestrictedDouble bluehgrenzen,
@@ -24,7 +23,6 @@ public class Flower {
         this.bluehgrenzen = bluehgrenzen;
         this.bestaeubungswahrscheinlichkeit = bestaeubungswahrscheinlichkeit;
         this.bluehintensitaet = bluehintensitaet;
-        this.wuchskraft = wuchskraft;
     }
 
     public Flower(String name, char shortName) {
@@ -58,5 +56,4 @@ public class Flower {
         return bluehintensitaet;
     }
 
-    public double getWuchskraft(){return wuchskraft;}
 }

@@ -120,11 +120,11 @@ public class Simulation {
                 s = new StringBuilder();
                 for (int j = 0; j < worldWidth; j++) {
                     var f = world[i][j].getFlowers();
-                    f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getFlowersInChunk).reversed());
+                    f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getWuchskraft).reversed());
                     if (k >= f.size()) {
                         s.append("|f       0");
                     } else {
-                        s.append(String.format("|%c%8.0f", f.get(k).getShortName(), f.get(k).getFlowersInChunk()));
+                        s.append(String.format("|%c%8.0f", f.get(k).getShortName(), f.get(k).getWuchskraft()));
                     }
                 }
                 System.out.println(s);

@@ -17,9 +17,7 @@ public class FlowerPopulation {
     double bluehintensitaet;      // qi - 0 < qi < 1/15
 
     private final Flower flower;
-    private double flowersInChunk;
 
-    public double getFlowersInChunk() {return flowersInChunk;}
 
     public char getShortName(){return flower.getShortName();}
 
@@ -32,7 +30,6 @@ public class FlowerPopulation {
     //Erstellt eine neue Population von Blütenpflanzen mit den angegebenen Parametern,
     //die die Eigenschaften und Verhaltensweise der Pflanzenart definieren.
     public FlowerPopulation(Flower flower) {
-        this.Wuchskraft = flower.getWuchskraft();
         this.vermehrungsgrenzen = flower.getVermehrungsgrenzen();
         this.feuchtegrenzen = flower.getFeuchtegrenzen();
         this.bluehgrenzen = flower.getBluehgrenzen();
@@ -46,8 +43,8 @@ public class FlowerPopulation {
 
 
     public FlowerPopulation(Flower flower, double initialPopulation) {
-        this.flower = flower;
-        this.flowersInChunk = initialPopulation;
+        this(flower);
+        Wuchskraft = initialPopulation;
     }
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
@@ -130,6 +127,7 @@ public class FlowerPopulation {
                 changeProzentInBluete(-bluehintensitaet * (sunshineHours + 3));
                 break;
         }
+
             changeBestaeubungswahrscheinlichkeit(faktor);
 
     }

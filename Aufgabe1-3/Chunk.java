@@ -41,7 +41,7 @@ public class Chunk {
     public void simulatePlantDay(Weather weather){
         double flowerCount = 0;
         for(FlowerPopulation fp : flowers){
-           flowerCount += fp.getFlowersInChunk();
+           flowerCount += fp.getWuchskraft();
         }
         //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
         double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
