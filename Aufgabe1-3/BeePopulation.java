@@ -42,14 +42,14 @@ public class BeePopulation {
      */
     public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate, Weather weather){
        // System.out.println("Available Food: "+ availableFood);
-        double percentageOfFlyingBees = 1 - (double) weather.rainfallHours() / 12;
+        double percentageOfFlyingBees = 1 - (double) weather.rainfallHours() / 24;
         double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
         foundFood += availableFood;
         if(availableFood >= population){
             population = population * Math.pow(1.03, availableFood / population);
         }
         else {
-            double percentage = ((6.0 * availableFood/population) - 3);
+            double percentage = ((12.0 * availableFood/population) - 3);
             //System.out.println("percentage: " + percentage);
             population = population * (1 + percentage / 100);
             if(population < 0) population = 0;
@@ -102,7 +102,10 @@ public class BeePopulation {
     Anzahl an Bienenköniginen, die das Nest am Ende des Jahres gezeugt hat und ausfliegen.
      */
     public int[] beeQueens(){
-        int newQueenBees = (int) (foundFood / initialPopulation / 10);
+        int newQueenBees = 0;
+        if(foundFood >= 2* initialPopulation){
+            newQueenBees = (int) rand.nextInt(1,5);
+        };
         int newHiveSize = (int) (population / 10);
         population = population - population * 0.1 * newQueenBees; // Ziehe die ausgeflogenen Bienen von der Population ab
         System.out.printf("New Queen Bees: %d", newQueenBees);
