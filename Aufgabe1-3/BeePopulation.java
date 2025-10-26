@@ -54,6 +54,10 @@ public class BeePopulation {
             population = population * (1 + percentage / 100);
             if(population < 0) population = 0;
         }
+        //Kil this Hive if the population is less than one on any given day
+        if(population < 1){
+            world[xKoordinate][yKoordinate].killBeeHive();
+        }
         //System.out.println("Bienenanzahl: " + population);
     }
 

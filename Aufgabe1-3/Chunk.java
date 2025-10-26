@@ -61,6 +61,10 @@ public class Chunk {
         }
     }
 
+    public void killBeeHive(){
+        bees = null;
+    }
+
     public void updateBeesVisited(double beesVisited){
         this.beesVisited += beesVisited;
     }
