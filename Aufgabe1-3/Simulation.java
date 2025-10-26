@@ -108,16 +108,15 @@ public class Simulation {
         }
     }
 
-    private void printWorldVerbose() {
+    private String printWorldVerbose() {
+        var s = new StringBuilder();
         for (int i = 0; i < worldLength; i++) {
-            var s = new StringBuilder();
             for (int j = 0; j < worldWidth; j++) {
                 s.append(String.format("|b%8.0f", world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
             }
-            System.out.println(s);
+            s.append("\n");
             //Gibt die 3 größten Pflanzenpopulationen pro Chunk aus.
             for (int k = 0; k < 3; k++) {
-                s = new StringBuilder();
                 for (int j = 0; j < worldWidth; j++) {
                     var f = world[i][j].getFlowers();
                     f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getWuchskraft).reversed());
@@ -127,10 +126,12 @@ public class Simulation {
                         s.append(String.format("|%c%8.0f", f.get(k).getShortName(), f.get(k).getWuchskraft()));
                     }
                 }
-                System.out.println(s);
+                s.append("\n");
             }
-                System.out.println(new String(new char[worldWidth * 10]).replace("\0", "-"));
+            s.append(new String(new char[worldWidth * 10]).replace("\0", "-"));
+            s.append("\n");
         }
+        return s.toString();
     }
 
     private void printFertility() {
@@ -171,7 +172,7 @@ public class Simulation {
 
         System.out.println("Starting simulation with " + runs + " runs");
         System.out.println("Starting parameters:");
-
+        System.out.println(printWorldVerbose());
         backupWorld = deepCopyWorld(world);
 
         for(int i = 1; i <= runs; i++) {
@@ -180,15 +181,15 @@ public class Simulation {
                 simulateWinter();
                 if(yearlyOutput){
                     debugInfos.append("Year ").append(year).append(" results:\n");
-                    printWorldVerbose();
+                    debugInfos.append(printWorldVerbose());
                     debugInfos.append("\n");
                 }
                     if(dailyOutput) dailyOutput = false;
             }
             if(yearlyOutput) yearlyOutput = false;
             System.out.println("Results of " + i + ". simulation run:");
-            printWorldVerbose();
-            world = backupWorld; // Reset World am Ende jedes Runs
+            System.out.println(printWorldVerbose());
+            world = deepCopyWorld(backupWorld); // Reset World am Ende jedes Runs
         }
 
     }
