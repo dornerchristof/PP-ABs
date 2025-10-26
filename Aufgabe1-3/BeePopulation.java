@@ -40,9 +40,10 @@ public class BeePopulation {
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * FSimulation eines Tages der Vegitationsphase.
      */
-    public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate){
+    public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate, Weather weather){
        // System.out.println("Available Food: "+ availableFood);
-        double availableFood = sammleEssen(world, xKoordinate, yKoordinate);
+        double percentageOfFlyingBees = 1 - (double) weather.rainfallHours() / 12;
+        double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
         foundFood += availableFood;
         if(availableFood >= population){
             population = population * 1.03;
@@ -56,7 +57,7 @@ public class BeePopulation {
         //System.out.println("Bienenanzahl: " + population);
     }
 
-    private double sammleEssen(Chunk[][] world, int xUrsprung, int yUrsprung){
+    private double sammleEssen(Chunk[][] world, int xUrsprung, int yUrsprung, double percentageOfFlyingBees){
         double gesammelteNahrung = 0;
         for (int distance = 0; distance <= maximaleDistanz; distance++) {
             // Iterate through all positions at this distance
@@ -68,7 +69,9 @@ public class BeePopulation {
                         int newY = yUrsprung + dy;
 
                         if (Simulation.isInWorldBounds(world, newX, newY)) {
-                            gesammelteNahrung += world[newX][newY].getNahrungsangebot() * (Math.pow(0.7 , distance + 1));
+                            double beesReachingChunk = (Math.pow(0.7 , (distance + 1) * 2) * percentageOfFlyingBees);
+                            gesammelteNahrung += world[newX][newY].getNahrungsangebot() * beesReachingChunk;
+                            world[newX][newY].updateBeesVisited(beesReachingChunk);
                         }
                     }
                 }

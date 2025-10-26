@@ -55,10 +55,14 @@ public class Chunk {
         beesVisited = 0;
     }
 
-    public void simulateBeeDay(Chunk[][] world){
+    public void simulateBeeDay(Chunk[][] world, Weather weather){
         if (bees != null){
-        bees.Tagessimulation(world, x, y); //TODO Welche Werte?
+        bees.Tagessimulation(world, x, y, weather); //TODO Welche Werte?
         }
+    }
+
+    public void updateBeesVisited(double beesVisited){
+        this.beesVisited += beesVisited;
     }
 
     public void simulateWinter(Chunk[][] world, Random r){

@@ -210,7 +210,7 @@ public class Simulation {
         }
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
-                world[i][j].simulateBeeDay(world);
+                world[i][j].simulateBeeDay(world, weather);
             }
         }
         //int dailySunshine = weather.getSunshineHours();
