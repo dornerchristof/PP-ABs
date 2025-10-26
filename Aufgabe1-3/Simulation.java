@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Random;
+//https://github.com/SpongePowered/noise
 import com.flowpowered.noise.module.Module;
 import com.flowpowered.noise.module.source.Perlin;
 
@@ -46,94 +47,98 @@ public class Simulation {
         world = new Chunk[worldLength][worldWidth];
         generateWorld();
         populateWorld();
-        printFertility();
-        printBeeHives();
         plantSeeds();
+        //printFertility();
+        //printBeeHives();
         printWorldVerbose();
     }
 
-    private void generateWorld(){
+    private void generateWorld() {
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
                 world[i][j] = new Chunk(i, j,
-                perlin.getValue((double) i / fertilityScale, (double) j / fertilityScale, 0) + 1.);
+                        perlin.getValue((double) i / fertilityScale, (double) j / fertilityScale, 0) + 1.);
             }
         }
     }
 
 
-    private void populateWorld(){
-        int xSpacing =  worldLength/(startingHives /2);
-        int ySpacing = worldWidth/2;
+    private void populateWorld() {
+        int xSpacing = worldLength / (startingHives / 2);
+        int ySpacing = worldWidth / 2;
 
-        for (int i = 0; i < (startingHives /2); i++) {
-            int x = numberGenerator.nextInt(xSpacing* i, xSpacing* (i + 1));
+        for (int i = 0; i < (startingHives / 2); i++) {
+            int x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             int y = numberGenerator.nextInt(0, ySpacing);
             world[x][y].SetBeePopulation(new BeePopulation(1000, numberGenerator));
-            x = numberGenerator.nextInt(xSpacing* i, xSpacing* (i + 1));
+            x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             y = numberGenerator.nextInt(ySpacing, worldWidth);
             world[x][y].SetBeePopulation(new BeePopulation(1000, numberGenerator));
         }
     }
 
     //Simuliert durch Wind zufällig verteilte Pflanzensamen, die im Frühling keimen werden.
-    private void plantSeeds(){
+    private void plantSeeds() {
         //zwischen 1 und 3 Pflanzen
         //normalverteilung der Pflanzensamen
         //chunks werden zufällig gewählt, bis 1/4 Pflanzen besitzen
 
-        int x = numberGenerator.nextInt(0, worldLength);
-        int y = numberGenerator.nextInt(0, worldWidth);
-        for (int i = 0; i < (worldLength * worldWidth)/4; i++) {
+        int x;
+        int y;
+        for (int i = 0; i < (worldLength * worldWidth) / 6; i++) {
+            x = numberGenerator.nextInt(0, worldLength);
+            y = numberGenerator.nextInt(0, worldWidth)
+            ;if (!world[x][y].getFlowers().isEmpty()) continue;
             int flowerCount = numberGenerator.nextInt(1, 3);
             for (int j = 0; j < flowerCount; j++) {
                 var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size() - 1));
                 var size = numberGenerator.nextGaussian(100, 20);
                 world[x][y].plantFlower(f, size);
             }
+
         }
     }
 
-    private void printWorldVerbose(){
+    private void printWorldVerbose() {
         for (int i = 0; i < worldLength; i++) {
             var s = new StringBuilder();
             for (int j = 0; j < worldWidth; j++) {
-                s.append(String.format("f%.3f ",  world[i][j].getGroundFertility()));
-            }
-            System.out.println(s);
-            s =new StringBuilder();
-            for (int j = 0; j < worldWidth; j++) {
-                s.append(String.format("b%5.0f ",  world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
+                s.append(String.format("f%.3f ", world[i][j].getGroundFertility()));
             }
             System.out.println(s);
             s = new StringBuilder();
             for (int j = 0; j < worldWidth; j++) {
-                var f =world[i][j].getFlowers();
+                s.append(String.format("b%5.0f ", world[i][j].getBeePopulation() != null ? world[i][j].getBeePopulation().getPopulation() : 0));
+            }
+            System.out.println(s);
+            for (int k = 0; k < 3; k++) {
+                s = new StringBuilder();
+                for (int j = 0; j < worldWidth; j++) {
+                    var f = world[i][j].getFlowers();
                     f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getFlowersInChunk).reversed());
-                for (int k = 0; k < 3; k++) {
-                    if(k >= f.size()){
-                        s.append("     ");
-                    }else{
+                    if (k >= f.size()) {
+                        s.append("       ");
+                    } else {
                         s.append(String.format("x%5.0f ", f.get(k).getFlowersInChunk()));
                     }
                 }
+                System.out.println(s);
             }
-            System.out.println(s);
         }
     }
 
-    private void printFertility(){
+    private void printFertility() {
         for (int i = 0; i < worldLength; i++) {
             var s = new StringBuilder();
             for (int j = 0; j < worldWidth; j++) {
-               s.append(String.format("%.2f",  world[i][j].getGroundFertility()));
-               s.append(" ");
+                s.append(String.format("%.2f", world[i][j].getGroundFertility()));
+                s.append(" ");
             }
             System.out.println(s);
         }
     }
 
-    private void printBeeHives(){
+    private void printBeeHives() {
         for (int i = 0; i < worldLength; i++) {
             var s = new StringBuilder();
             for (int j = 0; j < worldWidth; j++) {
@@ -152,13 +157,13 @@ public class Simulation {
     //an Malen.
     //Die Ergebnisse der Simulation werden auf der Konsole ausgegeben. Wenn debug aktiv ist,
     //werden zusätzliche Informationen für bestimmte Tage und Jahre ausgegeben.
-    public void simulate(int runs, int yearsPerRun, boolean debug){
+    public void simulate(int runs, int yearsPerRun, boolean debug) {
 
-        if(debug) {
+        if (debug) {
             yearlyOutput = dailyOutput = true;
         }
 
-        System.out.println("Starting simulation with "  + runs + " runs");
+        System.out.println("Starting simulation with " + runs + " runs");
         System.out.println("Starting parameters:");
 //        System.out.print(initialBees);
 //        flowerSpecies.printStartingParameters();
@@ -190,7 +195,7 @@ public class Simulation {
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages während der
     //Wachstumszeit durch.
-    private void growingDay(){
+    private void growingDay() {
         weather.updateWeather();
         int dailySunshine = weather.getSunshineHours();
 //        groundMoisture = weather.getSoilMoisture();
@@ -208,7 +213,7 @@ public class Simulation {
 
     //Nominale Abstraktion.
     //Lässt die Simulation für ein ganzes Jahr (Wachstumsphase und Ruhephase) laufen.
-    private void simulateYear(){
+    private void simulateYear() {
 //        groundMoisture = numberGenerator.nextDouble(Math.nextUp(1));
 //        for(int d = 1; d <= 270; d++){
 //            growingDay();
@@ -226,7 +231,7 @@ public class Simulation {
     }
 
     //Nominale Abstraktion. Ausgabe genauerer Informationen über den Simulationsablauf.
-    public void printDebugInfos(){
+    public void printDebugInfos() {
         System.out.println(debugInfos);
     }
 }
