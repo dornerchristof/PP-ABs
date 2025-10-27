@@ -1,4 +1,3 @@
-import java.awt.image.CropImageFilter;
 import java.util.List;
 import java.util.Random;
 //https://github.com/SpongePowered/noise
@@ -8,7 +7,10 @@ Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Simuliert ein Ökosystem,
 das aus Pflanzen und Bienen besteht, die voneinander abhängig sind, um überleben zu können
  */
 public class Simulation {
-    private final StringBuilder debugInfos;
+    private final StringBuilder detailedOutput;
+    private final StringBuilder debugOutput;
+    private final int debugInterval = 10; // Interval in days
+    private final int[] debugIntervalYears = {0,25}; // The start and the end year to print the debug infos
     private boolean yearlyOutput;
     private boolean dailyOutput;
 
@@ -30,7 +32,8 @@ public class Simulation {
     //startingHives: >= 2 und mod 2 = 0
     public Simulation(int worldLength, int worldWidth, Weather weather, List<Flower> flowerSpecies, int startingHives,
                       int meanSeedsPerChunk) {
-        debugInfos = new StringBuilder();
+        detailedOutput = new StringBuilder();
+        debugOutput = new StringBuilder();
         this.weather = weather;
         this.flowerSpecies = flowerSpecies;
         numberGenerator = new Random(seed);//for testing always the same seed
@@ -178,12 +181,12 @@ public class Simulation {
 
         for(int i = 1; i <= runs; i++) {
             for (int year = 1; year <= yearsPerRun; year++) {
-                simulateYear();
+                simulateYear(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]);
                 simulateWinter();
                 if(yearlyOutput){
-                    debugInfos.append("Year ").append(year).append(" results:\n");
-                    debugInfos.append(printWorldVerbose());
-                    debugInfos.append("\n");
+                    detailedOutput.append("Year ").append(year).append(" results:\n");
+                    detailedOutput.append(printWorldVerbose());
+                    detailedOutput.append("\n");
                 }
                     if(dailyOutput) dailyOutput = false;
             }
@@ -249,19 +252,36 @@ public class Simulation {
 
     //Nominale Abstraktion.
     //Lässt die Simulation für ein ganzes Jahr (Wachstumsphase und Ruhephase) laufen.
-    private void simulateYear() {
+    private void simulateYear(boolean printDebugInfos) {
         for(int d = 1; d <= 270; d++){
             growingDay();
             if(dailyOutput){
-                debugInfos.append("Result of day ").append(d).append(":\n");
-                debugInfos.append(String.format("Bee population: %8.0f\n", getTotalBees()));
-                debugInfos.append(String.format("Flower population: %8.0f\n", getTotalFlowers()));
-                debugInfos.append("\n");
+                detailedOutput.append("Result of day ").append(d).append(":\n");
+                detailedOutput.append(String.format("Bee population: %8.0f\n", getTotalBees()));
+                detailedOutput.append(String.format("Flower population: %s\n", getTotalFlowers()));
+                detailedOutput.append("\n");
+            }
+            if(d % debugInterval == 0 && printDebugInfos){
+                debugOutput.append("Result of day ").append(d).append(":\n");
+                debugOutput.append(String.format("Number of Bee Hives: %d\n", getNumberOfBeeHives()));
+                debugOutput.append(String.format("Average Bee population: %8.0f\n", getTotalBees()/getNumberOfBeeHives()));
+                debugOutput.append(String.format("Flower population:\n%s", getTotalFlowers()));
+                debugOutput.append("\n");
             }
         }
         simulateWinter();
         weather.startNewYear();
 
+    }
+
+    private int getNumberOfBeeHives() {
+        int total = 0;
+        for(Chunk[] chunk : world){
+            for (Chunk c : chunk){
+                if(c.BeeHive()) total++;
+            }
+        }
+        return total;
     }
 
     private double getTotalBees() {
@@ -276,21 +296,63 @@ public class Simulation {
         return total;
     }
 
-    private double getTotalFlowers(){
-        double totalWuchskraft = 0;
-        for(Chunk[] chunk : world){
-            for(Chunk c : chunk){
+//    private double getTotalFlowers() {
+//        double totalWuchskraft = 0;
+//        for (Chunk[] chunk : world) {
+//            for (Chunk c : chunk) {
+//                List<FlowerPopulation> fps = c.getFlowers();
+//                for (FlowerPopulation fp : fps) {
+//                    totalWuchskraft += fp.getWuchskraft();
+//                }
+//            }
+//        }
+//        return totalWuchskraft;
+//    }
+
+    //Nominale Abstraktion. Ausgabe genauerer Informationen über den Simulationsablauf.
+    public void printDetailedInfos() {
+        System.out.println(detailedOutput);
+    }
+
+    private String getTotalFlowers() {
+        // Map to store statistics for each flower type
+        // Key: Flower name, Value: List of Wuchskraft values
+        java.util.Map<String, java.util.List<Double>> flowerStats = new java.util.HashMap<>();
+
+        for (Chunk[] chunk : world) {
+            for (Chunk c : chunk) {
                 List<FlowerPopulation> fps = c.getFlowers();
-                for (FlowerPopulation fp : fps){
-                   totalWuchskraft += fp.getWuchskraft();
+                for (FlowerPopulation fp : fps) {
+                    String flowerName = fp.getFlower().getName();
+                    flowerStats.computeIfAbsent(flowerName, k -> new java.util.ArrayList<>())
+                            .add(fp.getWuchskraft());
                 }
             }
         }
-        return totalWuchskraft;
+
+        // Build the output string with statistics for each flower type
+        StringBuilder result = new StringBuilder();
+        result.append("Flower Statistics by Type:\n");
+
+        for (java.util.Map.Entry<String, java.util.List<Double>> entry : flowerStats.entrySet()) {
+            String flowerName = entry.getKey();
+            List<Double> values = entry.getValue();
+
+            if (values.isEmpty()) continue;
+
+            double min = values.stream().min(Double::compare).orElse(0.0);
+            double max = values.stream().max(Double::compare).orElse(0.0);
+            double avg = values.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+            int count = values.size();
+
+            result.append(String.format("  %s: Count=%d, Min=%.2f, Max=%.2f, Avg=%.2f\n",
+                    flowerName, count, min, max, avg));
+        }
+
+        return result.toString();
     }
 
-    //Nominale Abstraktion. Ausgabe genauerer Informationen über den Simulationsablauf.
-    public void printDebugInfos() {
-        System.out.println(debugInfos);
+    public void printDebugOutput(){
+        System.out.println(debugOutput);
     }
 }

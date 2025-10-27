@@ -57,7 +57,8 @@ public class Test {
         sim1.simulate(1, 25, true);
 
         System.out.println("DebugInfos (genau Infos)");
-        sim1.printDebugInfos();
+        //sim1.printDetailedInfos();
+        sim1.printDebugOutput();
     }
 
     private static List<Flower> generateFlowerParameter(){
@@ -72,7 +73,7 @@ public class Test {
             double vg = rand.nextDouble() * 3;
             RestrictedDouble vermehrungsgrenzen = new RestrictedDouble(4.5, vg + 13);
             double fg = rand.nextDouble() * 0.2;
-            RestrictedDouble feuchtegrenzen = new RestrictedDouble(Math.max(0, 0.3 - fg), Math.min(1, 0.7 - fg));
+            RestrictedDouble feuchtegrenzen = new RestrictedDouble(0.3 - fg, 0.7 + fg);
             RestrictedDouble bluehgrenzen;
             double bgL;
             double bgH;

@@ -119,7 +119,6 @@ public class BeePopulation {
         };
         int newHiveSize = (int) (population / 10);
         population = population - population * 0.1 * newQueenBees; // Ziehe die ausgeflogenen Bienen von der Population ab
-        System.out.printf("New Queen Bees: %d", newQueenBees);
         return new int[]{newQueenBees, newHiveSize};
     }
 
