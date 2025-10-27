@@ -7,17 +7,47 @@ Tobias:   Implementierung der Klasse BeePopulation. Testen der Gesamtapplikation
           Simulation (Parameterfinden). In Zuge dessen, Fehlerbehebung gemeinsam mit Patrick.
 Christof: Implementierung der Simulationsklasse. Implementierung der Ausgabe über alle Klassen hinweg.
 ---------------
-Aufgabe 2 (vorläufig):
-Patrick - Pflanzen, Wetter, Naturkatastrophen
-Tobias - Bienenstock und Ausgabe
-Christof - Welt, Parameter, Zusammenspiel zwischen den Klassen
+Aufgabe 2:
+Welt:
+    - Es gibt eine zweidimensionale Welt aus Chunks, in denen jeweils maximal ein Wildbienenstock und eine begrenzte Anzahl an verschiedene Pflanzen leben können.
+    - Es gibt einen Jahreszeitenablauf, auf den die Bienen, Pflanzen und das Wetter reagieren.
+
+Pflanzen:
+
+    Pflanzen blühen nur in bestimmten Monaten und wenn bestimmte Temperatur- und Feuchtigkeitsvoraussetzung erfüllt sind.
+
+    Pflanzen vermehren sich und können sich auch in andere Chunks ausbreiten.
+
+    Wir verwenden (soweit möglich), echte Daten von echten Pflanzen
+
+Bienen:
+
+    Vermehren/Sterben ab aufgrund des Nahrungsangebots und Wetterlage
+
+    Bienenkönige fliegen aus und gründen neue Stöcke
+
+    Bienen ziehen um, wenn sie keine Nahrung finden.
+
+    Bienen fliegen nur ein Mal pro Tag aus. Sie können leer zurückkommen. Umso weiter sie fliegen, umso weniger finden eine Pflanze.
+
+    Alle Stöcke suchen zuerst im direkten Umkreis ihres Stocks. Dann im weiteren Durchlauf fliegen die Arbeiter immer weiter (Damit ein Stock nicht die Nahrung eines anderen vollständig wegessen kann).
+
+Wetter:
+
+    Wir lesen vorhandene Wetterdaten ein und nutze diese.
+
+    Es gibt eine kleine Chance auf eine Naturkatastrophe (Dürre, Überschwemmung, Bienenkrankheit)
+Patrick: Implementierung des Wettersystems.
+Tobias: Implementierung des neuen Bienenverhaltens (Vermehrung, Absterben, etc.). Anpassen und Verbessern der Ausgabe
+        auf eine 2d-Welt
+Christof: Implementierung der Chunk-Klasse; Bevölkerung der Welt mit Pflanzen und Bienen. Umschreiben der
+          Pflanzenpopulation, sodass sie pro Chunk ist. Implementierung eines eigenen Pflanzenklasse für alle
+          unveränderlichen Eigenschaften einer Pflanze. Anpassung und Verbesserung der Ausgabe auf eine 2d-Welt.
 
 */
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-//javac -cp ".:flow-noise-1.0.0.jar" Test.java
 
 /*
  * Test-Klasse: Modularisierungseinheit: Modul
@@ -35,23 +65,6 @@ public class Test {
         var sim1 = new Simulation(20, 20,  weather1, flowerList, 15, 300);
 
         sim1.simulate(1, 25, true);
-
-
-        //Simulation 2:
-//        Random beeRandom2 = new Random(253721312);
-//        var weather2 = new AustriaWeatherSimulation(beeRandom2);
-//        var flowers2 = new TotalFlowerPopulation(16, 1000, 6000, 7, 14, 0.28,0.67,54456787);
-//        var bees2 = new BeePopulation(2000, beeRandom2); // BeeRandom runs through all runs so every run is different
-//        var sim2 = new Simulation(flowers2, bees2, 253721312,weather2); //Seed runs through all runs so every run is different
-//        sim2.simulate(10, 25, false);
-//
-//        // Simulation 3:
-//        Random beeRandom3 = new Random(4236472);
-//        var weather3 = new AustriaWeatherSimulation(beeRandom3);
-//        var flowers3 = new TotalFlowerPopulation(24, 1000, 1500, 7, 11, 0.33,0.75,798246);
-//        var bees3 = new BeePopulation(1700, beeRandom3);
-//        var sim3 = new Simulation(flowers3, bees3, 64782347,weather3);
-//        sim3.simulate(10, 25, false);
 
         System.out.println("DebugInfos (genau Infos)");
         sim1.printDebugInfos();

@@ -209,6 +209,11 @@ public class Simulation {
     //Führt Berechnungen für die Simulation eines Tages während der
     //Wachstumszeit durch.
     private void growingDay() {
+        /*
+            STYLE: Objektorientiert. Wir rufen hier die Funktionen von der Klasse Chunk auf, die wiederrum Funktionen
+            von der Klasse BeePopulation und FlowerPopulation auf. Diese Funktionen nutzen die Objektvariablen der
+            Objekte, um die Simulation durchzuführen.
+         */
         weather.updateWeather();
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
