@@ -98,12 +98,12 @@ public class FlowerPopulation {
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages für die Pflanzenpopulation durch
     /*„STYLE:"
-    Hier wird ein objektorientiertes Paradigma angewendet. Die Methode grieft auf den internen Zustand des
-    FLower Objekts (Wuchskraft, ProzentInBluete, Samenqualitaet, bestaeubungswahrscheinlichkeit)
+    Hier wird ein objektorientiertes Paradigma angewendet. Die Methode greift auf den internen Zustand des
+    Flower-Objekts (Wuchskraft, ProzentInBluete, Samenqualitaet, bestaeubungswahrscheinlichkeit)
     zu und modifiziert ihn. Die Methode kapselt das Wachstumsverhalten einer Pflanzenpopulation
     und nutzt private Hilfsmethoden (changeWuchskraft, changeProzentInBluete, etc.) zur Zustandsänderung,
-    wodurch die Prinzipien der Datenkapselun realisiert werden. Die Interaktion mit
-    dem Weather-Objekt erfolgt über dessen im Interface deffinierte Schnittstelle.
+    wodurch die Prinzipien der Datenkapselung realisiert werden. Die Interaktion mit
+    dem Weather-Objekt erfolgt über die im Interface definierten Schnittstellen.
     */
     public void Tagessimulation(Weather weather, double faktor, boolean isRuhePhase) {
         var groundMoisture = weather.getSoilMoisture();
