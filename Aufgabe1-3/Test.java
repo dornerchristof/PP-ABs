@@ -8,35 +8,25 @@ Tobias:   Implementierung der Klasse BeePopulation. Testen der Gesamtapplikation
 Christof: Implementierung der Simulationsklasse. Implementierung der Ausgabe über alle Klassen hinweg.
 ---------------
 Aufgabe 2:
+
+*Erweiterungen*:
 Welt:
-    - Es gibt eine zweidimensionale Welt aus Chunks, in denen jeweils maximal ein Wildbienenstock und eine begrenzte Anzahl an verschiedene Pflanzen leben können.
-    - Es gibt einen Jahreszeitenablauf, auf den die Bienen, Pflanzen und das Wetter reagieren.
-
+    - Es gibt eine zweidimensionale Welt aus Chunks, in denen jeweils maximal ein Wildbienenstock und eine begrenzte
+    Anzahl an verschiedenen Pflanzen leben können.
+    - Es gibt einen Jahresablauf, auf den die Bienen, Pflanzen und das Wetter reagieren.
 Pflanzen:
-
-    Pflanzen blühen nur in bestimmten Monaten und wenn bestimmte Temperatur- und Feuchtigkeitsvoraussetzung erfüllt sind.
-
-    Pflanzen vermehren sich und können sich auch in andere Chunks ausbreiten.
-
-    Wir verwenden (soweit möglich), echte Daten von echten Pflanzen
-
+    - Pflanzen blühen nur in bestimmten Monaten und wenn bestimmte Temperatur- und Feuchtigkeitsvoraussetzung erfüllt
+    sind.
+    - Pflanzen vermehren sich und können sich auch in andere Chunks ausbreiten.
 Bienen:
-
-    Vermehren/Sterben ab aufgrund des Nahrungsangebots und Wetterlage
-
-    Bienenkönige fliegen aus und gründen neue Stöcke
-
-    Bienen ziehen um, wenn sie keine Nahrung finden.
-
-    Bienen fliegen nur ein Mal pro Tag aus. Sie können leer zurückkommen. Umso weiter sie fliegen, umso weniger finden eine Pflanze.
-
-    Alle Stöcke suchen zuerst im direkten Umkreis ihres Stocks. Dann im weiteren Durchlauf fliegen die Arbeiter immer weiter (Damit ein Stock nicht die Nahrung eines anderen vollständig wegessen kann).
-
+    - Vermehren/Sterben ab aufgrund des Nahrungsangebots und Wetterlage
+    - Bienenkönige fliegen aus und gründen neue Stöcke
+    - Bienenstöcke sterben aus, wenn sie zu klein werden.
+    - Bienen fliegen nur ein Mal pro Tag aus. Umso weiter sie fliegen, umso weniger kommen bei einer Pflanze an.
 Wetter:
+    - Wir können das Wetter verschiedener Regionen simulieren und sie miteinander austauschen.
 
-    Wir lesen vorhandene Wetterdaten ein und nutze diese.
-
-    Es gibt eine kleine Chance auf eine Naturkatastrophe (Dürre, Überschwemmung, Bienenkrankheit)
+*Arbeitsteilung*
 Patrick: Implementierung des Wettersystems.
 Tobias: Implementierung des neuen Bienenverhaltens (Vermehrung, Absterben, etc.). Anpassen und Verbessern der Ausgabe
         auf eine 2d-Welt
