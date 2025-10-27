@@ -3,7 +3,7 @@ public interface Weather {
     public double getTemperature();
     public double getSoilMoisture();
     public int getSunshineHours();
-    public int rainfallHours();
+    public int getRainfallHours();
 
    //Wetter des heutigen Tages simuliert
     public void updateWeather();

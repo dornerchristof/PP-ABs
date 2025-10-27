@@ -6,6 +6,12 @@
 
 import java.util.Random;
 
+
+/*
+ * Abstrakter Datentyp (Klasse) mit nominaler Abstraktion. Modularisierungseinheit: Klasse und Objekt
+ * Simuliert typisches Wetter in Österreich, jedoch versimpelt und angepasst mit einer Tagesdauer von 12 Stunden
+ * und Regenstunden basierend auf echten Werten.
+ */
 public class AustriaWeatherSimulation implements Weather {
     private final int NIEDERSCHLAG_BASIS_WERT = 1100;
     private final double NIEDERSCHLAG_ABWEICHUNG = 0.2;
@@ -27,11 +33,19 @@ public class AustriaWeatherSimulation implements Weather {
     private double soilMoisture;
     private double temperature;
 
+    /*
+     * Konstruktor (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Erstellt ein neues Wetterobjekt mit einem Zufallsgenerator und initialisiert ein neues Simulationsjahr.
+     */
     public AustriaWeatherSimulation(Random random) {
         this.random = random;
         startNewYear();
     }
 
+    /*
+     * Initialisierungsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Initialisiert alle Werte die benötigt werden, um ein neues Jahr zu simulieren
+     */
     @Override
     public void startNewYear() {
         this.currentDay = 0;
@@ -68,6 +82,10 @@ public class AustriaWeatherSimulation implements Weather {
         }
     }
 
+    /*
+     * Helper-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Berechnet die neue Temperatur
+     */
     private void updateTemperature() {
         int minTemp ;
         int maxTemp;
@@ -98,6 +116,10 @@ public class AustriaWeatherSimulation implements Weather {
         this.temperature += random.nextDouble() * 4 -2;
     }
 
+    /*
+     * Helper-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Berechnet die neue Bodenfeuchtigkeit
+     */
     private void updateSoilMoisture() {
         int rainHours = year[currentDay][1];
         int sunHours = year[currentDay][0];
@@ -111,26 +133,35 @@ public class AustriaWeatherSimulation implements Weather {
         else if (this.soilMoisture > 1) this.soilMoisture = 1;
     }
 
+    // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Temperatur zurück
     @Override
     public double getTemperature() {
         return this.temperature;
     }
 
+    // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Bodenfeuchtigkeit zurück
     @Override
     public double getSoilMoisture() {
         return soilMoisture;
     }
 
+    // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Sonnenstunden zurück
     @Override
     public int getSunshineHours() {
         return year[currentDay][0];
     }
 
+    // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Regenstunden zurück
     @Override
-    public int rainfallHours() {
+    public int getRainfallHours() {
         return year[currentDay][1];
     }
 
+    /*
+     * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Simuliert die Werte des nächsten Tages. Enthält eine Fallbackmethode, um ein neues Jahr zu starten, falls der
+     * Tag zu hoch wird.
+     */
     @Override
     public void updateWeather() {
         this.currentDay++;
@@ -141,6 +172,10 @@ public class AustriaWeatherSimulation implements Weather {
         updateSoilMoisture();
     }
 
+    /*
+     * toString-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Erstellt eine formatierte String-Repräsentation des aktuellen Wetters
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -1,6 +1,5 @@
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.List;
 import java.util.Random;
 
 /*
@@ -43,7 +42,7 @@ public class BeePopulation {
      */
     public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate, Weather weather){
        // System.out.println("Available Food: "+ availableFood);
-        double percentageOfFlyingBees = 1 - (double) weather.rainfallHours() / 12;
+        double percentageOfFlyingBees = 1 - (double) weather.getRainfallHours() / 12;
         double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
         foundFood += availableFood;
         if(availableFood + savedFood >= population){
