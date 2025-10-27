@@ -2,8 +2,6 @@ import java.awt.image.CropImageFilter;
 import java.util.List;
 import java.util.Random;
 //https://github.com/SpongePowered/noise
-import com.flowpowered.noise.module.Module;
-import com.flowpowered.noise.module.source.Perlin;
 
 /*
 Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Simuliert ein Ökosystem,
@@ -25,7 +23,7 @@ public class Simulation {
     private static final int seed = 1234567890;
     private final Random numberGenerator;
     private static final int fertilityScale = 10;
-    private static final Module perlin = new Perlin();
+//    private static final Module perlin = new Perlin();
 
     //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als
     //Ausgangspunkt für die Simulation.
@@ -36,12 +34,12 @@ public class Simulation {
         this.weather = weather;
         this.flowerSpecies = flowerSpecies;
         numberGenerator = new Random(seed);//for testing always the same seed
-        Perlin perlin = new Perlin();
-        perlin.setSeed(seed);
-        perlin.setOctaveCount(4); // Multiple octaves for varied terrain
-        perlin.setFrequency(1.0);
-        perlin.setPersistence(0.5);
-        perlin.setLacunarity(2.0);
+//        Perlin perlin = new Perlin();
+//        perlin.setSeed(seed);
+//        perlin.setOctaveCount(4); // Multiple octaves for varied terrain
+//        perlin.setFrequency(1.0);
+//        perlin.setPersistence(0.5);
+//        perlin.setLacunarity(2.0);
         this.worldLength = worldLength;
         this.worldWidth = worldWidth;
         this.startingHives = startingHives;
@@ -63,8 +61,11 @@ public class Simulation {
     private void generateWorld() {
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
+//                world[i][j] = new Chunk(i, j,
+//                        perlin.getValue((double) i / fertilityScale, (double) j / fertilityScale, 0) + 1.);
+
                 world[i][j] = new Chunk(i, j,
-                        perlin.getValue((double) i / fertilityScale, (double) j / fertilityScale, 0) + 1.);
+                        numberGenerator.nextGaussian(100, 0.5));
             }
         }
     }
