@@ -40,6 +40,13 @@ public class BeePopulation {
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * FSimulation eines Tages der Vegitationsphase.
      */
+    /*„STYLE:"
+    Hier wird ein objektorientiertes Paradigma angewendet. Das sieht man daran, dass die Methode
+    auf den Zustand des Objekts (population, savedFood, foundFood) zugreift und diesen ändert.
+    Die Methode kapselt das Verhalten eines BeePopulation-Objekts und interagiert mit anderen Objekten
+    (Chunk[][], Weather) durch deren öffentliche Schnittstellen, wodurch Datenkapselung und
+    Verhaltensabstraktion realisiert werden.
+    */
     public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate, Weather weather){
        // System.out.println("Available Food: "+ availableFood);
         double percentageOfFlyingBees = 1 - (double) weather.getRainfallHours() / 12;
