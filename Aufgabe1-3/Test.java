@@ -45,7 +45,7 @@ import java.util.Random;
  */
 public class Test {
     //Hauptmethode (Nominale Abstraktion). Modularisierungseinheit: Modul. Einstiegspunkt des Programms
-    public static void main(String[] args) {
+    public static void main() {
 
         // Simulation 1:
         Random beeRandom1 = new Random(67246021);
@@ -58,7 +58,7 @@ public class Test {
 
         System.out.println("DebugInfos (genau Infos)");
         //sim1.printDetailedInfos();
-        sim1.printDebugOutput();
+        //sim1.printDebugOutput();
     }
 
     private static List<Flower> generateFlowerParameter(){
@@ -71,7 +71,6 @@ public class Test {
         String[] nameList = {"Rose", "Edelweiss", "Sonnenblume", "Maiglöckchen", "Veilchen", "Nelke", "Orchidee",
         "Gänseblümchen", "Lilie"};
         for (int i = 0; i < 8; i++) {
-            double wuchskraft = rand.nextDouble() * 1000 + 5000;
             double vg = rand.nextDouble() * 3;
             Limits vermehrungsgrenzen = new Limits(4.5, vg + 13);
             double fg = rand.nextDouble() * 0.2;

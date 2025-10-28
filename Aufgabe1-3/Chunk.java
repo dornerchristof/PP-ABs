@@ -65,14 +65,11 @@ public class Chunk {
         for(FlowerPopulation fp : flowers){
            flowerCount += fp.getCurrentPopulation();
         }
+
         //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
         double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
         for (FlowerPopulation fp : flowers) {
-            if (beesVisited>= getNahrungsangebot()) {
-                fp.simulateGrowingDay(weather, 1 * growingFactor);
-            } else {
-                fp.simulateGrowingDay(weather, 0.7 * growingFactor);
-            }
+                fp.simulateGrowingDay(weather, beesVisited * (fp.getCurrentPopulation()/flowerCount));
         }
         beesVisited = 0;
     }

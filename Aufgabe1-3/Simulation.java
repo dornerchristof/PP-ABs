@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 //https://github.com/SpongePowered/noise
@@ -24,25 +25,20 @@ public class Simulation {
 
     private static final int seed = 1234567890;
     private final Random numberGenerator;
-    private static final int fertilityScale = 10;
-//    private static final Module perlin = new Perlin();
+
+    private List<SimulationState> endOfYearStates;
 
     //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als
     //Ausgangspunkt für die Simulation.
     //startingHives: >= 2 und mod 2 = 0
     public Simulation(int worldLength, int worldWidth, Weather weather, List<Flower> flowerSpecies, int startingHives,
                       int meanSeedsPerChunk) {
+        endOfYearStates = new ArrayList<>();
         detailedOutput = new StringBuilder();
         debugOutput = new StringBuilder();
         this.weather = weather;
         this.flowerSpecies = flowerSpecies;
         numberGenerator = new Random(seed);//for testing always the same seed
-//        Perlin perlin = new Perlin();
-//        perlin.setSeed(seed);
-//        perlin.setOctaveCount(4); // Multiple octaves for varied terrain
-//        perlin.setFrequency(1.0);
-//        perlin.setPersistence(0.5);
-//        perlin.setLacunarity(2.0);
         this.worldLength = worldLength;
         this.worldWidth = worldWidth;
         this.startingHives = startingHives;
@@ -52,9 +48,6 @@ public class Simulation {
         generateWorld();
         populateWorld();
         plantSeeds();
-        //printFertility();
-        //printBeeHives();
-        //printWorldVerbose();
     }
 
     public static boolean isInWorldBounds(Chunk[][] world, int x, int y) {
@@ -64,15 +57,11 @@ public class Simulation {
     private void generateWorld() {
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
-//                world[i][j] = new Chunk(i, j,
-//                        perlin.getValue((double) i / fertilityScale, (double) j / fertilityScale, 0) + 1.);
-
                 world[i][j] = new Chunk(i, j,
                         numberGenerator.nextGaussian(100, 0.5));
             }
         }
     }
-
 
     private void populateWorld() {
         int xSpacing = worldLength / (startingHives / 2);
@@ -189,12 +178,15 @@ public class Simulation {
                     detailedOutput.append("\n");
                 }
                     if(dailyOutput) dailyOutput = false;
+                    endOfYearStates.add(new SimulationState(year, 0, world));
             }
             if(yearlyOutput) yearlyOutput = false;
             System.out.println("Results of " + i + ". simulation run:");
             System.out.println(printWorldVerbose());
             world = deepCopyWorld(backupWorld); // Reset World am Ende jedes Runs
+            System.out.println(SimulationState.statesAsTable(endOfYearStates));
         }
+
 
     }
 
@@ -324,7 +316,7 @@ public class Simulation {
                 List<FlowerPopulation> fps = c.getFlowers();
                 for (FlowerPopulation fp : fps) {
                     String flowerName = fp.getFlower().getName();
-                    flowerStats.computeIfAbsent(flowerName, k -> new java.util.ArrayList<>())
+                    flowerStats.computeIfAbsent(flowerName, k -> new ArrayList<>())
                             .add(fp.getCurrentPopulation());
                 }
             }
