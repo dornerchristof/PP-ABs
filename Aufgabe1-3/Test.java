@@ -68,7 +68,9 @@ public class Test {
         Hier wird ein prozeduralen Prog. Paradigmus angewendet. Dies sieht man daran, dass es eine Abfolge von
         Statements sind, die nur auf die davor ausgeführten Statements angewiesen sind.
         */
-        for (int i = 0; i < 10; i++) {
+        String[] nameList = {"Rose", "Edelweiss", "Sonnenblume", "Maiglöckchen", "Veilchen", "Nelke", "Orchidee",
+        "Gänseblümchen", "Lilie"};
+        for (int i = 0; i < 8; i++) {
             double wuchskraft = rand.nextDouble() * 1000 + 5000;
             double vg = rand.nextDouble() * 3;
             Limits vermehrungsgrenzen = new Limits(4.5, vg + 13);
@@ -79,12 +81,12 @@ public class Test {
             double bgH;
             // Frühlingsblumen
             double randomLength = rand.nextDouble() * 200 + 500;
-            if (i <= 10 / 3) {
+            if (i <= i / 3) {
                 bgL = rand.nextInt(600);
                 bgH = randomLength + bgL;
             }
             // Sommerblumen
-            else if (i <= 10 / 3 * 2) {
+            else if (i <= i / 3 * 2) {
                 bgL = rand.nextInt(600) + 400;
                 bgH = randomLength + bgL;
             }
@@ -96,7 +98,7 @@ public class Test {
             bluehgrenzen = new Limits(bgL, bgH);
             double bluehintensitaet = rand.nextDouble() * (1.0 / 15);
             double bestaeubungswahrscheinlichkeit = Math.min(0.5, rand.nextDouble()) * (1.0 / (bgH - bgL));
-            flowers.add(new Flower("test", vermehrungsgrenzen, feuchtegrenzen,
+            flowers.add(new Flower(nameList[i],vermehrungsgrenzen, feuchtegrenzen,
                     bluehgrenzen, bluehintensitaet, bestaeubungswahrscheinlichkeit));
         }
         return flowers;
