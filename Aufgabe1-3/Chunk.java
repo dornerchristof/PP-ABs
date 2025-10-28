@@ -49,7 +49,13 @@ public class Chunk {
     }
 
     public void plantFlower(Flower flower, double initialPopulation){
-        if(flowers.size() > 3) return;
+        for(FlowerPopulation fp : flowers){
+            if(fp.getName().equals(flower.getName())){
+                fp.addPopulation(initialPopulation);
+                return;
+            }
+        }
+        if(flowers.size() >= 3) return;
         flowers.add(new FlowerPopulation(flower, initialPopulation));
     }
 

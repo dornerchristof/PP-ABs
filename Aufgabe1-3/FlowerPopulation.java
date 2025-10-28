@@ -142,6 +142,10 @@ public class FlowerPopulation {
         return currentPopulation;
     }
 
+    public void addPopulation(double amount){
+        currentPopulation += amount;
+    }
+
     //Erstellt aus den verschiedenen Eigenschaften des Objekts einen String.
 //    public String printParameters(){
 //        return flower.getName() + "(" +
@@ -156,6 +160,10 @@ public class FlowerPopulation {
 //                "Bestäubungswahrscheinlichkeit: " + String.format("%.4f", bestaeubungswahrscheinlichkeit) +
 //                ")" + "\n";
 //    }
+
+    public String getName(){
+        return flower.getName();
+    }
 
     @Override
     public String toString() {
