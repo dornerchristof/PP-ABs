@@ -54,26 +54,26 @@ public class Chunk {
     }
 
 
-    public void simulatePlantDay(Weather weather){
+    public void simulateGrowingDayFlower(Weather weather){
         double flowerCount = 0;
         for(FlowerPopulation fp : flowers){
-           flowerCount += fp.getWuchskraft();
+           flowerCount += fp.getCurrentPopulation();
         }
         //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
         double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
         for (FlowerPopulation fp : flowers) {
             if (beesVisited>= getNahrungsangebot()) {
-                fp.Tagessimulation(weather, 1 * growingFactor, false);
+                fp.simulateGrowingDay(weather, 1 * growingFactor);
             } else {
-                fp.Tagessimulation(weather, 0.7 * growingFactor, false);
+                fp.simulateGrowingDay(weather, 0.7 * growingFactor);
             }
         }
         beesVisited = 0;
     }
 
-    public void simulateBeeDay(Chunk[][] world, Weather weather){
+    public void simulateGrowingDayBees(Chunk[][] world, Weather weather){
         if (bees != null){
-        bees.Tagessimulation(world, x, y, weather); //TODO Welche Werte?
+        bees.simulateGrowingDay(world, x, y, weather); //TODO Welche Werte?
         }
     }
 
@@ -85,7 +85,7 @@ public class Chunk {
         this.beesVisited += beesVisited;
     }
 
-    public void simulateWinter(Chunk[][] world, Random r){
+    public void simulateRestingPeriod(Chunk[][] world, Random r){
         if(bees != null){
             // Versuche die neuen Bienenschwärme anzulegen
             int[] queensResult = bees.beeQueens();
@@ -101,7 +101,7 @@ public class Chunk {
                 }
             }
             // Simulate Rest Phase
-            bees.simulateRest();
+            bees.simulateRestingPeriod();
         }
         //Pflanzenverbreitung
         if(flowers.isEmpty()) return;
@@ -111,7 +111,9 @@ public class Chunk {
         if(Simulation.isInWorldBounds(world, xOffset, yOffset) ){
             world[xOffset][yOffset].plantFlower((flowers.get(flowerIndex)).getFlower(), 1000);
         }
-
+        for(FlowerPopulation fp : flowers){
+            fp.simulateRestingPeriod();
+        }
     }
 
     public double getNahrungsangebot(){

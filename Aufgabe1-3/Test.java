@@ -71,10 +71,10 @@ public class Test {
         for (int i = 0; i < 10; i++) {
             double wuchskraft = rand.nextDouble() * 1000 + 5000;
             double vg = rand.nextDouble() * 3;
-            RestrictedDouble vermehrungsgrenzen = new RestrictedDouble(4.5, vg + 13);
+            Limits vermehrungsgrenzen = new Limits(4.5, vg + 13);
             double fg = rand.nextDouble() * 0.2;
-            RestrictedDouble feuchtegrenzen = new RestrictedDouble(0.3 - fg, 0.7 + fg);
-            RestrictedDouble bluehgrenzen;
+            Limits feuchtegrenzen = new Limits(0.3 - fg, 0.7 + fg);
+            Limits bluehgrenzen;
             double bgL;
             double bgH;
             // Frühlingsblumen
@@ -93,10 +93,10 @@ public class Test {
                 bgL = rand.nextInt(600) + 800;
                 bgH = randomLength + bgL;
             }
-            bluehgrenzen = new RestrictedDouble(bgL, bgH);
+            bluehgrenzen = new Limits(bgL, bgH);
             double bluehintensitaet = rand.nextDouble() * (1.0 / 15);
             double bestaeubungswahrscheinlichkeit = Math.min(0.5, rand.nextDouble()) * (1.0 / (bgH - bgL));
-            flowers.add(new Flower("test", wuchskraft, vermehrungsgrenzen, feuchtegrenzen,
+            flowers.add(new Flower("test", vermehrungsgrenzen, feuchtegrenzen,
                     bluehgrenzen, bluehintensitaet, bestaeubungswahrscheinlichkeit));
         }
         return flowers;

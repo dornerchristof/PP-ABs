@@ -1,48 +1,36 @@
 
 /*
-Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Repräsentiert einen Gleitkommawert,
-der auf einen bestimmten Bereich beschränkt ist. Bietet Funktionen zur Überprüfung, ob ein Wert
-innerhalb des erlaubten Bereichs liegt und zur Berechnung von Abweichungsfaktoren.
+Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Repräsentiert die Grenzen einer Variable in der Simulation.
+Bietet Funktionen zur Überprüfung, ob ein Wert innerhalb des erlaubten Bereichs liegt und
+zur Berechnung von Abweichungsfaktoren.
  */
-public class RestrictedDouble {
-    private double max;
-    private double min;
-    private double value;
+public class Limits {
+    private final double max;
+    private final double min;
 
     //Erstellt einen neuen eingeschränkten Gleitkommawert mit den angegebenen
     //Minimal- und Maximalwerten als Grenzen.
-    public RestrictedDouble(double min, double max){
+    public Limits(double min, double max){
         this.min = min;
         this.max = max;
     }
-    public RestrictedDouble(RestrictedDouble other) {
+    //Kopierkonstruktor
+    public Limits(Limits other) {
         this.min = other.min;
         this.max = other.max;
-        this.value = other.value;
-    }
-
-
-    //Setzt den aktuellen Wert des RestrictedDouble-Objekts.
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    //Gibt den aktuellen Wert des RestrictedDouble-Objekts zurück.
-    public double getValue(){
-        return value;
     }
 
     //Nominale Abstraktion.
     //Überprüft, ob der aktuelle Wert innerhalb der definierten Grenzen liegt.
-    public boolean isInRange(){
+    public boolean inRange(double value){
         return value >= min && value <= max;
     }
 
     //Nominale Abstraktion.
     //Berechnet einen Faktor, der die Abweichung vom erlaubten Bereich quantifiziert.
     //Gibt 0 zurück, wenn der Wert im erlaubten Bereich liegt.
-    public double getRangeFactor() {
-        if (isInRange()) return 0.0;
+    public double getRangeFactor(double value) {
+        if (inRange(value)) return 0.0;
         if (value < min) return value / min;
         return value / max;
     }
@@ -56,5 +44,4 @@ public class RestrictedDouble {
     public double getMax() {
         return max;
     }
-
 }

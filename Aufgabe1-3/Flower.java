@@ -7,22 +7,30 @@ public class Flower {
 
     private final String name;
     private final char shortName;
-    private RestrictedDouble vermehrungsgrenzen;
-    private RestrictedDouble feuchtegrenzen;
-    private RestrictedDouble bluehgrenzen;
-    double bestaeubungswahrscheinlichkeit;
-    double bluehintensitaet;
 
-    public Flower(String name, double wuchskraft, RestrictedDouble vermehrungsgrenzen,
-                            RestrictedDouble feuchtegrenzen, RestrictedDouble bluehgrenzen,
-                            double bluehintensitaet, double bestaeubungswahrscheinlichkeit) {
+    //Jedes Jahr vermehrt sich die Pflanzenpopulation um einen Faktor zwischen diesen Grenzwerten.
+    private Limits reproductionFactor;
+    //Nur in diesen Bodenfeuchtigkeitsgrenzen wächst diese Pflanze.
+    private Limits groundMoistureLimits;
+    //Wenn die Pflanze die untere Grenze an Sonnenstunden überschreitet, dann fängt sie an zu blühen, wenn sie die
+    //obere Grenze überschreitet, dann höhrt sie auf zu blühen.
+    private Limits sunlightHoursForBlooming;
+
+    double bestaeubungswahrscheinlichkeit;
+    //How fast all flowers start to bloom and how fast they stop blooming.
+    double bloomIntensity;
+    double Verbreitungswahrscheinlichkeit;
+
+    public Flower(String name, Limits vermehrungsgrenzen,
+                  Limits groundMoistureLimits, Limits sunlightHoursForBlooming,
+                  double bloomIntensity, double bestaeubungswahrscheinlichkeit) {
         this.name = name;
         this.shortName = name.charAt(0);
-        this.vermehrungsgrenzen = vermehrungsgrenzen;
-        this.feuchtegrenzen = feuchtegrenzen;
-        this.bluehgrenzen = bluehgrenzen;
+        this.reproductionFactor = vermehrungsgrenzen;
+        this.groundMoistureLimits = groundMoistureLimits;
+        this.sunlightHoursForBlooming = sunlightHoursForBlooming;
         this.bestaeubungswahrscheinlichkeit = bestaeubungswahrscheinlichkeit;
-        this.bluehintensitaet = bluehintensitaet;
+        this.bloomIntensity = bloomIntensity;
     }
 
     public Flower(String name, char shortName) {
@@ -36,24 +44,24 @@ public class Flower {
 
     public char getShortName(){ return shortName;}
 
-    public RestrictedDouble getVermehrungsgrenzen() {
-        return vermehrungsgrenzen;
+    public Limits getReproductionFactor() {
+        return reproductionFactor;
     }
 
-    public RestrictedDouble getFeuchtegrenzen() {
-        return feuchtegrenzen;
+    public Limits getGroundMoistureLimits() {
+        return groundMoistureLimits;
     }
 
-    public RestrictedDouble getBluehgrenzen() {
-        return bluehgrenzen;
+    public Limits getSunlightHoursForBlooming() {
+        return sunlightHoursForBlooming;
     }
 
     public double getBestaeubungswahrscheinlichkeit() {
         return bestaeubungswahrscheinlichkeit;
     }
 
-    public double getBluehintensitaet() {
-        return bluehintensitaet;
+    public double getBloomIntensity() {
+        return bloomIntensity;
     }
 
 }

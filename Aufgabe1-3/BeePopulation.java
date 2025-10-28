@@ -47,7 +47,7 @@ public class BeePopulation {
     (Chunk[][], Weather) durch deren öffentliche Schnittstellen, wodurch Datenkapselung und
     Verhaltensabstraktion realisiert werden.
     */
-    public void Tagessimulation(Chunk[][] world,  int xKoordinate, int yKoordinate, Weather weather){
+    public void simulateGrowingDay(Chunk[][] world, int xKoordinate, int yKoordinate, Weather weather){
        // System.out.println("Available Food: "+ availableFood);
         double percentageOfFlyingBees = 1 - (double) weather.getRainfallHours() / 12;
         double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
@@ -100,7 +100,7 @@ public class BeePopulation {
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Simulation der ganzen Winterruhephase
      */
-    public void simulateRest(){
+    public void simulateRestingPeriod(){
         if(!newHive){
             double random = 0.1 + rand.nextDouble() * 0.2;
             population = population * random;

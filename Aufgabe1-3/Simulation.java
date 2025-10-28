@@ -123,11 +123,11 @@ public class Simulation {
             for (int k = 0; k < 3; k++) {
                 for (int j = 0; j < worldWidth; j++) {
                     var f = world[i][j].getFlowers();
-                    f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getWuchskraft).reversed());
+                    f.sort(java.util.Comparator.comparingDouble(FlowerPopulation::getCurrentPopulation).reversed());
                     if (k >= f.size()) {
                         s.append("|f       0");
                     } else {
-                        s.append(String.format("|%c%8.0f", f.get(k).getShortName(), f.get(k).getWuchskraft()));
+                        s.append(String.format("|%c%8.0f", f.get(k).getShortName(), f.get(k).getCurrentPopulation()));
                     }
                 }
                 s.append("\n");
@@ -220,12 +220,12 @@ public class Simulation {
         weather.updateWeather();
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
-               world[i][j].simulatePlantDay(weather);
+               world[i][j].simulateGrowingDayFlower(weather);
             }
         }
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
-                world[i][j].simulateBeeDay(world, weather);
+                world[i][j].simulateGrowingDayBees(world, weather);
             }
         }
         //int dailySunshine = weather.getSunshineHours();
@@ -245,7 +245,7 @@ public class Simulation {
     private void simulateWinter(){
         for(int i = 0; i < worldLength; i++){
             for(int j = 0; j < worldWidth; j++){
-                world[i][j].simulateWinter(world, numberGenerator);
+                world[i][j].simulateRestingPeriod(world, numberGenerator);
             }
         }
     }
@@ -325,7 +325,7 @@ public class Simulation {
                 for (FlowerPopulation fp : fps) {
                     String flowerName = fp.getFlower().getName();
                     flowerStats.computeIfAbsent(flowerName, k -> new java.util.ArrayList<>())
-                            .add(fp.getWuchskraft());
+                            .add(fp.getCurrentPopulation());
                 }
             }
         }
