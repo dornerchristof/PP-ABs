@@ -89,7 +89,7 @@ public class BeePopulation {
                         int newY = yUrsprung + dy;
 
                         if (Simulation.isInWorldBounds(world, newX, newY)) {
-                            double beesReachingChunk = (Math.pow(0.99 , (distance + 1) ) * percentageOfFlyingBees);
+                            double beesReachingChunk = (Math.pow(0.7 , (distance  + 1) ) * percentageOfFlyingBees);
                             gesammelteNahrung += world[newX][newY].getNahrungsangebot() * beesReachingChunk;
                             world[newX][newY].updateBeesVisited(population *beesReachingChunk);
                         }
