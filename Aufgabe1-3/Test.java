@@ -52,9 +52,11 @@ public class Test {
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
         var flowerList = generateFlowerParameter();
 
-        var sim1 = new Simulation(20, 20,  weather1, flowerList, 15, 300);
+        var sim1 = new Simulation(20, 20,  weather1, flowerList, 15);
 
         sim1.simulate(1, 25, true);
+        System.out.println("DebugInfos (genau Infos)");
+        sim1.printDebugStates();
 
         System.out.println("DebugInfos (genau Infos)");
         //sim1.printDetailedInfos();
@@ -70,7 +72,7 @@ public class Test {
         */
         String[] nameList = {"Rose", "Edelweiss", "Sonnenblume", "Maiglöckchen", "Veilchen", "Nelke", "Orchidee",
         "Gänseblümchen", "Lilie"};
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             double vg = rand.nextDouble() * 3;
             Limits vermehrungsgrenzen = new Limits(4.5, vg + 13);
             double fg = rand.nextDouble() * 0.2;

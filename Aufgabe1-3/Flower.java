@@ -64,4 +64,8 @@ public class Flower {
         return bloomIntensity;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

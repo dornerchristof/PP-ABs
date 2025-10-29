@@ -6,21 +6,21 @@ import java.util.Map.Entry;
 
 public class SimulationState {
     private int yearsSinceCreation;
-    private int daysSinceCreation;
+    private int weeksInYear;
 
     private double beeHives;
     private Stats beePopsStats;
     private Map<String, Stats> perFlowerStats;
 
-    public SimulationState(int yearsSinceCreation, int daysSinceCreation, Chunk[][] world){
+    public SimulationState(int yearsSinceCreation, int weeksInYear, Chunk[][] world) {
         perFlowerStats = new HashMap<>();
         this.yearsSinceCreation = yearsSinceCreation;
-
+        this.weeksInYear = weeksInYear;
         double total = 0;
         var hives = new ArrayList<Double>();
-        for(Chunk[] chunk : world){
-            for(Chunk c : chunk){
-                if(c.BeeHive()){
+        for (Chunk[] chunk : world) {
+            for (Chunk c : chunk) {
+                if (c.BeeHive()) {
                     hives.add(c.getBeePopulation().getPopulation());
                     beeHives++;
                 }
@@ -62,43 +62,71 @@ public class SimulationState {
         }
     }
 
-    public static String statesAsTable(List<SimulationState> states){
+    //Formatiert alle states als Tabelle
+    public static String statesAsTable(List<SimulationState> states, List<Flower> flowerNames) {
         StringBuilder sb = new StringBuilder();
         sb.append("             ");
-        for (SimulationState state : states){
-           sb.append("Year ").append(String.format("%2d", state.yearsSinceCreation)).append(" |");
+        for (SimulationState state : states) {
+            sb.append("Y").append(String.format("%2d ", state.yearsSinceCreation)).append("W");
+            sb.append(String.format("%2d", state.weeksInYear)).append(" |");
         }
         sb.append("\n");
         sb.append("Bee hives   | ");
-        for(SimulationState state : states){
-            sb.append(String.format("%6.1f", state.beePopsStats.count)).append(" | ");
+        for (SimulationState state : states) {
+            sb.append(String.format("%6.0f", state.beePopsStats.count)).append(" | ");
         }
         sb.append("\n");
         sb.append("BeePops min | ");
-        for(SimulationState state : states){
-            sb.append(String.format("%6.1f", state.beePopsStats.min)). append(" | ");
+        for (SimulationState state : states) {
+            sb.append(String.format("%6.0f", state.beePopsStats.min)).append(" | ");
         }
         sb.append("\n");
         sb.append("BeePops avg | ");
-        for(SimulationState state : states){
-            sb.append(String.format("%6.1f", state.beePopsStats.avg)). append(" | ");
+        for (SimulationState state : states) {
+            sb.append(String.format("%6.0f", state.beePopsStats.avg)).append(" | ");
         }
         sb.append("\n");
         sb.append("BeePops max | ");
-        for(SimulationState state : states){
-            sb.append(String.format("%6.1f", state.beePopsStats.max)). append(" | ");
+        for (SimulationState state : states) {
+            sb.append(String.format("%6.0f", state.beePopsStats.max)).append(" | ");
+        }
+        for (var flower : flowerNames) {
+            sb.append("\n");
+            sb.append(String.format("%-7.7s min | ", flower));
+            for (var state : states) {
+                if (state.perFlowerStats.containsKey(flower.getName())) {
+                    sb.append(String.format("%6.1f", state.perFlowerStats.get(flower.getName()).min)).append(" | ");
+                }
+
+            }
+            sb.append("\n");
+            sb.append(String.format("%-7.7s avg | ",flower));
+            for (var state : states) {
+                if (state.perFlowerStats.containsKey(flower.getName())) {
+                    sb.append(String.format("%6.1f", state.perFlowerStats.get(flower.getName()).avg)).append(" | ");
+                }
+
+            }
+            sb.append("\n");
+            sb.append(String.format("%-7.7s max | ",flower));
+            for (var state : states) {
+                if (state.perFlowerStats.containsKey(flower.getName())) {
+                    sb.append(String.format("%6.1f", state.perFlowerStats.get(flower.getName()).max)).append(" | ");
+                }
+
+            }
         }
         return sb.toString();
     }
 
 
-    private class Stats{
+    private class Stats {
         private double count;
         private double min;
         private double max;
         private double avg;
 
-        private Stats(double count, double min, double max, double avg){
+        private Stats(double count, double min, double max, double avg) {
             this.count = count;
             this.min = min;
             this.max = max;
