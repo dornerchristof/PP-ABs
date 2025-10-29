@@ -17,5 +17,7 @@ public interface Weather {
     public void updateWeather();
     public void startNewYear();
 
+    public Weather copy();
+
     public String toString();
 }
