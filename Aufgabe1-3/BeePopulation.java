@@ -30,6 +30,11 @@ public class BeePopulation {
     public BeePopulation(BeePopulation other) {
         this.population = other.population;
         this.rand = other.rand;
+        this.maximaleDistanz = other.maximaleDistanz;
+        this.initialPopulation = other.initialPopulation;
+        this.foundFood = other.foundFood;
+        this.savedFood = other.savedFood;
+        this.newHive = other.newHive;
     }
 
      // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Größe der Population zurück
