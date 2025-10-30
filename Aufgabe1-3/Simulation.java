@@ -145,7 +145,7 @@ public class Simulation {
                 simulateYear(year);
                 simulateWinter();
                 if(yearlyOutput){
-                    endOfYearStates.add(new SimulationState(year, 52, world));
+                    endOfYearStates.add( SimulationState.create(year, 52, world));
                 }
                     if(dailyOutput) dailyOutput = false;
             }
@@ -208,19 +208,19 @@ public class Simulation {
 
             growingDay();
             if(d % 7 == 0 && dailyOutput){
-                weeklyStates.add(new SimulationState(year, d/7, world));
+                weeklyStates.add(SimulationState.create(year, d/7, world));
             }
             if(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
                 if (d % 7 == 0 && ((d / 7) + debugIntervalWeeks) % debugIntervalWeeks == 0) {
-                    debugStates.add(new SimulationState(year, d / 7, world));
+                    debugStates.add(SimulationState.create(year, d / 7, world));
                 }
             }
         }
         simulateWinter();
         if(dailyOutput)
-            weeklyStates.add(new SimulationState(year, 52, world));
+            weeklyStates.add(SimulationState.create(year, 52, world));
         if(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
-            debugStates.add(new SimulationState(year, 52, world));
+            debugStates.add(SimulationState.create(year, 52, world));
         }
         weather.startNewYear();
     }

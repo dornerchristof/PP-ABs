@@ -1,65 +1,46 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
-public class SimulationState {
-    private int yearsSinceCreation;
-    private int weeksInYear;
+public record SimulationState(
+        int yearsSinceCreation,
+        int weeksInYear,
+        Stats beePopsStats,
+        Map<String, Stats> perFlowerStats
+) {
 
-    private double beeHives;
-    private Stats beePopsStats;
-    private Map<String, Stats> perFlowerStats;
+    public static SimulationState create(int yearsSinceCreation, int weeksInYear, Chunk[][] world) {
+        Stats beePopsStats = Arrays.stream(world).flatMap(Arrays::stream).filter(Chunk::BeeHive).map(Chunk::getBeePopulation)
+                .map(BeePopulation::getPopulation).collect(Collectors.collectingAndThen(Collectors.toList(), SimulationState::createStats));
 
-    public SimulationState(int yearsSinceCreation, int weeksInYear, Chunk[][] world) {
-        perFlowerStats = new HashMap<>();
-        this.yearsSinceCreation = yearsSinceCreation;
-        this.weeksInYear = weeksInYear;
-        double total = 0;
-        var hives = new ArrayList<Double>();
-        for (Chunk[] chunk : world) {
-            for (Chunk c : chunk) {
-                if (c.BeeHive()) {
-                    hives.add(c.getBeePopulation().getPopulation());
-                    beeHives++;
-                }
-            }
-        }
-
-        double min = hives.stream().min(Double::compare).orElse(0.0);
-        double max = hives.stream().max(Double::compare).orElse(0.0);
-        double avg = hives.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-        beePopsStats = new Stats(beeHives, min, max, avg);
 
         // Map to store statistics for each flower type
         // Key: Flower name, Value: List of Wuchskraft values
-        Map<String, List<Double>> flowerStats = new HashMap<>();
+        Map<String, Stats> perFlowerStats = Arrays.stream(world).flatMap(Arrays::stream).flatMap(chunk -> chunk.getFlowers().stream()).collect(Collectors.groupingBy(
+                fp -> fp.getFlower().getName(),
+                Collectors.mapping(
+                        FlowerPopulation::getCurrentPopulation,
+                        Collectors.collectingAndThen(
+                                Collectors.toList(),
+                                values -> {
+                                    if (values.isEmpty()) {
+                                        return new Stats(0, 0, 0, 0);
+                                    }
+                                    return createStats(values);
+                                }
+                        )
+                )
+        ));
 
-        for (Chunk[] chunk : world) {
-            for (Chunk c : chunk) {
-                List<FlowerPopulation> fps = c.getFlowers();
-                for (FlowerPopulation fp : fps) {
-                    String flowerName = fp.getFlower().getName();
-                    flowerStats.computeIfAbsent(flowerName, k -> new java.util.ArrayList<>())
-                            .add(fp.getCurrentPopulation());
-                }
-            }
-        }
+        return new SimulationState(yearsSinceCreation, weeksInYear, beePopsStats, perFlowerStats);
+    }
 
-        // Build the output string with statistics for each flower type
-
-        for (Entry<String, List<Double>> entry : flowerStats.entrySet()) {
-            String flowerName = entry.getKey();
-            List<Double> values = entry.getValue();
-
-            if (values.isEmpty()) continue;
-
-            min = values.stream().min(Double::compare).orElse(0.0);
-            max = values.stream().max(Double::compare).orElse(0.0);
-            avg = values.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
-            perFlowerStats.put(flowerName, new Stats(values.size(), min, max, avg));
-        }
+    private static Stats createStats(List<Double> values) {
+        double count = values.size();
+        double _min = values.stream().min(Double::compare).orElse(0.0);
+        double _max = values.stream().max(Double::compare).orElse(0.0);
+        double _avg = values.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+        return new Stats(count, _min, _max, _avg);
     }
 
     //Formatiert alle states als Tabelle
@@ -120,17 +101,6 @@ public class SimulationState {
     }
 
 
-    private class Stats {
-        private double count;
-        private double min;
-        private double max;
-        private double avg;
-
-        private Stats(double count, double min, double max, double avg) {
-            this.count = count;
-            this.min = min;
-            this.max = max;
-            this.avg = avg;
-        }
+    private record Stats(double count, double min, double max, double avg) {
     }
 }
