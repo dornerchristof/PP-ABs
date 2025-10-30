@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public record SimulationRunner(int worldLength, int worldWidth, Weather weather, List<Flower> flowerSpecies,
@@ -9,18 +10,27 @@ public record SimulationRunner(int worldLength, int worldWidth, Weather weather,
     //startingHives: >= 2 und mod 2 = 0
 
     public void startSimulation(int runs) {
-        this.startSimulation(runs, 25);
+        this.startSimulation(runs, 25, false);
     }
-    public void startSimulation(int runs, int years) {
+
+    public void startSimulation(int runs, int years, boolean debug) {
         ArrayList<Simulation> list = new ArrayList<>();
         for (int i = 0; i < runs; i++) {
             List<Flower> flowers = flowerSpecies.stream().map(Flower::copy).toList();
             list.add(new Simulation(worldLength, worldWidth, weather.copy(), flowers, startingHives));
         }
 
-        Stream<Simulation> Simulations = list.parallelStream();
-        Simulations.forEach(simulation -> {
-            simulation.simulate(years, false);
-        });
+        List<Simulation> processedSimulations = list.parallelStream()
+                .peek(simulation -> simulation.simulate(years, debug))
+                .toList();
+
+        if (debug) {
+            Simulation sim = processedSimulations.getFirst();
+
+            System.out.println("DebugInfos (genau Infos)");
+            sim.printDebugStates();
+
+
+        }
     }
 }

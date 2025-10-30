@@ -1,5 +1,6 @@
 import java.util.*;
 import java.util.Map.Entry;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public record SimulationState(
@@ -13,9 +14,6 @@ public record SimulationState(
         Stats beePopsStats = Arrays.stream(world).flatMap(Arrays::stream).filter(Chunk::BeeHive).map(Chunk::getBeePopulation)
                 .map(BeePopulation::getPopulation).collect(Collectors.collectingAndThen(Collectors.toList(), SimulationState::createStats));
 
-
-        // Map to store statistics for each flower type
-        // Key: Flower name, Value: List of Wuchskraft values
         Map<String, Stats> perFlowerStats = Arrays.stream(world).flatMap(Arrays::stream).flatMap(chunk -> chunk.getFlowers().stream()).collect(Collectors.groupingBy(
                 fp -> fp.getFlower().getName(),
                 Collectors.mapping(
@@ -43,60 +41,46 @@ public record SimulationState(
         return new Stats(count, _min, _max, _avg);
     }
 
+    private static String statColumn(String title, double[] values) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append(String.format("%-12.12s", title));
+        sb.append(" | ");
+        sb.append(Arrays.stream(values).mapToObj(value -> String.format("%6.0f | ", value)).collect(Collectors.joining()));
+        return sb.toString();
+    }
+
+    private static String flowerStatColumn(String title, Flower flower, List<SimulationState> states, Function<Stats, Double> statExtractor) {
+        String fn = flower.getName();
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n");
+        sb.append(String.format("%-7.7s  ", flower));
+        sb.append(title);
+        sb.append(" | ");
+        sb.append(states.stream().filter(state -> state.perFlowerStats.containsKey(fn))
+                .map(state -> String.format("%6.1f | ",statExtractor.apply( state.perFlowerStats.get(fn))))
+                .collect(Collectors.joining()));
+        return sb.toString();
+    }
+
     //Formatiert alle states als Tabelle
     public static String statesAsTable(List<SimulationState> states, List<Flower> flowerNames) {
         StringBuilder sb = new StringBuilder();
-        sb.append("             ");
-        for (SimulationState state : states) {
-            sb.append("Y").append(String.format("%2d ", state.yearsSinceCreation)).append("W");
-            sb.append(String.format("%2d", state.weeksInYear)).append(" |");
-        }
-        sb.append("\n");
-        sb.append("Bee hives   | ");
-        for (SimulationState state : states) {
-            sb.append(String.format("%6.0f", state.beePopsStats.count)).append(" | ");
-        }
-        sb.append("\n");
-        sb.append("BeePops min | ");
-        for (SimulationState state : states) {
-            sb.append(String.format("%6.0f", state.beePopsStats.min)).append(" | ");
-        }
-        sb.append("\n");
-        sb.append("BeePops avg | ");
-        for (SimulationState state : states) {
-            sb.append(String.format("%6.0f", state.beePopsStats.avg)).append(" | ");
-        }
-        sb.append("\n");
-        sb.append("BeePops max | ");
-        for (SimulationState state : states) {
-            sb.append(String.format("%6.0f", state.beePopsStats.max)).append(" | ");
-        }
-        for (var flower : flowerNames) {
-            sb.append("\n");
-            sb.append(String.format("%-7.7s min | ", flower));
-            for (var state : states) {
-                if (state.perFlowerStats.containsKey(flower.getName())) {
-                    sb.append(String.format("%6.1f", state.perFlowerStats.get(flower.getName()).min)).append(" | ");
-                }
+        sb.append("\n              ");
+        sb.append(states.stream().map(state -> String.format("Y%2d W%2d |", state.yearsSinceCreation, state.weeksInYear)).collect(Collectors.joining()));
 
-            }
-            sb.append("\n");
-            sb.append(String.format("%-7.7s avg | ",flower));
-            for (var state : states) {
-                if (state.perFlowerStats.containsKey(flower.getName())) {
-                    sb.append(String.format("%6.1f", state.perFlowerStats.get(flower.getName()).avg)).append(" | ");
-                }
+        sb.append(statColumn("Bee hives", states.stream().mapToDouble(state -> state.beePopsStats.count()).toArray()));
+        sb.append(statColumn("BeePops  min", states.stream().mapToDouble(state -> state.beePopsStats.min).toArray()));
+        sb.append(statColumn("BeePops  avg", states.stream().mapToDouble(state -> state.beePopsStats.avg).toArray()));
+        sb.append(statColumn("BeePops  max", states.stream().mapToDouble(state -> state.beePopsStats.max).toArray()));
 
-            }
-            sb.append("\n");
-            sb.append(String.format("%-7.7s max | ",flower));
-            for (var state : states) {
-                if (state.perFlowerStats.containsKey(flower.getName())) {
-                    sb.append(String.format("%6.1f", state.perFlowerStats.get(flower.getName()).max)).append(" | ");
-                }
+        sb.append(
+                flowerNames.stream().map(flower -> String.join(flowerStatColumn("min",flower,states, Stats::min),
+                        flowerStatColumn("avg",flower,states, Stats::avg),
+                        flowerStatColumn("max",flower,states, Stats::max))
+                ).collect(Collectors.joining())
+        );
 
-            }
-        }
         return sb.toString();
     }
 

@@ -54,13 +54,7 @@ public class Test {
 
         var sim1 = new SimulationRunner(20, 20,  weather1, flowerList, 15);
 
-        sim1.startSimulation(10);
-        System.out.println("DebugInfos (genau Infos)");
-        //sim1.printDebugStates();
-
-        System.out.println("DebugInfos (genau Infos)");
-        //sim1.printDetailedInfos();
-        //sim1.printDebugOutput();
+        sim1.startSimulation(10,25,true);
     }
 
     private static List<Flower> generateFlowerParameter(){
