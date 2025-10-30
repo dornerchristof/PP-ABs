@@ -114,9 +114,7 @@ public class Chunk {
         if(Simulation.isInWorldBounds(world, xOffset, yOffset) ){
             world[xOffset][yOffset].plantFlower((flowers.get(flowerIndex)).getFlower(), 1000);
         }
-        for(FlowerPopulation fp : flowers){
-            fp.simulateRestingPeriod();
-        }
+        flowers.removeIf(fp -> !fp.simulateRestingPeriod());
     }
 
     public double getNahrungsangebot(){

@@ -50,13 +50,15 @@ public class FlowerPopulation {
     }
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
-    public void simulateRestingPeriod() {
+    //true wenn die Pflanze den Winter überlebt, sonst false.
+    public boolean simulateRestingPeriod() {
         bloomPercentage = 0;
-        seedQuality.setValue(0);
         receivedSunshineHours = 0;
             currentPopulation *= seedQuality.getValue();
             currentPopulation *= random.nextDouble(flower.getReproductionFactor().getMin(), flower.getReproductionFactor().getMax());
         seedQuality.setValue(0);
+        if(currentPopulation == 0) return false;
+        return true;
     }
 
     //Ändert den Wert der Wuchskraft und stellt sicher, dass der neue Wert innerhalb der Grenzen ist.
@@ -70,11 +72,6 @@ public class FlowerPopulation {
         this.bloomPercentage = Math.max(0, Math.min(1, newProzentInBluete));
         if (this.inBluete == BlueteEnum.SETZT_EIN && this.bloomPercentage == 1) this.inBluete = BlueteEnum.ENDED;
         else if (this.inBluete == BlueteEnum.ENDED && this.bloomPercentage == 0) this.inBluete = BlueteEnum.VORBEI;
-    }
-
-    //Ändert die Bestäubungswahrscheinlichkeit und stellt sicher, dass der neue Wert innerhalb der Grenzen ist.
-    private void changeSamenqualität(double factor) {
-        seedQuality.setValue(seedQuality.getValue() + flower.getBestaeubungswahrscheinlichkeit() * bloomPercentage * factor);
     }
 
     //Nominale Abstraktion.
