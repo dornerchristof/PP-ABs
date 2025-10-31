@@ -8,8 +8,6 @@ Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Simuliert ein Ökosystem,
 das aus Pflanzen und Bienen besteht, die voneinander abhängig sind, um überleben zu können
  */
 public class Simulation {
-
-    private boolean yearlyOutput;
     private boolean dailyOutput;
 
     private Weather weather;
@@ -100,7 +98,7 @@ public class Simulation {
         }
     }
 
-    private String printWorldVerbose() {
+    public String printWorldVerbose() {
         var s = new StringBuilder();
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
@@ -134,7 +132,7 @@ public class Simulation {
     //werden zusätzliche Informationen für bestimmte Tage und Jahre ausgegeben.
     public void simulate( int years, boolean debug) {
         if (debug) {
-            yearlyOutput = dailyOutput = true;
+            dailyOutput = true;
         }
 //        System.out.println("Starting simulation with " + runs + " runs");
 //        System.out.println("Starting parameters:");
@@ -144,18 +142,25 @@ public class Simulation {
             for (int year = 1; year <= years; year++) {
                 simulateYear(year);
                 simulateWinter();
-                if(yearlyOutput){
+
                     endOfYearStates.add( SimulationState.create(year, 52, world));
-                }
+
                     if(dailyOutput) dailyOutput = false;
             }
-            if(yearlyOutput) yearlyOutput = false;
-            System.out.println(printWorldVerbose());
-            System.out.println(SimulationState.statesAsTable(endOfYearStates, flowerSpecies));
-            System.out.println(SimulationState.statesAsTable(weeklyStates, flowerSpecies));
+    }
 
+    public void printYearlyStates() {
+        if (endOfYearStates.isEmpty()) {
+            return;
+        }
+        SimulationState.printStateTable("Yearly states", endOfYearStates, flowerSpecies);
+    }
 
-
+    public void printWeeklyStates() {
+        if (weeklyStates.isEmpty()) {
+            return;
+        }
+        SimulationState.printStateTable("Weekly states", weeklyStates, flowerSpecies);
     }
 
 
@@ -199,6 +204,10 @@ public class Simulation {
             }
             System.out.println(SimulationState.statesAsTable(states, flowerSpecies));
         }
+    }
+
+    public SimulationState getEndState(){
+        return endOfYearStates.getLast();
     }
 
     //Nominale Abstraktion.

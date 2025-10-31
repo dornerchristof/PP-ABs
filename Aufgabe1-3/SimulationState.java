@@ -2,6 +2,7 @@ import java.util.*;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public record SimulationState(
         int yearsSinceCreation,
@@ -96,6 +97,69 @@ public record SimulationState(
                         flowerStatColumn("max", flower, states, Stats::max))
                 ).collect(Collectors.joining())
         );
+
+        return sb.toString();
+    }
+
+    public static void printHeading(String title) {
+        String border = "=".repeat(title.length() + 4);
+        System.out.println("\n" + border);
+        System.out.println("= " + title + " =");
+        System.out.println(border);
+    }
+
+    public static void printStateTable(String title, List<SimulationState> states, List<Flower> flowerNames){
+        printHeading(title);
+        System.out.println(statesAsTable(states, flowerNames));
+    }
+
+    public static String generateSummaryTable(List<SimulationState> states) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("\n%21s","|"));
+        sb.append(IntStream.range(1, states.size()+1).mapToObj(i -> String.format(" Run %-5s",i)).collect(Collectors.joining("|")));
+        sb.append(String.format("\n%-20s|","Bees"));
+        sb.append(states.stream().map(s-> String.format(" %-9.0f",s.beePopsStats.avg * s.beePopsStats.count)).collect(Collectors.joining("|")));
+
+        // Add a separator line
+        sb.append("\n").append("-".repeat(21 + states.size() * 11));
+
+        // Get all unique flower names from all states
+        Set<String> allFlowerNames = states.stream()
+                .flatMap(state -> state.perFlowerStats.keySet().stream())
+                .collect(Collectors.toSet());
+
+        // Add a row for each flower species (sorted alphabetically for consistency)
+        allFlowerNames.stream().sorted().forEach(flowerName -> {
+            String displayName = String.format("%-20s", flowerName);
+
+            sb.append(String.format("\n%20s|", displayName));
+
+            // Add flower population for each simulation run
+            sb.append(states.stream()
+                    .map(s -> {
+                        // Get stats for this flower, or use zero if not present
+                        if (s.perFlowerStats.containsKey(flowerName)) {
+                            var stats = s.perFlowerStats.get(flowerName);
+                            return String.format(" %-9.0f", stats.avg * stats.count);
+                        } else {
+                            return " 0        ";
+                        }
+                    })
+                    .collect(Collectors.joining("|")));
+        });
+
+        // Add a total flowers row
+        sb.append("\n").append("-".repeat(21 + states.size() * 11));
+        sb.append(String.format("\n%-20s|", "Total Flowers"));
+        sb.append(states.stream()
+                .map(s -> {
+                    // Sum up all flower populations
+                    double total = s.perFlowerStats.values().stream()
+                            .mapToDouble(stats -> stats.avg * stats.count)
+                            .sum();
+                    return String.format(" %-9.0f", total);
+                })
+                .collect(Collectors.joining("|")));
 
         return sb.toString();
     }
