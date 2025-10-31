@@ -11,24 +11,36 @@ public record SimulationState(
 ) {
 
     public static SimulationState create(int yearsSinceCreation, int weeksInYear, Chunk[][] world) {
-        Stats beePopsStats = Arrays.stream(world).flatMap(Arrays::stream).filter(Chunk::BeeHive).map(Chunk::getBeePopulation)
-                .map(BeePopulation::getPopulation).collect(Collectors.collectingAndThen(Collectors.toList(), SimulationState::createStats));
+        Stats beePopsStats = Arrays.stream(world).flatMap(Arrays::stream)
+                .filter(Chunk::BeeHive)
+                .map(Chunk::getBeePopulation)
+                .map(BeePopulation::getPopulation)
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toList(),
+                        values -> {
+                            if (values.isEmpty()) {
+                                return new Stats(0, 0, 0, 0);
+                            }
+                            return createStats(values);
+                        }));
 
-        Map<String, Stats> perFlowerStats = Arrays.stream(world).flatMap(Arrays::stream).flatMap(chunk -> chunk.getFlowers().stream()).collect(Collectors.groupingBy(
-                fp -> fp.getFlower().getName(),
-                Collectors.mapping(
-                        FlowerPopulation::getCurrentPopulation,
-                        Collectors.collectingAndThen(
-                                Collectors.toList(),
-                                values -> {
-                                    if (values.isEmpty()) {
-                                        return new Stats(0, 0, 0, 0);
-                                    }
-                                    return createStats(values);
-                                }
+        Map<String, Stats> perFlowerStats = Arrays.stream(world).flatMap(Arrays::stream)
+                .flatMap(chunk -> chunk.getFlowers().stream())
+                .collect(Collectors.groupingBy(
+                        fp -> fp.getFlower().getName(),
+                        Collectors.mapping(
+                                FlowerPopulation::getCurrentPopulation,
+                                Collectors.collectingAndThen(
+                                        Collectors.toList(),
+                                        values -> {
+                                            if (values.isEmpty()) {
+                                                return new Stats(0, 0, 0, 0);
+                                            }
+                                            return createStats(values);
+                                        }
+                                )
                         )
-                )
-        ));
+                ));
 
         return new SimulationState(yearsSinceCreation, weeksInYear, beePopsStats, perFlowerStats);
     }
@@ -57,8 +69,9 @@ public record SimulationState(
         sb.append(String.format("%-7.7s  ", flower));
         sb.append(title);
         sb.append(" | ");
-        sb.append(states.stream().filter(state -> state.perFlowerStats.containsKey(fn))
-                .map(state -> String.format("%6.1f | ",statExtractor.apply( state.perFlowerStats.get(fn))))
+        sb.append(states.stream()
+                .filter(state -> state.perFlowerStats.containsKey(fn))
+                .map(state -> String.format("%6.1f | ", statExtractor.apply(state.perFlowerStats.get(fn))))
                 .collect(Collectors.joining()));
         return sb.toString();
     }
@@ -67,7 +80,9 @@ public record SimulationState(
     public static String statesAsTable(List<SimulationState> states, List<Flower> flowerNames) {
         StringBuilder sb = new StringBuilder();
         sb.append("\n              ");
-        sb.append(states.stream().map(state -> String.format("Y%2d W%2d |", state.yearsSinceCreation, state.weeksInYear)).collect(Collectors.joining()));
+        sb.append(states.stream()
+                .map(state -> String.format("Y%2d W%2d |", state.yearsSinceCreation, state.weeksInYear))
+                .collect(Collectors.joining()));
 
         sb.append(statColumn("Bee hives", states.stream().mapToDouble(state -> state.beePopsStats.count()).toArray()));
         sb.append(statColumn("BeePops  min", states.stream().mapToDouble(state -> state.beePopsStats.min).toArray()));
@@ -75,9 +90,10 @@ public record SimulationState(
         sb.append(statColumn("BeePops  max", states.stream().mapToDouble(state -> state.beePopsStats.max).toArray()));
 
         sb.append(
-                flowerNames.stream().map(flower -> String.join(flowerStatColumn("min",flower,states, Stats::min),
-                        flowerStatColumn("avg",flower,states, Stats::avg),
-                        flowerStatColumn("max",flower,states, Stats::max))
+                flowerNames.stream().map(flower -> String.join(
+                        flowerStatColumn("min", flower, states, Stats::min),
+                        flowerStatColumn("avg", flower, states, Stats::avg),
+                        flowerStatColumn("max", flower, states, Stats::max))
                 ).collect(Collectors.joining())
         );
 
