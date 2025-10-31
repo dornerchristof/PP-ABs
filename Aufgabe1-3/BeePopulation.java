@@ -1,5 +1,7 @@
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /*
@@ -53,23 +55,23 @@ public class BeePopulation {
     Verhaltensabstraktion realisiert werden.
     */
     public void simulateGrowingDay(Chunk[][] world, int xKoordinate, int yKoordinate, Weather weather){
-       // System.out.println("Available Food: "+ availableFood);
-        double percentageOfFlyingBees = 1 - (double) weather.getRainfallHours() / 12;
-        double availableFood = sammleEssen(world, xKoordinate, yKoordinate, percentageOfFlyingBees);
-        foundFood += availableFood;
-        if(availableFood + savedFood >= population){
-            if(availableFood < population){
-                savedFood -= population - availableFood;
+        beesFlyOutReturn beesFlying = beesFlyOut(weather);
+        if(beesFlying.beesFlyOut) {
+            for (int i = 1; i < beesFlying.timesBeesFlyOut; i++) {
+                saveFood(sammleEssen(world, xKoordinate, yKoordinate));
             }
-            population = population * 1.1;
-            savedFood += availableFood - population/ 2;
         }
-        else {
-            double percentage = ((3.0 * availableFood/population) - 3);
-            //System.out.println("percentage: " + percentage);
-            population = population * (1 + percentage / 100);
-            if(population < 0) population = 0;
-        }
+        adjustPopulation(savedFood);
+
+        // System.out.println("Available Food: "+ availableFood);
+        // calculate how many times how many bees fly
+
+        //Calculate the food and then save the food
+
+        // Use Food for daily upkeep
+
+        // increase population
+
         //Kil this Hive if the population is less than one on any given day
         if(population < 1){
             world[xKoordinate][yKoordinate].killBeeHive();
@@ -77,27 +79,77 @@ public class BeePopulation {
         //System.out.println("Bienenanzahl: " + population);
     }
 
-    private double sammleEssen(Chunk[][] world, int xUrsprung, int yUrsprung, double percentageOfFlyingBees){
-        double gesammelteNahrung = 0;
-        for (int distance = 0; distance <= maximaleDistanz; distance++) {
-            // Iterate through all positions at this distance
-            for (int dx = -distance; dx <= distance; dx++) {
-                for (int dy = -distance; dy <= distance; dy++) {
-                    // Only process elements at exactly this distance (forms a square border)
-                    if (Math.abs(dx) == distance || Math.abs(dy) == distance) {
-                        int newX = xUrsprung + dx;
-                        int newY = yUrsprung + dy;
+    private void adjustPopulation(double savedFood) {
+        if(savedFood >= population){
+            population = population * 1.05;
+            savedFood = savedFood - population;
+        }
+        else {
+            double percentage = ((6.0 * savedFood/population) - 3);
+            savedFood = 0;
+            //System.out.println("percentage: " + percentage);
+            population = population * (1 + percentage / 100);
+            if(population < 0) population = 0;
+        }
 
-                        if (Simulation.isInWorldBounds(world, newX, newY)) {
-                            double beesReachingChunk = (Math.pow(0.7 , (distance  + 1) ) * percentageOfFlyingBees);
-                            gesammelteNahrung += world[newX][newY].getNahrungsangebot() * beesReachingChunk;
-                            world[newX][newY].updateBeesVisited(population *beesReachingChunk);
-                        }
+    }
+
+    private void saveFood(double availableFood) {
+        if(availableFood > 0){
+            savedFood += availableFood;
+        }
+    }
+
+    private class beesFlyOutReturn {
+        final boolean beesFlyOut;
+        final int timesBeesFlyOut;
+        beesFlyOutReturn(boolean beesFlyOut, int timesBeesFlyOut){
+            this.beesFlyOut = beesFlyOut;
+            this.timesBeesFlyOut = timesBeesFlyOut;
+        }
+    }
+
+    private beesFlyOutReturn beesFlyOut(Weather weather) {
+        int minimumTimesBeesFlyOut = Math.max(0, 7 - weather.getRainfallHours()); // Minimum Times the BEes can fly out minimum 0
+        int maximumTimesBeesFlyOut = Math.max(0, 12 - weather.getRainfallHours()); // Maximum Times the BEes can fly out minimum 0
+        int timesBeesFlyOut =  rand.nextInt(minimumTimesBeesFlyOut, maximumTimesBeesFlyOut + 1);
+        return new beesFlyOutReturn(weather.getTemperature() >= 10, timesBeesFlyOut);
+    }
+
+    private List<Chunk> validChunksInDistance(Chunk[][] world, int xUrsprung, int yUrsprung, int distance){
+        List<Chunk> validChunks = new ArrayList<>();
+        if(distance == 0){
+            validChunks.add(world[xUrsprung][yUrsprung]);
+            return validChunks;
+        }
+        // Iterate through all positions at this distance
+        for (int dx = -distance; dx <= distance; dx++) {
+            for (int dy = -distance; dy <= distance; dy++) {
+                if (Math.abs(dx) == distance || Math.abs(dy) == distance) {
+                    int newX = xUrsprung + dx;
+                    int newY = yUrsprung + dy;
+                    if (Simulation.isInWorldBounds(world, newX, newY)) {
+                        validChunks.add(world[newX][newY]);
                     }
                 }
             }
         }
-        //System.out.printf("Nahrung %7.2f:%n", gesammelteNahrung);
+        return validChunks;
+    }
+    private double sammleEssen(Chunk[][] world, int xUrsprung, int yUrsprung){
+        double gesammelteNahrung = 0;
+        double remainingBees = population;
+        int distance = 0;
+        while (remainingBees > 0 && distance <= maximaleDistanz) {
+            List<Chunk> validChunks = validChunksInDistance(world, xUrsprung, yUrsprung, distance);
+            for(Chunk chunk : validChunks){
+                double availableFood = chunk.getNahrungsangebot();
+                double gatheredFood = Math.min(remainingBees / validChunks.size(), availableFood);
+                remainingBees -= gatheredFood;
+                chunk.updateBeesVisited(gatheredFood);
+            }
+            distance++;
+        }
         return gesammelteNahrung;
     }
 
@@ -106,6 +158,7 @@ public class BeePopulation {
      * Simulation der ganzen Winterruhephase
      */
     public void simulateRestingPeriod(){
+
         if(!newHive){
             double random = 0.1 + rand.nextDouble() * 0.2;
             population = population * random;
@@ -113,6 +166,8 @@ public class BeePopulation {
         foundFood = 0;
         initialPopulation = population;
     }
+
+
 
     /*
     Anzahl an Bienenköniginen, die das Nest am Ende des Jahres gezeugt hat und ausfliegen.
