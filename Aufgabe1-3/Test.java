@@ -34,6 +34,9 @@ Christof: Implementierung der Chunk-Klasse; Bevölkerung der Welt mit Pflanzen u
           Pflanzenpopulation, sodass sie pro Chunk ist. Implementierung eines eigenen Pflanzenklasse für alle
           unveränderlichen Eigenschaften einer Pflanze. Anpassung und Verbesserung der Ausgabe auf eine 2d-Welt.
 
+*Aufgabe 3*
+
+
 */
 import java.util.ArrayList;
 import java.util.List;

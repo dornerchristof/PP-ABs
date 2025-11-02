@@ -1,8 +1,8 @@
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
+import java.util.function.*;
+import java.util.stream.*;
 
 /*
  * Abstrakter Datentyp (Klasse) mit nominaler Abstraktion. Modularisierungseinheit: Klasse und Objekt
@@ -17,13 +17,15 @@ public class BeePopulation {
     double foundFood = 0;
     boolean newHive = false;
     Random rand;
+    private BeeGenome genome;
+
     /*
      * Konstruktor  (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Erstellt eine neue Bienenpopulation mit einer Anfangsgröße und einem Zufallsgenerator.
      */
     public BeePopulation(int population, int maximaleDistanz, Random rand, boolean newHive){
         this.population = population; this.rand = rand; this.maximaleDistanz = maximaleDistanz;
-        this.initialPopulation = population; this.newHive = newHive;
+        this.initialPopulation = population; this.newHive = newHive; this.genome = BeeGenome.random(rand);
     }
     /*
      * Kopierkonstruktor (Nominale Abstraktion). Modularisierungseinheit: Objekt
@@ -37,6 +39,7 @@ public class BeePopulation {
         this.foundFood = other.foundFood;
         this.savedFood = other.savedFood;
         this.newHive = other.newHive;
+        this.genome = other.genome;
     }
 
      // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Größe der Population zurück
@@ -57,11 +60,14 @@ public class BeePopulation {
     public void simulateGrowingDay(Chunk[][] world, int xKoordinate, int yKoordinate, Weather weather){
         beesFlyOutReturn beesFlying = beesFlyOut(weather);
         if(beesFlying.beesFlyOut) {
+            double geneticEfficiency = calculateGeneticEfficiencyFunctional(weather);
+
             for (int i = 1; i < beesFlying.timesBeesFlyOut; i++) {
-                saveFood(sammleEssen(world, xKoordinate, yKoordinate));
+                double gatheredFood = sammleEssen(world, xKoordinate, yKoordinate);
+                gatheredFood = gatheredFood * geneticEfficiency;
+                saveFood(gatheredFood);
             }
         }
-        System.out.println("savedFood: " + savedFood + ", population: " + population + ",");
         adjustPopulation();
 
         // System.out.println("Available Food: "+ availableFood);
@@ -83,7 +89,7 @@ public class BeePopulation {
     private void adjustPopulation() {
         if(savedFood >= population){
             savedFood = savedFood - population;
-            population += Math.min(population * 1.2, 2000);
+            population += Math.min(population *  1.2 + (genome.reproductionRate / 10), 2000);
         }
         else {
             double percentage = ((6.0 * savedFood/population) - 3);
@@ -114,7 +120,7 @@ public class BeePopulation {
         int minimumTimesBeesFlyOut = Math.max(0, 7 - weather.getRainfallHours()); // Minimum Times the BEes can fly out minimum 0
         int maximumTimesBeesFlyOut = Math.max(0, 12 - weather.getRainfallHours()); // Maximum Times the BEes can fly out minimum 0
         int timesBeesFlyOut =  rand.nextInt(minimumTimesBeesFlyOut, maximumTimesBeesFlyOut + 1);
-        return new beesFlyOutReturn(weather.getTemperature() >= 10, timesBeesFlyOut);
+        return new beesFlyOutReturn(true, timesBeesFlyOut);
     }
 
     private List<Chunk> validChunksInDistance(Chunk[][] world, int xUrsprung, int yUrsprung, int distance){
@@ -161,12 +167,12 @@ public class BeePopulation {
      */
     public void simulateRestingPeriod(){
         if(!newHive){
-            double beessurviving = savedFood / 10;
-            population = population - beessurviving;
-            double random = 0.1 + rand.nextDouble() * 0.2;
+            double geneticSurvivalBonus = genome.coldResistance;
+            double random = (0.1 + rand.nextDouble() * 0.2) * geneticSurvivalBonus;
             population = population * random;
-            population = population + beessurviving;
-        } else { newHive = false;}
+            genome = evolveGenome();
+
+        } else {newHive = false;}
         initialPopulation = population;
     }
 
@@ -178,24 +184,84 @@ public class BeePopulation {
     public int[] beeQueens(){
         int newQueenBees = 0;
         if(population >= initialPopulation * 3){
-            newQueenBees = (int) rand.nextInt(1,4);
+            double reproductionBonus = genome.reproductionRate;
+            newQueenBees = (int) (rand.nextInt(1,4) * reproductionBonus);
         };
         int newHiveSize = (int) (population / 10);
         population = population - population * 0.1 * newQueenBees; // Ziehe die ausgeflogenen Bienen von der Population ab
         return new int[]{newQueenBees, newHiveSize};
     }
 
-    /*
-     * toString-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
-     * Erstellt eine formatierte String-Repräsentation der Bienenpopulation
-     */
+    private static Function<BeeGenome, Double> createWeatherBasedEfficiencyCalculator(Weather weather) {
+        Function<Double, Double> temperatureEffect = efficiency -> {
+            double temp = weather.getTemperature();
+            if (temp < 10) return efficiency * 0.3;
+            if (temp > 30) return efficiency * 0.7;
+            return efficiency * (0.5 + temp / 40.0);
+        };
+
+        Function<Double, Double> moistureEffect = efficiency -> {
+            double moisture = weather.getSoilMoisture();
+            return efficiency * (1.0 + (moisture - 0.5) * 0.2);
+        };
+
+        return genome -> {
+            double base = genome.foragingEfficiency;
+            return Stream.of(
+                    temperatureEffect.apply(base),
+                    moistureEffect.apply(base)
+            ).reduce(1.0, (a, b) -> a * b) / 3.0;
+        };
+    }
+
+
+    private double calculateGeneticEfficiencyFunctional(Weather weather) {
+        Function<BeeGenome, Double> calculator = createWeatherBasedEfficiencyCalculator(weather);
+        return calculator.apply(genome);
+    }
+
+    private static BeeGenome selectBestGenomeRecursive(
+            List<BeeGenome> candidates,
+            int evaluationGenerations,
+            Function<BeeGenome, Double> fitnessFunc,
+            Random rand) {
+
+        if (evaluationGenerations <= 0 || candidates.size() <= 1) {
+            return candidates.stream()
+                    .max(Comparator.comparingDouble(fitnessFunc::apply))
+                    .orElse(candidates.getFirst());
+        }
+
+        List<BeeGenome> ranked = candidates.stream()
+                .sorted((g1, g2) -> Double.compare(
+                        fitnessFunc.apply(g2),
+                        fitnessFunc.apply(g1)))
+                .toList();
+
+        int eliminate = Math.max(2, ranked.size() / 2);
+        List<BeeGenome> survivors = ranked.subList(0, eliminate);
+        List<BeeGenome> nextGen = survivors.stream()
+                .flatMap(genome -> Stream.of(
+                        genome,
+                        genome.mutate(rand, 0.1)
+                )).collect(Collectors.toList());
+        return selectBestGenomeRecursive(nextGen, evaluationGenerations - 1, fitnessFunc, rand);
+    }
+
+
+    private BeeGenome evolveGenome() {
+        Function<BeeGenome, Double> fitness = genome -> genome.coldResistance * 0.5 + genome.foragingEfficiency * 2.0;
+
+        List<BeeGenome> variants = Stream.generate(() -> genome.mutate(rand, 0.15)).limit(10).collect(Collectors.toList());
+        variants.add(genome);
+        return selectBestGenomeRecursive(variants, 12, fitness, rand);
+    }
+
     @Override
     public String toString() {
         DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-        symbols.setGroupingSeparator(' ');  // space separates thousands
-
+        symbols.setGroupingSeparator(' ');
         DecimalFormat df = new DecimalFormat("#,##0.00", symbols);
-
         return "Bienenpopulation: " + df.format(population) +'\n' ;
     }
 }
