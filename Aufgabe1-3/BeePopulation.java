@@ -61,7 +61,8 @@ public class BeePopulation {
                 saveFood(sammleEssen(world, xKoordinate, yKoordinate));
             }
         }
-        adjustPopulation(savedFood);
+        System.out.println("savedFood: " + savedFood + ", population: " + population + ",");
+        adjustPopulation();
 
         // System.out.println("Available Food: "+ availableFood);
         // calculate how many times how many bees fly
@@ -79,10 +80,10 @@ public class BeePopulation {
         //System.out.println("Bienenanzahl: " + population);
     }
 
-    private void adjustPopulation(double savedFood) {
+    private void adjustPopulation() {
         if(savedFood >= population){
-            population = population * 1.05;
             savedFood = savedFood - population;
+            population += Math.min(population * 1.2, 2000);
         }
         else {
             double percentage = ((6.0 * savedFood/population) - 3);
@@ -145,6 +146,7 @@ public class BeePopulation {
             for(Chunk chunk : validChunks){
                 double availableFood = chunk.getNahrungsangebot();
                 double gatheredFood = Math.min(remainingBees / validChunks.size(), availableFood);
+                gesammelteNahrung += gatheredFood;
                 remainingBees -= gatheredFood;
                 chunk.updateBeesVisited(gatheredFood);
             }
@@ -158,12 +160,13 @@ public class BeePopulation {
      * Simulation der ganzen Winterruhephase
      */
     public void simulateRestingPeriod(){
-
         if(!newHive){
+            double beessurviving = savedFood / 10;
+            population = population - beessurviving;
             double random = 0.1 + rand.nextDouble() * 0.2;
             population = population * random;
+            population = population + beessurviving;
         } else { newHive = false;}
-        foundFood = 0;
         initialPopulation = population;
     }
 
@@ -174,8 +177,8 @@ public class BeePopulation {
      */
     public int[] beeQueens(){
         int newQueenBees = 0;
-        if(foundFood >= 2 * initialPopulation && population >= initialPopulation){
-            newQueenBees = (int) rand.nextInt(1,5);
+        if(population >= initialPopulation * 3){
+            newQueenBees = (int) rand.nextInt(1,4);
         };
         int newHiveSize = (int) (population / 10);
         population = population - population * 0.1 * newQueenBees; // Ziehe die ausgeflogenen Bienen von der Population ab

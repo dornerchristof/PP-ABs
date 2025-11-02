@@ -74,7 +74,7 @@ public class Test {
         "Gänseblümchen", "Lilie"};
         for (int i = 0; i < 9; i++) {
             double vg = rand.nextDouble() * 3;
-            Limits vermehrungsgrenzen = new Limits(4.5, vg + 13);
+            Limits vermehrungsgrenzen = new Limits(5.5, vg + 15);
             double fg = rand.nextDouble() * 0.2;
             Limits feuchtegrenzen = new Limits(0.3 - fg, 0.7 + fg);
             Limits bluehgrenzen;
