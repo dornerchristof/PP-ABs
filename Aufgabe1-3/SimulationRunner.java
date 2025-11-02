@@ -5,19 +5,26 @@ import java.util.List;
 // Ziel ist es, die urprüngliche Programmlogik unverändert zu lassen, aber die verschiedenen runs
 // einer Simulation parallel auszuführen.
 /**
-  Modul: SimulationRunner
-    Diese Klasse managed das Erzeugen und Ausführen mehrerer Simulationen.
+    Modul: SimulationRunner
+    - Diese Klasse managed das Erzeugen und Ausführen mehrerer Simulationen.
 
-  Vorbedingungen:
-    - worldLength, worldWidth, weather, flowerSpecies und startingHives sind valide und nicht null.
-    - runs >= 1
-  Nachbedingungen:
-    - Für jede angeforderte Simulation wird am Ende ein SimulationState erhoben.
-    - Die Methode liefert eine konsole Ausgabe mit einer kompakten Zusammenfassung.
-  Invarianten:
-    - Der Zustand der übergebenen flowerSpecies-Listen wird nicht verändert (nur Kopien werden benutzt).
-  History-Constraints:
-    - Es gibt keine Annahme über vorherige Ausführungsschritte; jede gestartete Simulation ist unabhängig.
+    Vorbedingungen:
+      - worldLength, worldWidth, weather, flowerSpecies und startingHives sind valide und nicht null.
+      - runs >= 1
+      - startingHives >= 2 und mod 2 = 0
+    Nachbedingungen:
+      - Für jede angeforderte Simulation wird am Ende ein SimulationState erhoben.
+      - Die Methode liefert eine konsole Ausgabe mit einer kompakten Zusammenfassung.
+    Invarianten:
+      - Der Zustand der übergebenen flowerSpecies-Listen wird nicht verändert (nur Kopien werden benutzt).
+    History-Constraints:
+      - Es gibt keine Annahme über vorherige Ausführungsschritte; jede gestartete Simulation ist unabhängig.
+
+    @param worldLength      Legt die Höhe der simulierten Welt fest.
+    @param worldWidth       Legt die Breite der simulierten Welt fest.
+    @param weather          Ein Weather-Objekt für die Wettersimulation
+    @param flowerSpecies    Eine Liste der verschiedenen Pflanzenarten
+    @param startingHives    Anzahl an Bienenstöcken zum Beginn der Simulation
 **/
 // GOOD: Die Klasse kapselt Erzeugung + Ausführung, sodass parallele Ausführung lokalisiert ist.
 // BAD: Die verschiedenen runs hängen von einem Zufallszahlengenerator ab, welcher aber, auch mit Seed, nicht
@@ -29,39 +36,37 @@ public record SimulationRunner(
         List<Flower> flowerSpecies,
         int startingHives
 ) {
-
-   /**
+    /**
         startSimulation(runs)
-        Ruft startSimulation(runs, years, printStates, debug) mit Standardwerten auf.
+        - Ruft startSimulation(runs, years, printStates, debug) mit Standardwerten auf.
 
         Vorbedingungen:
-          - runs >= 1 (Client)
+            - runs >= 1 (Client)
         Nachbedingungen:
-          - Für jede Simulation existiert ein Endzustand, der in der Summary verwendet wird.
+            - Für jede Simulation existiert ein Endzustand, der in der Summary verwendet wird.
 
-            @param runs Anzahl der Simulationsdurchläufe.
-        **/
+        @param runs Anzahl der Simulationsdurchläufe.
+    **/
 
     public void startSimulation(int runs) {
         this.startSimulation(runs, 25, false, false);
     }
-
     /**
-    startSimulation(runs, years, printStates, debug)
-     Erstellt und simuliert neue Simulationen anhand von den mitgegebenen Parametern und den fixen Simulationswerten im record
+        startSimulation(runs, years, printStates, debug)
+        - Erstellt und simuliert neue Simulationen anhand von den mitgegebenen Parametern und den fixen Simulationswerten im record
 
-    Vorbedingungen:
-      - runs >= 1 (Client)
-      - years >= 1 (Client)
-    Nachbedingungen:
-      - Für jede Simulation existiert ein Endzustand, der in der Summary verwendet wird.
-      - Wenn debug == true, wird genau ein Lauf mit detaillierten Debug-Ausgaben gefahren.
+        Vorbedingungen:
+            - runs >= 1 (Client)
+            - years >= 1 (Client)
+        Nachbedingungen:
+            - Für jede Simulation existiert ein Endzustand, der in der Summary verwendet wird.
+            - Wenn debug == true, wird genau ein Lauf mit detaillierten Debug-Ausgaben gefahren.
 
-     @param runs Anzahl der Simulationsdurchläufe.
-     @param years Anzahl der simulierten Jahre.
-     @param printStates Gibt den Stand nach jedem Jahr und nach jeder Woche im ersten Jahr aus.
-     @param debug Gibt weitere Debug-Werte aus
-    **/
+        @param runs         Anzahl der Simulationsdurchläufe.
+        @param years        Anzahl der simulierten Jahre.
+        @param printStates  Gibt den Stand nach jedem Jahr und nach jeder Woche im ersten Jahr aus.
+        @param debug        Gibt weitere Debug-Werte aus
+     **/
     public void startSimulation(int runs, int years, boolean printStates, boolean debug) {
         ArrayList<Simulation> list = new ArrayList<>();
         for (int i = 0; i < runs; i++) {
