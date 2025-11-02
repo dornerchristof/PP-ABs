@@ -51,13 +51,14 @@ public class FlowerPopulation {
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
     //true wenn die Pflanze den Winter überlebt, sonst false.
+
+    //ERROR: Leere Pflanzenpopulation werden nicht entfernt.
     public boolean simulateRestingPeriod() {
         bloomPercentage = 0;
         receivedSunshineHours = 0;
             currentPopulation *= seedQuality.getValue();
             currentPopulation *= random.nextDouble(flower.getReproductionFactor().getMin(), flower.getReproductionFactor().getMax());
         seedQuality.setValue(0);
-        if(currentPopulation == 0) return false;
         return true;
     }
 
@@ -122,7 +123,7 @@ public class FlowerPopulation {
         if (beesVisited >= currentPopulation) {
             factor = (weather.getSunshineHours() + 1);
         } else {
-            factor = ((weather.getSunshineHours() + 1) * beesVisited/ currentPopulation);
+            factor = ((weather.getSunshineHours() + 1));// * beesVisited/ currentPopulation);
         }
         seedQuality.setValue(seedQuality.getValue() + flower.getBestaeubungswahrscheinlichkeit() * bloomPercentage * factor);
     }
@@ -143,20 +144,7 @@ public class FlowerPopulation {
         currentPopulation += amount;
     }
 
-    //Erstellt aus den verschiedenen Eigenschaften des Objekts einen String.
-//    public String printParameters(){
-//        return flower.getName() + "(" +
-//                "Wuchskraft: " + String.format("%.2f, ", currentPopulation) +
-//                "Vermehrungsgrenze: " + String.format("%.2f", reproductionFactors.getMin()) + "-" +
-//                String.format("%.2f, ", reproductionFactors.getMax()) +
-//                "Feuchtegrenze: " + String.format("%.2f", feuchtegrenzen.getMin()) + "-" +
-//                String.format("%.2f, ", feuchtegrenzen.getMax()) +
-//                "Blühgrenzen: " + String.format("%.2f", bluehgrenzen.getMin()) + "-" +
-//                String.format("%.2f, ", bluehgrenzen.getMax()) +
-//                "Blühintensität: " + String.format("%.2f, ", bluehintensitaet) +
-//                "Bestäubungswahrscheinlichkeit: " + String.format("%.4f", bestaeubungswahrscheinlichkeit) +
-//                ")" + "\n";
-//    }
+
 
     public String getName(){
         return flower.getName();
