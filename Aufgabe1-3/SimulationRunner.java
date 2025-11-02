@@ -42,7 +42,7 @@ public record SimulationRunner(
      * Ruft startSimulation(runs, years, printStates, debug) mit Standardwerten auf.
      * <p>
      * Vorbedingungen:
-     *  - runs >= 1 (Client)
+     *  - runs >= 1
      * Nachbedingungen:
      *  - Für jede Simulation existiert ein Endzustand, der in der Summary verwendet wird.
      * </p>
@@ -56,8 +56,8 @@ public record SimulationRunner(
      * Erstellt und simuliert neue Simulationen anhand von den mitgegebenen Parametern und den fixen Simulationswerten im record
      * <p>
      * Vorbedingungen:
-     *  - runs >= 1 (Client)
-     *  - years >= 1 (Client)
+     *  - runs >= 1
+     *  - years >= 1
      * Nachbedingungen:
      *  - Für jede Simulation existiert ein Endzustand, der in der Summary verwendet wird.
      *  - Wenn debug == true, wird genau ein Lauf mit detaillierten Debug-Ausgaben gefahren.
