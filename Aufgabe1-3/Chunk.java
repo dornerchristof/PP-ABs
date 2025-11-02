@@ -76,7 +76,7 @@ public class Chunk {
 
     public void simulateGrowingDayBees(Chunk[][] world, Weather weather){
         if (bees != null){
-        bees.simulateGrowingDay(world, x, y, weather); //TODO Welche Werte?
+        bees.simulateGrowingDay(world, x, y, weather);
         }
     }
 

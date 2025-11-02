@@ -49,7 +49,7 @@ public record SimulationRunner(
     **/
 
     public void startSimulation(int runs) {
-        this.startSimulation(runs, 25, false, false);
+        this.startSimulation(runs, 25, true, false);
     }
     /**
         startSimulation(runs, years, printStates, debug)

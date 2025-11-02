@@ -55,7 +55,7 @@ public class Test {
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
         var flowerList = generateFlowerParameter();
 
-        var sim1 = new SimulationRunner(20, 20,  weather1, flowerList, 15);
+        var sim1 = new SimulationRunner(10, 10,  weather1, flowerList, 15);
 
         sim1.startSimulation(10);
     }

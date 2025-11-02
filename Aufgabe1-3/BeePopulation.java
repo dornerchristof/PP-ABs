@@ -68,6 +68,7 @@ public class BeePopulation {
                 saveFood(gatheredFood);
             }
         }
+        //System.out.println("savedFood: " + savedFood + ", population: " + population + ",");
         adjustPopulation();
 
         // System.out.println("Available Food: "+ availableFood);
