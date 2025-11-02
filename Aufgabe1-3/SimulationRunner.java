@@ -71,7 +71,8 @@ public record SimulationRunner(
         ArrayList<Simulation> list = new ArrayList<>();
         for (int i = 0; i < runs; i++) {
             List<Flower> flowers = flowerSpecies.stream().map(Flower::copy).toList();
-            list.add(new Simulation(worldLength, worldWidth, weather.copy(), flowers, startingHives));
+            list.add(new Simulation(worldLength, worldWidth, weather.copy(), flowers, startingHives,
+                    (worldLength * worldWidth)/2));
         }
 
         SimulationState.printHeading("Initialised World");

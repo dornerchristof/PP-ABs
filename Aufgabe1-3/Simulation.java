@@ -10,47 +10,62 @@ das aus Pflanzen und Bienen besteht, die voneinander abhängig sind, um überleb
 public class Simulation {
     private boolean dailyOutput;
 
-    private Weather weather;
-    private Chunk[][] world;
-    private List<Flower> flowerSpecies;
-    private int worldLength;
-    private int worldWidth;
-    private int startingHives;
 
-    private static final int seed = 1234567890;
+    private Weather weather; //weather != null
+    //world.length == worldLength und world[i].length == worldWidth
+    private Chunk[][] world;
+    private List<Flower> flowerSpecies; //flowerSpecies != null und flowerSpecies.size() > 0
+    private int worldLength; //length > 0
+    private int worldWidth; //width >
+    private int chunksWithBees; //startingHives >= 2 und startingHives % 2 == 0
+
     private final Random numberGenerator;
 
     private List<SimulationState> endOfYearStates;
     private List<SimulationState> weeklyStates;
     private List<SimulationState> debugStates;
-    private final int debugIntervalWeeks = 2; // Interval in weeks
-    private final int[] debugIntervalYears = {0,25}; // The start and the end year to print the debug infos
+    private final int debugIntervalWeeks = 2; // intervall >= 1
+    // The start and the end year to print the debug infos
+    // intervall[0] >= 0 und intervall[0] <= intervall[1] und intervall[1] <= yearsToRuns
+    private final int[] debugIntervalYears = {0, 25};
 
-    //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als
-    //Ausgangspunkt für die Simulation.
-    //startingHives: >= 2 und mod 2 = 0
-    public Simulation(int worldLength, int worldWidth, Weather weather, List<Flower> flowerSpecies, int startingHives) {
+    //chunksWithPlants >= 0
+    private int chunksWithPlants;
+
+    //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als Ausgangspunkt für die Simulation.
+    //BAD: Sehr hohe Koppelung zwischen Simulation und Pflanzen und Wetter.
+    //worldLength: > 0
+    //worldWidth: > 0
+    //weather: != null
+    //flowerSpecies: != null und flowerSpecies.size() > 0
+    //chunksWithBees: >= 2 und chunksWithBees % 2 == 0
+    //chunksWithPlants: >= 0
+    public Simulation(int worldLength, int worldWidth, Weather weather, List<Flower> flowerSpecies, int chunksWithBees,
+                      int chunksWithPlants) {
         endOfYearStates = new ArrayList<>();
         weeklyStates = new ArrayList<>();
         debugStates = new ArrayList<>();
         this.weather = weather;
         this.flowerSpecies = flowerSpecies;
-        numberGenerator = new Random(seed);//for testing always the same seed
+        numberGenerator = new Random();
         this.worldLength = worldLength;
         this.worldWidth = worldWidth;
-        this.startingHives = startingHives;
-
+        this.chunksWithBees = chunksWithBees;
+        this.chunksWithPlants = chunksWithPlants;
 
         world = new Chunk[worldLength][worldWidth];
         generateWorld();
-        populateWorld();
-        plantSeeds();
+        populateWorldWithBees();
+        populateWorldWithPlants();
     }
 
+    //Berechnet, ob die übergebenen Koordinaten innerhalb der welt liegen.
+    //world != null
     public static boolean isInWorldBounds(Chunk[][] world, int x, int y) {
         return x >= 0 && x < world.length && y >= 0 && y < world[0].length;
     }
 
+    //Generiert alle Chunks in der Welt.
     private void generateWorld() {
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
@@ -60,11 +75,13 @@ public class Simulation {
         }
     }
 
-    private void populateWorld() {
-        int xSpacing = worldLength / (startingHives / 2);
+    //Verteilt die Startpopulationen von Bienen. Anzahl an Bienen wird durch
+    //die Objektvariable chunksWithBees festgelegt.
+    private void populateWorldWithBees() {
+        int xSpacing = worldLength / (chunksWithBees / 2);
         int ySpacing = worldWidth / 2;
 
-        for (int i = 0; i < (startingHives / 2); i++) {
+        for (int i = 0; i < (chunksWithBees / 2); i++) {
             int x = numberGenerator.nextInt(xSpacing * i, xSpacing * (i + 1));
             int y = numberGenerator.nextInt(0, ySpacing);
             world[x][y].SetBeePopulation(new BeePopulation(500, 5, numberGenerator, false));
@@ -75,20 +92,18 @@ public class Simulation {
 
     }
 
-    //Simuliert durch Wind zufällig verteilte Pflanzensamen, die im Frühling keimen werden.
-    private void plantSeeds() {
-        //zwischen 1 und 3 Pflanzen
-        //normalverteilung der Pflanzensamen
-        //chunks werden zufällig gewählt, bis 1/4 Pflanzen besitzen
-
+    //Verteilt die Startpopulationen von Pflanzen. Anzahl an Pflanzen wird durch die
+    //Objektvariable chunksWithPlants festgelegt.
+    //In jedem Chunk werden zwischen 1 und 3 Pflanzen gepflanzt.
+    private void populateWorldWithPlants() {
         int x;
         int y;
-        for (int i = 0; i < (worldLength * worldWidth) / 2; i++) {
+        for (int i = 0; i < chunksWithPlants; i++) {
             x = numberGenerator.nextInt(0, worldLength);
             y = numberGenerator.nextInt(0, worldWidth);
             if (!world[x][y].getFlowers().isEmpty()) continue;
 
-            int flowerCount = numberGenerator.nextInt(1, 3);
+            int flowerCount = numberGenerator.nextInt(1, 4);
             for (int j = 0; j < flowerCount; j++) {
                 var f = flowerSpecies.get(numberGenerator.nextInt(flowerSpecies.size()));
                 var size = numberGenerator.nextGaussian(2000, 40);
@@ -124,29 +139,19 @@ public class Simulation {
         return s.toString();
     }
 
-
-    //Nominale Abstraktion.
-    //Simuliert das Ökosystem für eine bestimmte Anzahl an Jahren eine bestimmte Anzahl
-    //an Malen.
-    //Die Ergebnisse der Simulation werden auf der Konsole ausgegeben. Wenn debug aktiv ist,
-    //werden zusätzliche Informationen für bestimmte Tage und Jahre ausgegeben.
-    public void simulate( int years, boolean debug) {
+    //Simuliert die erstellte Welt für die übergebene Anzahl an Jahren. Die Ergebnisse werden auf der Konsole ausgegeben.
+    //Wenn debug == true, dann werden zusätzliche Debuginformationen ausgegeben.
+    //years >= 1
+    public void simulate(int years, boolean debug) {
         if (debug) {
             dailyOutput = true;
         }
-//        System.out.println("Starting simulation with " + runs + " runs");
-//        System.out.println("Starting parameters:");
-//        System.out.println(printWorldVerbose());
-
-
-            for (int year = 1; year <= years; year++) {
-                simulateYear(year);
-                simulateWinter();
-
-                    endOfYearStates.add( SimulationState.create(year, 52, world));
-
-                    if(dailyOutput) dailyOutput = false;
-            }
+        for (int year = 1; year <= years; year++) {
+            simulateYear(year);
+            simulateWinter();
+            endOfYearStates.add(SimulationState.create(year, 52, world));
+            if (dailyOutput) dailyOutput = false;
+        }
     }
 
     public void printYearlyStates() {
@@ -176,7 +181,7 @@ public class Simulation {
         weather.updateWeather();
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
-               world[i][j].simulateGrowingDayFlower(weather);
+                world[i][j].simulateGrowingDayFlower(weather);
             }
         }
         for (int i = 0; i < worldLength; i++) {
@@ -186,53 +191,50 @@ public class Simulation {
         }
     }
 
-    private void simulateWinter(){
-        for(int i = 0; i < worldLength; i++){
-            for(int j = 0; j < worldWidth; j++){
+   //Simuliert die Ruhephase.
+    private void simulateWinter() {
+        for (int i = 0; i < worldLength; i++) {
+            for (int j = 0; j < worldWidth; j++) {
                 world[i][j].simulateRestingPeriod(world, numberGenerator);
             }
         }
     }
 
-    public void printDebugStates(){
+    public void printDebugStates() {
         List<SimulationState> states;
-        for(int i = 0; i < debugStates.size(); i+=39){
-            if(i + 39 < debugStates.size()){
-                states = debugStates.subList(i, i +39);
-            }else {
+        for (int i = 0; i < debugStates.size(); i += 39) {
+            if (i + 39 < debugStates.size()) {
+                states = debugStates.subList(i, i + 39);
+            } else {
                 states = debugStates.subList(i, debugStates.size());
             }
             System.out.println(SimulationState.statesAsTable(states, flowerSpecies));
         }
     }
 
-    public SimulationState getEndState(){
+    public SimulationState getEndState() {
         return endOfYearStates.getLast();
     }
 
-    //Nominale Abstraktion.
-    //Lässt die Simulation für ein ganzes Jahr (Wachstumsphase und Ruhephase) laufen.
+    //Simuliert einen ganzen Jahreszyklus.
     private void simulateYear(int year) {
-        for(int d = 0; d < 270; d++){
-
+        for (int d = 0; d < 270; d++) {
             growingDay();
-            if(d % 7 == 0 && dailyOutput){
-                weeklyStates.add(SimulationState.create(year, d/7, world));
+            if (d % 7 == 0 && dailyOutput) {
+                weeklyStates.add(SimulationState.create(year, d / 7, world));
             }
-            if(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
+            if (year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
                 if (d % 7 == 0 && ((d / 7) + debugIntervalWeeks) % debugIntervalWeeks == 0) {
                     debugStates.add(SimulationState.create(year, d / 7, world));
                 }
             }
         }
         simulateWinter();
-        if(dailyOutput)
+        if (dailyOutput)
             weeklyStates.add(SimulationState.create(year, 52, world));
-        if(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
+        if (year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
             debugStates.add(SimulationState.create(year, 52, world));
         }
         weather.startNewYear();
     }
-
-
 }
