@@ -45,22 +45,16 @@ import java.util.Random;
  */
 public class Test {
     //Hauptmethode (Nominale Abstraktion). Modularisierungseinheit: Modul. Einstiegspunkt des Programms
-    public static void main() {
+    public static void main(String[] args) {
 
         // Simulation 1:
         Random beeRandom1 = new Random(67246021);
         var weather1 = new AustriaWeatherSimulation(beeRandom1);
         var flowerList = generateFlowerParameter();
 
-        var sim1 = new Simulation(20, 20,  weather1, flowerList, 15);
+        var sim1 = new SimulationRunner(20, 20,  weather1, flowerList, 15);
 
-        sim1.simulate(1, 25, true);
-        System.out.println("DebugInfos (genau Infos)");
-        sim1.printDebugStates();
-
-        System.out.println("DebugInfos (genau Infos)");
-        //sim1.printDetailedInfos();
-        //sim1.printDebugOutput();
+        sim1.startSimulation(10);
     }
 
     private static List<Flower> generateFlowerParameter(){

@@ -64,6 +64,10 @@ public class Flower {
         return bloomIntensity;
     }
 
+    public Flower copy(){
+        return new Flower(name, reproductionFactor,groundMoistureLimits,sunlightHoursForBlooming,bloomIntensity,bestaeubungswahrscheinlichkeit);
+    }
+
     @Override
     public String toString() {
         return name;

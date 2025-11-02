@@ -82,6 +82,11 @@ public class AustriaWeatherSimulation implements Weather {
         }
     }
 
+    @Override
+    public Weather copy() {
+        return new AustriaWeatherSimulation(random);
+    }
+
     /*
      * Helper-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Berechnet die neue Temperatur

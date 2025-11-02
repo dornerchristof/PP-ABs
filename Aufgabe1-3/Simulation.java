@@ -8,14 +8,10 @@ Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Simuliert ein Ökosystem,
 das aus Pflanzen und Bienen besteht, die voneinander abhängig sind, um überleben zu können
  */
 public class Simulation {
-    private final StringBuilder detailedOutput;
-    private final StringBuilder debugOutput;
-    private boolean yearlyOutput;
     private boolean dailyOutput;
 
     private Weather weather;
     private Chunk[][] world;
-    private Chunk[][] backupWorld;
     private List<Flower> flowerSpecies;
     private int worldLength;
     private int worldWidth;
@@ -37,8 +33,6 @@ public class Simulation {
         endOfYearStates = new ArrayList<>();
         weeklyStates = new ArrayList<>();
         debugStates = new ArrayList<>();
-        detailedOutput = new StringBuilder();
-        debugOutput = new StringBuilder();
         this.weather = weather;
         this.flowerSpecies = flowerSpecies;
         numberGenerator = new Random(seed);//for testing always the same seed
@@ -104,7 +98,7 @@ public class Simulation {
         }
     }
 
-    private String printWorldVerbose() {
+    public String printWorldVerbose() {
         var s = new StringBuilder();
         for (int i = 0; i < worldLength; i++) {
             for (int j = 0; j < worldWidth; j++) {
@@ -136,44 +130,39 @@ public class Simulation {
     //an Malen.
     //Die Ergebnisse der Simulation werden auf der Konsole ausgegeben. Wenn debug aktiv ist,
     //werden zusätzliche Informationen für bestimmte Tage und Jahre ausgegeben.
-    public void simulate(int runs, int yearsPerRun, boolean debug) {
+    public void simulate( int years, boolean debug) {
         if (debug) {
-            yearlyOutput = dailyOutput = true;
+            dailyOutput = true;
         }
-        System.out.println("Starting simulation with " + runs + " runs");
-        System.out.println("Starting parameters:");
-        System.out.println(printWorldVerbose());
-        backupWorld = deepCopyWorld(world);
+//        System.out.println("Starting simulation with " + runs + " runs");
+//        System.out.println("Starting parameters:");
+//        System.out.println(printWorldVerbose());
 
-        for(int i = 1; i <= runs; i++) {
-            for (int year = 1; year <= yearsPerRun; year++) {
+
+            for (int year = 1; year <= years; year++) {
                 simulateYear(year);
                 simulateWinter();
-                if(yearlyOutput){
-                    endOfYearStates.add(new SimulationState(year, 52, world));
-                }
+
+                    endOfYearStates.add( SimulationState.create(year, 52, world));
+
                     if(dailyOutput) dailyOutput = false;
             }
-            if(yearlyOutput) yearlyOutput = false;
-            System.out.println("Results of " + i + ". simulation run:");
-            System.out.println(printWorldVerbose());
-            world = deepCopyWorld(backupWorld); // Reset World am Ende jedes Runs
-            System.out.println(SimulationState.statesAsTable(endOfYearStates, flowerSpecies));
-            System.out.println(SimulationState.statesAsTable(weeklyStates, flowerSpecies));
-        }
-
-
     }
 
-    private Chunk[][] deepCopyWorld(Chunk[][] original) {
-        Chunk[][] copy = new Chunk[original.length][original[0].length];
-        for (int i = 0; i < original.length; i++) {
-            for (int j = 0; j < original[i].length; j++) {
-                copy[i][j] =  new Chunk(original[i][j]); // You'll need to implement copy() in Chunk class
-            }
+    public void printYearlyStates() {
+        if (endOfYearStates.isEmpty()) {
+            return;
         }
-        return copy;
+        SimulationState.printStateTable("Yearly states", endOfYearStates, flowerSpecies);
     }
+
+    public void printWeeklyStates() {
+        if (weeklyStates.isEmpty()) {
+            return;
+        }
+        SimulationState.printStateTable("Weekly states", weeklyStates, flowerSpecies);
+    }
+
 
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages während der
@@ -217,26 +206,30 @@ public class Simulation {
         }
     }
 
+    public SimulationState getEndState(){
+        return endOfYearStates.getLast();
+    }
+
     //Nominale Abstraktion.
     //Lässt die Simulation für ein ganzes Jahr (Wachstumsphase und Ruhephase) laufen.
     private void simulateYear(int year) {
-        for(int d = 1; d <= 270; d++){
+        for(int d = 0; d < 270; d++){
 
             growingDay();
             if(d % 7 == 0 && dailyOutput){
-                weeklyStates.add(new SimulationState(year, d/7, world));
+                weeklyStates.add(SimulationState.create(year, d/7, world));
             }
             if(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
                 if (d % 7 == 0 && ((d / 7) + debugIntervalWeeks) % debugIntervalWeeks == 0) {
-                    debugStates.add(new SimulationState(year, d / 7, world));
+                    debugStates.add(SimulationState.create(year, d / 7, world));
                 }
             }
         }
         simulateWinter();
         if(dailyOutput)
-            weeklyStates.add(new SimulationState(year, 52, world));
+            weeklyStates.add(SimulationState.create(year, 52, world));
         if(year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
-            debugStates.add(new SimulationState(year, 52, world));
+            debugStates.add(SimulationState.create(year, 52, world));
         }
         weather.startNewYear();
     }
