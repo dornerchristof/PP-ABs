@@ -19,6 +19,7 @@ import java.util.stream.IntStream;
  * @param beePopsStats        Statistiken über die Bienenvölker in diesem Snapshot
  * @param perFlowerStats      Map von Pflanzennamen mit den Statistiken für diese Pflanzen
  */
+// GOOD: Verwendung von record versichert, dass diese Daten nicht mehr geändert werden.
 public record SimulationState(
         int yearsSinceCreation,
         int weeksInYear,
@@ -52,6 +53,8 @@ public record SimulationState(
      * @param world                 Ein Chunk[][], welches als die simulierte Welt gilt.
      * @return Einen neuen SimulationState
      */
+    // BAD: Nimmt an, dass world nicht parallel bearbeitet wird.
+    // ERROR: Parallele Bearbeitung kann zu inkonsistenten States führen.
     public static SimulationState create(int yearsSinceCreation, int weeksInYear, Chunk[][] world) {
         Stats beePopsStats = Arrays.stream(world).flatMap(Arrays::stream)
                 .filter(Chunk::BeeHive)
@@ -166,6 +169,9 @@ public record SimulationState(
      * @param flowerNames   Die Blume, deren Daten in dieser Zeile ausgegeben werden.
      * @return              Ein String, der in der Konsole ausgegeben werden kann.
      */
+    // GOOD: Man kann mit flowerNames die Liste sehr einfach anhand der Blumennamen ordnen und filtern
+    // BAD: Die Funktion vertraut auf die Liste flowerNames, welche für gezielte Einschränkungen verwendet werden kann,
+    //      aber wahrscheinlicher zu unabsichtlich ausgelassenen Blumen führt.
     public static String statesAsTable(List<SimulationState> states, List<Flower> flowerNames) {
         StringBuilder sb = new StringBuilder();
         sb.append("\n              ");

@@ -34,6 +34,7 @@ public class Simulation {
 
     //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als Ausgangspunkt für die Simulation.
     //BAD: Sehr hohe Koppelung zwischen Simulation und Pflanzen und Wetter.
+    //BAD: Jede Simulation hat einen eigenen Zufallszahlengenerator, ohne Seed, wodurch debuggen schwieriger wird.
     //worldLength: > 0
     //worldWidth: > 0
     //weather: != null
@@ -172,6 +173,7 @@ public class Simulation {
     //Nominale Abstraktion.
     //Führt Berechnungen für die Simulation eines Tages während der
     //Wachstumszeit durch.
+    //GOOD: Zwei getrennte Schleifen verhindern Raceconditions, welche sonst alte Werte auslesen könnten
     private void growingDay() {
         /*
             STYLE: Objektorientiert. Wir rufen hier die Funktionen von der Klasse Chunk auf, die wiederrum Funktionen

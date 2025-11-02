@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // STYLE: Parallel
-// Ziel ist es, die urprüngliche Programmlogik unverändert zu lassen, aber die verschiedenen runs
+// Ziel ist es, die ursprüngliche Programmlogik unverändert zu lassen, aber die verschiedenen runs
 // einer Simulation parallel auszuführen.
 
 /**
