@@ -42,12 +42,6 @@ public class FlowerPopulation {
         currentPopulation = initialPopulation;
     }
 
-    public FlowerPopulation(FlowerPopulation other) {
-        this.flower = other.flower;
-        this.inBluete = BlueteEnum.VORBEI;
-        this.currentPopulation = other.currentPopulation;
-        this.bloomPercentage = other.bloomPercentage;
-    }
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
     //true wenn die Pflanze den Winter überlebt, sonst false.
@@ -87,17 +81,17 @@ public class FlowerPopulation {
     */
     //weather = Wetter dieses Tages
     //beesVisited = Anzahl an Bienen, die genau diese Pflanze an diesem Tag besucht haben.
-    public void simulateGrowingDay(Weather weather, double beesVisited) {
+    public void simulateGrowingDay(Weather weather, double beesVisited, double fertility) {
         if (!flower.getGroundMoistureLimits().inRange(weather.getSoilMoisture())) {
-            double factor = flower.getGroundMoistureLimits().getRangeFactor(weather.getSoilMoisture());
-            if (factor > 1.0) {
-                if (factor >= 2.0) {
+            double moistureFactor = flower.getGroundMoistureLimits().getRangeFactor(weather.getSoilMoisture());
+            if (moistureFactor > 1.0) {
+                if (moistureFactor >= 2.0) {
                     changeWuchskraft(-0.03);
                 } else {
                     changeWuchskraft(-0.01);
                 }
             } else {
-                if (factor > 0.5) {
+                if (moistureFactor > 0.5) {
                     changeWuchskraft(-0.01);
                 } else {
                     changeWuchskraft(-0.03);
@@ -119,13 +113,13 @@ public class FlowerPopulation {
                 break;
         }
         //seed quality
-        double factor = 0;
+        double factor;
         if (beesVisited >= currentPopulation) {
             factor = (weather.getSunshineHours() + 1);
         } else {
-            factor = ((weather.getSunshineHours() + 1));// * beesVisited/ currentPopulation);
+            factor = ((weather.getSunshineHours() + 1)) * beesVisited / currentPopulation;
         }
-        seedQuality.setValue(seedQuality.getValue() + flower.getBestaeubungswahrscheinlichkeit() * bloomPercentage * factor);
+        seedQuality.setValue(seedQuality.getValue() + flower.getBestaeubungswahrscheinlichkeit() * bloomPercentage * factor );
     }
 
     //Berechnet das zur Verfügung stehende Nahrungsangebot.

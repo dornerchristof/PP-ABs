@@ -4,41 +4,24 @@ import java.util.Random;
 
 public class Chunk {
 
-    private List<FlowerPopulation> flowers;
-    private BeePopulation bees;
-    private int x;
-    private int y;
-    private double groundFertility; //0 <= n <= 1
+    private final List<FlowerPopulation> flowers; //flowers != null und flowers.size() >= 0 && flowers.size() <= 3
+    private BeePopulation bees; //bees != null
+    private final int x; //x >= 0
+    private final int y; //y >= 0
+    private final double groundFertility; //0 <= n <= 1
 
-    private double beesVisited;
+    private double beesVisited; // beesVisited >= 0
 
     public Chunk(int x, int y, double groundFertility){
         this.x = x;
         this.y = y;
         this.groundFertility = groundFertility;
-        flowers = new ArrayList<FlowerPopulation>();
-    }
-
-    public Chunk(Chunk other){
-        this.x = other.x;
-        this.y = other.y;
-        this.groundFertility = other.groundFertility;
-
-        if (other.bees != null) {
-            this.bees = new BeePopulation(other.bees);
-        }
-
-        this.flowers = new ArrayList<>();
-        for (FlowerPopulation flower : other.flowers) {
-            this.flowers.add(new FlowerPopulation(flower));
-        }
+        flowers = new ArrayList<>();
     }
 
     public void SetBeePopulation(BeePopulation bees){
         this.bees = bees;
     }
-
-    public double getGroundFertility(){return groundFertility;}
 
     public List<FlowerPopulation> getFlowers(){return flowers;}
 
@@ -48,15 +31,18 @@ public class Chunk {
         return bees != null;
     }
 
-    public void plantFlower(Flower flower, double initialPopulation){
+    //Fügt die Anzahl an Blumen entweder in eine bestehende Population hinzu oder erstellt eine neue, wenn es noch
+    //weniger als 3 bestehende gibt.
+    //flower != null, initialPopulation >= 0
+    public void plantFlower(Flower flower, double count){
         for(FlowerPopulation fp : flowers){
             if(fp.getName().equals(flower.getName())){
-                fp.addPopulation(initialPopulation);
+                fp.addPopulation(count);
                 return;
             }
         }
         if(flowers.size() >= 3) return;
-        flowers.add(new FlowerPopulation(flower, initialPopulation));
+        flowers.add(new FlowerPopulation(flower, count));
     }
 
 
@@ -69,7 +55,10 @@ public class Chunk {
         //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
         double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
         for (FlowerPopulation fp : flowers) {
-                fp.simulateGrowingDay(weather, beesVisited * (fp.getCurrentPopulation()/flowerCount));
+            if(flowerCount <= 0)
+                fp.simulateGrowingDay(weather, 0, growingFactor);
+            else
+                fp.simulateGrowingDay(weather, beesVisited * (fp.getCurrentPopulation()/flowerCount), growingFactor);
         }
         beesVisited = 0;
     }
@@ -124,5 +113,4 @@ public class Chunk {
         }
         return nahrungsangebot;
     }
-
 }
