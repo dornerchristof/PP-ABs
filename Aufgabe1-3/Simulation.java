@@ -11,26 +11,25 @@ public class Simulation {
     private boolean dailyOutput;
 
 
-    private Weather weather; //weather != null
+    private final Weather weather; //weather != null
     //world.length == worldLength und world[i].length == worldWidth
-    private Chunk[][] world;
-    private List<Flower> flowerSpecies; //flowerSpecies != null und flowerSpecies.size() > 0
-    private int worldLength; //length > 0
-    private int worldWidth; //width >
-    private int chunksWithBees; //startingHives >= 2 und startingHives % 2 == 0
+    private final Chunk[][] world;
+    private final List<Flower> flowerSpecies; //flowerSpecies != null und flowerSpecies.size() > 0
+    private final int worldLength; //length > 0
+    private final int worldWidth; //width >
+    private final int chunksWithBees; //startingHives >= 2 und startingHives % 2 == 0
 
     private final Random numberGenerator;
 
-    private List<SimulationState> endOfYearStates;
-    private List<SimulationState> weeklyStates;
-    private List<SimulationState> debugStates;
-    private final int debugIntervalWeeks = 2; // intervall >= 1
+    private final List<SimulationState> endOfYearStates;
+    private final List<SimulationState> weeklyStates;
+    private final List<SimulationState> debugStates;
     // The start and the end year to print the debug infos
     // intervall[0] >= 0 und intervall[0] <= intervall[1] und intervall[1] <= yearsToRuns
     private final int[] debugIntervalYears = {0, 25};
 
     //chunksWithPlants >= 0
-    private int chunksWithPlants;
+    private final int chunksWithPlants;
 
     //Erstellt eine neue Simulation und nutzt die übergebenen Pflanzen und Bienen als Ausgangspunkt für die Simulation.
     //BAD: Sehr hohe Koppelung zwischen Simulation und Pflanzen und Wetter.
@@ -226,6 +225,8 @@ public class Simulation {
                 weeklyStates.add(SimulationState.create(year, d / 7, world));
             }
             if (year >= debugIntervalYears[0] && year <= debugIntervalYears[1]) {
+                // intervall >= 1
+                int debugIntervalWeeks = 2;
                 if (d % 7 == 0 && ((d / 7) + debugIntervalWeeks) % debugIntervalWeeks == 0) {
                     debugStates.add(SimulationState.create(year, d / 7, world));
                 }

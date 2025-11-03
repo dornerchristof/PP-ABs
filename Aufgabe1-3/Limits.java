@@ -5,11 +5,12 @@ Bietet Funktionen zur Überprüfung, ob ein Wert innerhalb des erlaubten Bereich
 zur Berechnung von Abweichungsfaktoren.
  */
 public class Limits {
-    private final double max;
-    private final double min;
+    private final double max;  //max != 0
+    private final double min; //min != 0 und min < max
 
     //Erstellt einen neuen eingeschränkten Gleitkommawert mit den angegebenen
     //Minimal- und Maximalwerten als Grenzen.
+    //Vorbedingung: min < max
     public Limits(double min, double max){
         this.min = min;
         this.max = max;
