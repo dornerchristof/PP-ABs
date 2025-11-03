@@ -23,7 +23,9 @@ public class FlowerPopulation {
     private final Flower flower;
     private final Random random = new Random();
 
-    public char getShortName(){return flower.getShortName();}
+    public char getShortName() {
+        return flower.getShortName();
+    }
 
     BlueteEnum inBluete;
     double receivedSunshineHours;
@@ -31,9 +33,9 @@ public class FlowerPopulation {
     //Erstellt eine neue Population von Blütenpflanzen mit den angegebenen Parametern,
     //die die Eigenschaften und Verhaltensweise der Pflanzenart definieren.
     public FlowerPopulation(Flower flower) {
-        this.flower= flower;
+        this.flower = flower;
         this.inBluete = BlueteEnum.VORBEI;
-        seedQuality = new LimitedDouble(new Limits(0,1), 0);
+        seedQuality = new LimitedDouble(new Limits(0, 1), 0);
     }
 
 
@@ -47,13 +49,12 @@ public class FlowerPopulation {
     //true wenn die Pflanze den Winter überlebt, sonst false.
 
     //ERROR: Leere Pflanzenpopulation werden nicht entfernt.
-    public boolean simulateRestingPeriod() {
+    public void simulateRestingPeriod() {
         bloomPercentage = 0;
         receivedSunshineHours = 0;
-            currentPopulation *= seedQuality.getValue();
-            currentPopulation *= random.nextDouble(flower.getReproductionFactor().getMin(), flower.getReproductionFactor().getMax());
+        currentPopulation *= seedQuality.getValue();
+        currentPopulation *= random.nextDouble(flower.getReproductionFactor().getMin(), flower.getReproductionFactor().getMax());
         seedQuality.setValue(0);
-        return true;
     }
 
     //Ändert den Wert der Wuchskraft und stellt sicher, dass der neue Wert innerhalb der Grenzen ist.
@@ -61,6 +62,7 @@ public class FlowerPopulation {
         double newWuchskraft = currentPopulation + currentPopulation * factor;
         this.currentPopulation = Math.max(0, newWuchskraft);
     }
+
     //Ändert die Prozent der sich in Blüte befindenden Pflanzenpopulation und stellt sicher, dass der neue Wert innerhalb der Grenzen ist.
     private void changeProzentInBluete(double factor) {
         double newProzentInBluete = bloomPercentage + factor;
@@ -119,7 +121,8 @@ public class FlowerPopulation {
         } else {
             factor = ((weather.getSunshineHours() + 1)) * beesVisited / currentPopulation;
         }
-        seedQuality.setValue(seedQuality.getValue() + flower.getBestaeubungswahrscheinlichkeit() * bloomPercentage * factor );
+        seedQuality.setValue(seedQuality.getValue() + flower.getBestaeubungswahrscheinlichkeit() *
+                bloomPercentage * factor);
     }
 
     //Berechnet das zur Verfügung stehende Nahrungsangebot.
@@ -127,20 +130,20 @@ public class FlowerPopulation {
         return currentPopulation * bloomPercentage;
     }
 
-    public Flower getFlower() {return flower;}
+    public Flower getFlower() {
+        return flower;
+    }
 
     //Gibt die Wuchskraft zurück
     public double getCurrentPopulation() {
         return currentPopulation;
     }
 
-    public void addPopulation(double amount){
+    public void addPopulation(double amount) {
         currentPopulation += amount;
     }
 
-
-
-    public String getName(){
+    public String getName() {
         return flower.getName();
     }
 

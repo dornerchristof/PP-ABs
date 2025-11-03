@@ -46,14 +46,16 @@ public class Chunk {
     }
 
 
+    //Simuliert das Verhalten der im Chunk befindlichen Pflanzen für einen Tag.
+    //weather != null
+    //Nachbedingung: beesVisited == 0;
     public void simulateGrowingDayFlower(Weather weather){
         double flowerCount = 0;
         for(FlowerPopulation fp : flowers){
            flowerCount += fp.getCurrentPopulation();
         }
 
-        //Wachstum nimmt stark ab, sobald viele Pflanzen vorhanden sind.
-        double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate Prozentual
+        double growingFactor = flowerCount / (groundFertility * 1000); //Beeinflusst die Wachstumsrate
         for (FlowerPopulation fp : flowers) {
             if(flowerCount <= 0)
                 fp.simulateGrowingDay(weather, 0, growingFactor);
@@ -63,20 +65,26 @@ public class Chunk {
         beesVisited = 0;
     }
 
+    //Simuliert das Verhalten des Bienenstocks für einen Tag, falls sich einer in diesem Chunk befindet.
+    //weather != null
+    //world != null und dieser Chunk (this) muss sich in dieser Welt befinden.
     public void simulateGrowingDayBees(Chunk[][] world, Weather weather){
         if (bees != null){
         bees.simulateGrowingDay(world, x, y, weather);
         }
     }
 
+    //Entfernt den Bienenstock aus diesem Chunk.
     public void killBeeHive(){
         bees = null;
     }
 
-    public void updateBeesVisited(double beesVisited){
+    //Addiert die übergebene Anz. an besuchten Pflanzen zu beesVisited.
+    public void addToBeesVisited(double beesVisited){
         this.beesVisited += beesVisited;
     }
 
+    //Sim
     public void simulateRestingPeriod(Chunk[][] world, Random r){
         if(bees != null){
             // Versuche die neuen Bienenschwärme anzulegen
@@ -103,7 +111,9 @@ public class Chunk {
         if(Simulation.isInWorldBounds(world, xOffset, yOffset) ){
             world[xOffset][yOffset].plantFlower((flowers.get(flowerIndex)).getFlower(), 1000);
         }
-        flowers.removeIf(fp -> !fp.simulateRestingPeriod());
+        for(FlowerPopulation fp : flowers){
+            fp.simulateRestingPeriod();
+        }
     }
 
     public double getNahrungsangebot(){

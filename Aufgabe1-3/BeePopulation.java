@@ -155,7 +155,7 @@ public class BeePopulation {
                 double gatheredFood = Math.min(remainingBees / validChunks.size(), availableFood);
                 gesammelteNahrung += gatheredFood;
                 remainingBees -= gatheredFood;
-                chunk.updateBeesVisited(gatheredFood);
+                chunk.addToBeesVisited(gatheredFood);
             }
             distance++;
         }

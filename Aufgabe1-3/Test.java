@@ -33,9 +33,17 @@ Tobias: Implementierung des neuen Bienenverhaltens (Vermehrung, Absterben, etc.)
 Christof: Implementierung der Chunk-Klasse; Bevölkerung der Welt mit Pflanzen und Bienen. Umschreiben der
           Pflanzenpopulation, sodass sie pro Chunk ist. Implementierung eines eigenen Pflanzenklasse für alle
           unveränderlichen Eigenschaften einer Pflanze. Anpassung und Verbesserung der Ausgabe auf eine 2d-Welt.
+------------------------------------------------------------------------------------------------------------------------
+Aufgabe 3
 
-*Aufgabe 3*
-
+*Arbeitsaufteilung*:
+Patrick: Implementierung der parallelen Ausführung der Simulation (SimulationRunner).Design-By-Contract- und good- und
+         bad-Kommentare in den genannten Klassen
+Tobias: Implementierung der funktionalen Ausführung der BeePopulation und BeeGenome. Design-By-Contract- und good- und
+        bad-Kommentare in den genannten Klassen.
+Christof: Implementierung der verbesserten Ausgabe (SimulationState). Überarbeitung der FlowerPopulation, Überarbeitung
+          von LimitedDouble und Limits. Design-By-Contract- und good- und bad-Kommentare in den genannten Klassen und
+          in Chunks und Simulation.
 
 */
 import java.util.ArrayList;
