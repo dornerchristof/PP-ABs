@@ -37,8 +37,8 @@ Christof: Implementierung der Chunk-Klasse; Bevölkerung der Welt mit Pflanzen u
 Aufgabe 3
 
 *Arbeitsaufteilung*:
-Patrick: Implementierung der parallelen Ausführung der Simulation (SimulationRunner).Design-By-Contract- und good- und
-         bad-Kommentare in den genannten Klassen
+Patrick: Implementierung der parallelen Ausführung der Simulation (SimulationRunner, SimulationState, ...).
+         Design-By-Contract- und good- und bad-Kommentare in den genannten Klassen
 Tobias: Implementierung der funktionalen Ausführung der BeePopulation und BeeGenome. Design-By-Contract- und good- und
         bad-Kommentare in den genannten Klassen.
 Christof: Implementierung der verbesserten Ausgabe (SimulationState) um die Simulation debuggen zu können.
@@ -73,6 +73,9 @@ public class Test {
         /*„STYLE:“
         Hier wird ein prozeduralen Prog. Paradigmus angewendet. Dies sieht man daran, dass es eine Abfolge von
         Statements sind, die nur auf die davor ausgeführten Statements angewiesen sind.
+        GOOD:
+        Der Prozessfluss wird durch Kontrollstrukturen gesteuert und ist einfach verständlich.
+        Es werden keine komplexen Sprachkonzepte verwendet.
         */
         String[] nameList = {"Rose", "Edelweiss", "Sonnenblume", "Maiglöckchen", "Veilchen", "Nelke", "Orchidee",
         "Gänseblümchen", "Lilie"};

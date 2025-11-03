@@ -2,6 +2,9 @@
 
 /*
 Repräsentiert eine Gleitkommazahl, die sich nur innerhalb der definierten Grenzen bewegen kann.
+GOOD: Klassenzusammenhalt ist hoch, es erfüllt den definierten Zweck vollständig, aber nicht mehr als das. Objekt-Kopplung
+      ist gering, da es wenig öffentliche Methoden und diese mit wenigen Parametern gibt und nur ein Objekt von der Klasse
+      Limits intern verwendet wird.
  */
 public class LimitedDouble {
     private final Limits limits; //limits != null

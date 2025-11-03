@@ -12,13 +12,13 @@ Blütenpflanzen derselben Art in einem Chunk, mit spezifischen Eigenschaften wie
 Samenqualität. Simuliert das Verhalten der Pflanzen unter verschiedenen Umweltbedingungen.
  */
 public class FlowerPopulation {
-    //Anzahl an Wildbienen, die durch die Pflanzenpopulation während der Vollblüte ernährt werden können.
-    double currentPopulation;             // yi - 0 <= yia
-    //Wie viel Prozent der currentPopulation sind in Blühte
-    double bloomPercentage;      // bi - 0 <= bi <= 1
+    //INFO: Anzahl an Wildbienen, die durch die Pflanzenpopulation während der Vollblüte ernährt werden können.
+    private double currentPopulation; // currentPopulation >= 0
+    //INFO: Wie viel Prozent der currentPopulation sind in Blühte
+    private double bloomPercentage; // bloomPercentage >= 0 && bloomPercentage <= 1
 
     //Zeigt an, wie gut die Pflanze bestäubt wurde (auch ob sie genug Sonne hatte?)
-    private LimitedDouble seedQuality;
+    private final LimitedDouble seedQuality;
 
     private final Flower flower;
     private final Random random = new Random();
