@@ -6,7 +6,8 @@ import java.util.Random;
 /*
 Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Simuliert ein Ökosystem,
 das aus Pflanzen und Bienen besteht, die voneinander abhängig sind, um überleben zu können
-BAD: Objekt-Kopplung ist hoch und Klassenzusammenhalt ist niedrig. Die diversen Funktionen für die Ausgabe des
+BAD: Objekt-Kopplung ist hoch und Klassenzusammenhalt ist niedrig. Es gibt sehr viele öffentliche Funktionen und
+     es werden sehr viele Funktionen von anderen Objekten aufgerufen. Die diversen Funktionen für die Ausgabe des
      Simulationszustandes sollten in eine eigene Klasse verschoben werden, um den Klassenzusammenhalt zu erhöhen.
  */
 public class Simulation {

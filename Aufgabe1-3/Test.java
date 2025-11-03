@@ -38,12 +38,12 @@ Aufgabe 3
 
 *Arbeitsaufteilung*:
 Patrick: Implementierung der parallelen Ausführung der Simulation (SimulationRunner, SimulationState, ...).
-         Design-By-Contract- und good- und bad-Kommentare in den genannten Klassen
+         Design-By-Contract- und good- und bad-Kommentare in den genannten Klassen und
 Tobias: Implementierung der funktionalen Ausführung der BeePopulation und BeeGenome. Design-By-Contract- und good- und
         bad-Kommentare in den genannten Klassen.
-Christof: Implementierung der verbesserten Ausgabe (SimulationState) um die Simulation debuggen zu können.
-          Überarbeitung der FlowerPopulation, Überarbeitung von LimitedDouble und Limits. Design-By-Contract- und
-          good- und bad-Kommentare in den genannten Klassen und in Chunks und Simulation.
+Christof: Implementierung der verbesserten Ausgabe um die Simulation debuggen zu können.
+          Überarbeitung der FlowerPopulation, Überarbeitung von LimitedDouble und Limits, damit die Simulation wieder
+          funktioniert. Design-By-Contract- und good- und bad-Kommentare in den genannten Klassen und in Chunks und Simulation.
 */
 import java.util.ArrayList;
 import java.util.List;

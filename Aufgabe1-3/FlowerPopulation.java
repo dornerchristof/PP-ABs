@@ -10,6 +10,7 @@ enum BlueteEnum {
 Abstrakter Datentyp(Klasse) mit nominaler Abstraktion. Repräsentiert eine Population von
 Blütenpflanzen derselben Art in einem Chunk, mit spezifischen Eigenschaften wie Wuchskraft, Blütezeit und
 Samenqualität. Simuliert das Verhalten der Pflanzen unter verschiedenen Umweltbedingungen.
+BAD: Objekt-Kupplung ist sehr hoch. Es wird oft von außerhalb auf Objektvariablen über getter-Funktionen zugegriffen.
  */
 public class FlowerPopulation {
     //NOTE: Anzahl an Wildbienen, die durch die Pflanzenpopulation während der Vollblüte ernährt werden können.
@@ -78,6 +79,9 @@ public class FlowerPopulation {
     und nutzt private Hilfsmethoden (changeWuchskraft, changeProzentInBluete, etc.) zur Zustandsänderung,
     wodurch die Prinzipien der Datenkapselung realisiert werden. Die Interaktion mit
     dem Weather-Objekt erfolgt über die im Interface definierten Schnittstellen.
+    ERROR: fertility wird nicht berücksichtigt.
+    GOOD: Prozedurale Programmierung: Kontrollfluss ist gut verständlich, es ruft nur Funktionen mit gut verständlichen
+          Namen und Funktionen auf.
     */
     //weather = Wetter dieses Tages
     //beesVisited = Anzahl an Bienen, die genau diese Pflanze an diesem Tag besucht haben.
