@@ -12,12 +12,12 @@ Blütenpflanzen derselben Art in einem Chunk, mit spezifischen Eigenschaften wie
 Samenqualität. Simuliert das Verhalten der Pflanzen unter verschiedenen Umweltbedingungen.
  */
 public class FlowerPopulation {
-    //INFO: Anzahl an Wildbienen, die durch die Pflanzenpopulation während der Vollblüte ernährt werden können.
+    //NOTE: Anzahl an Wildbienen, die durch die Pflanzenpopulation während der Vollblüte ernährt werden können.
     private double currentPopulation; // currentPopulation >= 0
-    //INFO: Wie viel Prozent der currentPopulation sind in Blühte
+    //NOTE: Wie viel Prozent der currentPopulation sind in Blühte
     private double bloomPercentage; // bloomPercentage >= 0 && bloomPercentage <= 1
 
-    //Zeigt an, wie gut die Pflanze bestäubt wurde (auch ob sie genug Sonne hatte?)
+    //NOTE: Zeigt an, wie gut die Pflanze bestäubt wurde (auch ob sie genug Sonne hatte?)
     private final LimitedDouble seedQuality;
 
     private final Flower flower;
@@ -46,9 +46,7 @@ public class FlowerPopulation {
 
 
     //Startet eine neue Vegetationsperiode, welche verschiedene Werte zurücksetzt.
-    //true wenn die Pflanze den Winter überlebt, sonst false.
-
-    //ERROR: Leere Pflanzenpopulation werden nicht entfernt.
+    //ERROR: Leere Pflanzenpopulationen werden nicht entfernt.
     public void simulateRestingPeriod() {
         bloomPercentage = 0;
         receivedSunshineHours = 0;

@@ -8,16 +8,16 @@ public class Flower {
     private final String name;
     private final char shortName;
 
-    //INFO: Jedes Jahr vermehrt sich die Pflanzenpopulation um einen Faktor zwischen diesen Grenzwerten.
+    //NOTE: Jedes Jahr vermehrt sich die Pflanzenpopulation um einen Faktor zwischen diesen Grenzwerten.
     private final Limits reproductionFactor;
-    //INFO: Nur in diesen Bodenfeuchtigkeitsgrenzen wächst diese Pflanze.
+    //NOTE: Nur in diesen Bodenfeuchtigkeitsgrenzen wächst diese Pflanze.
     private final Limits groundMoistureLimits;
-    //INFO: Wenn die Pflanze die untere Grenze an Sonnenstunden überschreitet, dann fängt sie an zu blühen, wenn sie die
+    //NOTE: Wenn die Pflanze die untere Grenze an Sonnenstunden überschreitet, dann fängt sie an zu blühen, wenn sie die
     //obere Grenze überschreitet, dann höhrt sie auf zu blühen.
     private final Limits sunlightHoursForBlooming;
 
     private final double bestaeubungswahrscheinlichkeit;
-    //INFO: How fast all flowers start to bloom and how fast they stop blooming.
+    //NOTE: How fast all flowers start to bloom and how fast they stop blooming.
     private final double bloomIntensity;
 
     public Flower(String name, Limits vermehrungsgrenzen,

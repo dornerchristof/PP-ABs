@@ -84,7 +84,11 @@ public class Chunk {
         this.beesVisited += beesVisited;
     }
 
-    //Sim
+    //Simuliert der Ruhephase von allen Pflanzen und Bienen in diesem Chunk. Zusätzlich Simulation der Vebreitung eben
+    //dieser.
+    //BAD: Kontrollfluss ist nicht gut verständlich und es werden schwer zu verstehende Aliases verwendet. Es wird die
+    //     Simulation der Ruheperiode von Bienen und Pflanzen mit der Verbreitung eben dieser vermischt und dies macht
+    //     den Code schwer zu verstehen.
     public void simulateRestingPeriod(Chunk[][] world, Random r){
         if(bees != null){
             // Versuche die neuen Bienenschwärme anzulegen
@@ -93,7 +97,7 @@ public class Chunk {
                 for (int j = 0; j < 2; j++) { // Jede Königin bekommt zwei Versuche wenn sie es dann nicht schafft stirbt sie
                     int xOffset = x + r.nextInt(-6, 6);
                     int yOffset = y + r.nextInt(-6, 6);
-                    //Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
+                    //NOTE: Wenn Koordninaten außerhalb sind, dann hat die Biene den Winter nicht überlebt, gefressen worden, etc.
                     if(Simulation.isInWorldBounds(world, xOffset, yOffset) && !world[xOffset][yOffset].BeeHive()){
                         world[xOffset][yOffset].SetBeePopulation(new BeePopulation(queensResult[1], 4, r, true));
                         break;
