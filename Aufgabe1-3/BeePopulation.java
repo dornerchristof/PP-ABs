@@ -19,17 +19,22 @@ public class BeePopulation {
     Random rand;
     private BeeGenome genome;
 
-    /*
-     * Konstruktor  (Nominale Abstraktion). Modularisierungseinheit: Objekt
+    /**
+     * Konstruktor (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Erstellt eine neue Bienenpopulation mit einer Anfangsgröße und einem Zufallsgenerator.
+     * Vorbedingungen: population >= 0, maximaleDistanz >= 0, rand != null
+     * Nachbedingungen: keine
+     * Invariant: population >= 0 (max. bis zur ersten GrowingDaySimulation), maximaleDistanz >= 0, rand != null
      */
     public BeePopulation(int population, int maximaleDistanz, Random rand, boolean newHive){
         this.population = population; this.rand = rand; this.maximaleDistanz = maximaleDistanz;
         this.initialPopulation = population; this.newHive = newHive; this.genome = BeeGenome.random(rand);
     }
-    /*
+    /**
      * Kopierkonstruktor (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Erstellt eine unabhängige Kopie einer bestehenden Bienenpopulation (Random Generator als Referenz).
+     * Vorbedingungen: other != null
+     * Nachbedingungen: keine
      */
     public BeePopulation(BeePopulation other) {
         this.population = other.population;
@@ -42,20 +47,33 @@ public class BeePopulation {
         this.genome = other.genome;
     }
 
-     // Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt. Gibt die Größe der Population zurück
+    /**
+     * Getter-Methode (Nominale Abstraktion). Modularisierungseinheit: Objekt
+     * Gibt die Größe der Population zurück.
+     * Vorbedingungen: keine
+     * Nachbedingungen: population >= 0
+     * Invariant: population >= 0
+     */
     public double getPopulation(){
         return population;
     }
     /*
+    GOOD: Macht die Simulation von Tagen sehr einfach und zusätzliche der Großteil der Funktionalität der nicht zwingend in der Funktion sein muss wurde ausgelagert.
+    BAD: Sehr viele verschidene Verantwortungen für eine Funktion und schlecht gekapselt.
+    Einige Code Abschnitte hätten in die jeweiligen Funktionen ausgelagert werden können.
+     */
+    /**
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * FSimulation eines Tages der Vegitationsphase.
-     */
-    /*„STYLE:"
+    *„STYLE:"
     Hier wird ein objektorientiertes Paradigma angewendet. Das sieht man daran, dass die Methode
     auf den Zustand des Objekts (population, savedFood, foundFood) zugreift und diesen ändert.
     Die Methode kapselt das Verhalten eines BeePopulation-Objekts und interagiert mit anderen Objekten
     (Chunk[][], Weather) durch deren öffentliche Schnittstellen, wodurch Datenkapselung und
     Verhaltensabstraktion realisiert werden.
+
+     Vorbedingungen: world != null, xKoordinate >= 0, yKoordinate >= 0, weather != null
+     Nachbedingungen: keine
     */
     public void simulateGrowingDay(Chunk[][] world, int xKoordinate, int yKoordinate, Weather weather){
         beesFlyOutReturn beesFlying = beesFlyOut(weather);
@@ -87,6 +105,12 @@ public class BeePopulation {
         //System.out.println("Bienenanzahl: " + population);
     }
 
+    /**
+     * Nominale Abstraktion. Modularisierungseinheit: Objekt
+     * Passt die Population der Bienen an nutzt dafür die Werter Population und savedFood. Greift auch auf due redproductionRate des Genom zu
+     * Vorbedingungen: population > 0, savedFood >= 0
+     * Nachbedingungen: Die population wurde in ihrer Größe verändert und falls diese kleiner als 0 ist, wird sie auf 0 gesetzt.
+     */
     private void adjustPopulation() {
         if(savedFood >= population){
             savedFood = savedFood - population;
@@ -101,13 +125,21 @@ public class BeePopulation {
         }
 
     }
-
+    /**
+     * Nominale Abstraktion. Modularisierungseinheit: Objekt
+     * Fügt einen Wert vom Tpy double zu der Objektvariable savedFood hinzu.
+     * Vorbedingungen: keine (kein Side Effect falls availableFood <= 0)
+     * Nachbedingung: SavedFood wurde erhöht
+     */
     private void saveFood(double availableFood) {
         if(availableFood > 0){
             savedFood += availableFood;
         }
     }
-
+    /**
+     * Nominale Abstraktion. Modularisierungseinheit: Klasse
+     * Klasse die das RückgabeObjekt der Funktion beesFlyOut definiert
+     */
     private class beesFlyOutReturn {
         final boolean beesFlyOut;
         final int timesBeesFlyOut;
@@ -117,6 +149,12 @@ public class BeePopulation {
         }
     }
 
+    /**
+     * Nominale Abstraktion. Modularisierungseinheit: Objekt
+     * Nutzt ein Objekt vom Typ Weather um zu berechnen wie oft bienen ausfliegen
+     * Vorbedingung: weather != null
+     * Nachbedingung: Eine Anzahl zwischen 0 und 14 die angibt wie oft die Bienen ausfliegen sollen
+     */
     private beesFlyOutReturn beesFlyOut(Weather weather) {
         int minimumTimesBeesFlyOut = Math.max(0, 7 - weather.getRainfallHours()); // Minimum Times the BEes can fly out minimum 0
         int maximumTimesBeesFlyOut = Math.max(0, 12 - weather.getRainfallHours()); // Maximum Times the BEes can fly out minimum 0
@@ -124,6 +162,13 @@ public class BeePopulation {
         return new beesFlyOutReturn(true, timesBeesFlyOut);
     }
 
+    /**
+     *Nominale Abstraktion. Modularisierungseinheit: Objekt
+     * Nimmt ein zwei Dimensionales Chunk Array einen xIndex und einen index also auch eine Distanz.
+     * Anhand der Distanz werden in alle Chunks gesucht welche sich auf dieser Distanz zu den Ursprungskoordinaten befinden.
+     * Vorbedingung: world != null, xUrsprung >= 0, yUrsprung >= 0, distance >= 0
+     * Nachbedingung: Nach ausführung wird eine Liste mit validen Chunks ausgegeben.
+     */
     private List<Chunk> validChunksInDistance(Chunk[][] world, int xUrsprung, int yUrsprung, int distance){
         List<Chunk> validChunks = new ArrayList<>();
         if(distance == 0){
@@ -144,6 +189,13 @@ public class BeePopulation {
         }
         return validChunks;
     }
+
+    /**
+     * Nominale Abstraktion. Modularisierungseinheit: Objekt
+     * Führt die Nahrungssammlung für einen Ausflug der Bienen aus.
+     * Vorbedingung: world != null, xUrsprung >= 0, yUrsprung >= 0, distance >= 0
+     * Nachbedingungen: Gibt einen double Wert zurück der das gesammelte Essen repräsentiert.
+     */
     private double sammleEssen(Chunk[][] world, int xUrsprung, int yUrsprung){
         double gesammelteNahrung = 0;
         double remainingBees = population;
@@ -162,9 +214,11 @@ public class BeePopulation {
         return gesammelteNahrung;
     }
 
-    /*
+    /**
      * Simulationsmethode (Nominale Abstraktion). Modularisierungseinheit: Objekt
      * Simulation der ganzen Winterruhephase
+     * Vorbedingungen: keine
+     * Nahcbedingeungen: Falls der Bienenschwarm nicht nue ist wird die Population verkleinert.
      */
     public void simulateRestingPeriod(){
         if(!newHive){
@@ -179,8 +233,10 @@ public class BeePopulation {
 
 
 
-    /*
-    Anzahl an Bienenköniginen, die das Nest am Ende des Jahres gezeugt hat und ausfliegen.
+    /**
+    Anzahl an Bienenköniginnen, die das Nest am Ende des Jahres gezeugt hat und ausfliegen.
+     Vorbedingungen: keine
+     Nachbedingeungen: Am Index 0 des Arrays steht die Anzahl der neuen Bienenköniginnen, die ausfliegen. An Index 1 die Größe aller neu entstehenden Schwärme.
      */
     public int[] beeQueens(){
         int newQueenBees = 0;
@@ -193,6 +249,10 @@ public class BeePopulation {
         return new int[]{newQueenBees, newHiveSize};
     }
 
+    /**
+     * STYLE: Funktional
+     * Gibt eine Funktion zurück, die genutzt wird, um die Effizienz bei nder Nahrungssammlung basierend auf dem Wetter festzulegen.
+     */
     private static Function<BeeGenome, Double> createWeatherBasedEfficiencyCalculator(Weather weather) {
         Function<Double, Double> temperatureEffect = efficiency -> {
             double temp = weather.getTemperature();
@@ -215,12 +275,21 @@ public class BeePopulation {
         };
     }
 
-
+    /**
+     * STYLE: Funktional
+     * gibt einen Wert von Typ Double zurück nutzt die Funktion, die von createWeatherBasedEfficiencyCalculator erstellt
+     * wurde, um die Effizienz bei der Nahrungssuche zu berechnen.
+     */
     private double calculateGeneticEfficiencyFunctional(Weather weather) {
         Function<BeeGenome, Double> calculator = createWeatherBasedEfficiencyCalculator(weather);
         return calculator.apply(genome);
     }
 
+    /**
+     * STYLE: Funktional
+     * führt die Evolution einer Liste von BeeGenoms aus in dem es rekursiv die besten behält und schlussendlich den stärksten "Überlebenden" auswählt.
+     * Gibt ein BeeGenomn zurück
+     */
     private static BeeGenome selectBestGenomeRecursive(
             List<BeeGenome> candidates,
             int evaluationGenerations,
@@ -249,7 +318,11 @@ public class BeePopulation {
         return selectBestGenomeRecursive(nextGen, evaluationGenerations - 1, fitnessFunc, rand);
     }
 
-
+    /**
+     * STYLE: Funktional
+     * Startet die Evolution der Bienen, führt eine Simulation über einige Generationen mittels der Funktion selectBestGenomeRecursive.
+     * Gibt ein neues BeeGenome zurück, welches dann vom Objekt Orrientierten Teil als neues Genom verwendet wird.
+     */
     private BeeGenome evolveGenome() {
         Function<BeeGenome, Double> fitness = genome -> genome.coldResistance * 0.5 + genome.foragingEfficiency * 2.0;
 
