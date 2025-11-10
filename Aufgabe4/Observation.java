@@ -14,6 +14,10 @@ public interface Observation {
     };
     Observation getNext();
     Observation getPrevious();
-    Iterator<Observation> earlier();
-    Iterator<Observation> later();
+    default Iterator<Observation> earlier(){
+        return null; // TODO: implement me
+    };
+    default Iterator<Observation> later(){
+        return null; // TODO: implement me
+    };
 }

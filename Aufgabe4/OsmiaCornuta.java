@@ -1,6 +1,4 @@
 import java.util.Date;
-import java.util.Iterator;
-import java.util.function.Predicate;
 
 public class OsmiaCornuta implements SolitaryBee{
     Observation previous;
@@ -72,31 +70,5 @@ public class OsmiaCornuta implements SolitaryBee{
     @Override
     public Observation getNext() {
         return next;
-    }
-
-    @Override
-    public Iterator<Bee> sameBee() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Bee> sameBee(Boolean flip, Predicate<Observation> between) {
-        return null;
-    }
-
-
-    @Override
-    public Iterator<Observation> earlier() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return null;
-    }
-
-    @Override
-    public Iterable<SolitaryBee> solitary() {
-        return null;
     }
 }
