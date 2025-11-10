@@ -1,2 +1,2 @@
-public interface Wasp {
+public interface Wasp extends Observation{
 }

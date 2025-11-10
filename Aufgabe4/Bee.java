@@ -1,7 +1,7 @@
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public interface Bee extends Observation, Pollinator, Wasp{
+public interface Bee extends Pollinator, Wasp{
     Observation getPrevious();
     String getTagNumber();
     Iterator<Bee> sameBee();
