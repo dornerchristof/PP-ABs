@@ -1,23 +1,12 @@
 import java.util.Date;
 import java.util.Iterator;
 
-public abstract class Observation {
+public interface Observation {
 
-    protected String comment;
-    protected Date date;
+    Date getDate();
 
-    protected Observation(String comment, Date date){
-        this.comment = comment;
-    }
-
-    public final Date getDate(){
-        return date;
-    }
-
-    public final String getComment(){
-        return comment;
-    }
-    public abstract boolean valid();
-    public abstract Iterator<Observation> earlier();
-    public abstract Iterator<Observation> later();
+    String getComment();
+    boolean valid();
+    Iterator<Observation> earlier();
+    Iterator<Observation> later();
 }

@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-public abstract class Bee extends Observation implements Pollinator, Wasp{
+public abstract class Bee implements Observation, Pollinator, Wasp{
     public Observation earlierObservation;
     public String tagNumber;
 
