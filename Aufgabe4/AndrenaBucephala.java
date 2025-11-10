@@ -2,14 +2,39 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class AndrenaBucephala extends Bee{
+public class AndrenaBucephala implements Bee{
     protected AndrenaBucephala(String comment, Date date) {
-        super(comment, date);
+
+    }
+
+    @Override
+    public Date getDate() {
+        return null;
+    }
+
+    @Override
+    public void setNextObservation(Observation nextObservation) {
+
+    }
+
+    @Override
+    public String getComment() {
+        return "";
     }
 
     @Override
     public boolean valid() {
         return false;
+    }
+
+    @Override
+    public void setValid(boolean valid) {
+
+    }
+
+    @Override
+    public Observation getNext() {
+        return null;
     }
 
     @Override
@@ -20,6 +45,16 @@ public class AndrenaBucephala extends Bee{
     @Override
     public Iterator<Observation> later() {
         return null;
+    }
+
+    @Override
+    public Observation getPrevious() {
+        return null;
+    }
+
+    @Override
+    public String getTagNumber() {
+        return "";
     }
 
     @Override
