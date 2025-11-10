@@ -2,7 +2,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class OsmiaCornuta extends Bee{
+public class OsmiaCornuta extends SolitaryBee{
     protected OsmiaCornuta(String comment, Date date) {
         super(comment, date);
     }
