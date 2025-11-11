@@ -1,4 +1,4 @@
-public interface SolitaryBee extends Bee{
+public interface SolitaryBee extends WildBee {
 
     default Iterable<SolitaryBee> solitary(){
         return null; //TODO: implement me
