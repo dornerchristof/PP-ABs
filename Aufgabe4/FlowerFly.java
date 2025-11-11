@@ -7,20 +7,25 @@ public class FlowerFly implements Pollinator{
 
     private FlowerFly previousEncounter;
     private boolean valid = true;
+    //Invarianz: comment != null
     private String comment;
     private Date date;
 
+    //Vorbedingung: date != null, comment != null
     public FlowerFly(Date date, String comment, Observation lastObservation){
-
+        this.comment = comment;
+        this.date = date;
+        previous = lastObservation;
     }
     @Override
     public Date getDate() {
-        return null;
+        return date;
     }
 
+    //Nach
     @Override
     public void setNextObservation(Observation nextObservation) {
-
+        next = nextObservation;
     }
 
     @Override
