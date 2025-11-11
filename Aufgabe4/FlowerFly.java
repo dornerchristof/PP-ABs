@@ -2,6 +2,17 @@ import java.util.Date;
 import java.util.Iterator;
 
 public class FlowerFly implements Pollinator{
+    private Observation previous;
+    private Observation next;
+
+    private FlowerFly previousEncounter;
+    private boolean valid = true;
+    private String comment;
+    private Date date;
+
+    public FlowerFly(Date date, String comment, Observation lastObservation){
+
+    }
     @Override
     public Date getDate() {
         return null;
@@ -14,36 +25,26 @@ public class FlowerFly implements Pollinator{
 
     @Override
     public String getComment() {
-        return "";
+        return comment;
     }
 
     @Override
     public boolean valid() {
-        return false;
+        return valid;
     }
 
     @Override
-    public void setValid(boolean valid) {
-
+    public void remove() {
+        valid = false;
     }
 
     @Override
     public Observation getNext() {
-        return null;
+        return next;
     }
 
     @Override
     public Observation getPrevious() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Observation> earlier() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return null;
+        return previous;
     }
 }

@@ -8,10 +8,7 @@ public interface Observation {
 
     String getComment();
     boolean valid();
-    void setValid(boolean valid);
-    default void remove(){
-        setValid(false);
-    };
+    void remove();
     Observation getNext();
     Observation getPrevious();
 

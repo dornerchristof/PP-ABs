@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class AndrenaBucephala implements Bee{
+    private boolean valid = true;
     protected AndrenaBucephala(String comment, Date date) {
 
     }
@@ -28,8 +29,8 @@ public class AndrenaBucephala implements Bee{
     }
 
     @Override
-    public void setValid(boolean valid) {
-
+    public void remove() {
+        valid = false;
     }
 
     @Override

@@ -75,9 +75,10 @@ public class OsmiaCornuta implements SolitaryBee{
     }
 
     @Override
-    public void setValid(boolean valid) {
-        this.valid = valid;
+    public void remove() {
+        valid = false;
     }
+
 
     @Override
     public Observation getNext() {

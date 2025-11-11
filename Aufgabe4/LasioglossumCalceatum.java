@@ -27,7 +27,7 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
     }
 
     @Override
-    public void setValid(boolean valid) {
+    public void remove() {
 
     }
 
