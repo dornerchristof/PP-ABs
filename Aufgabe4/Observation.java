@@ -24,6 +24,9 @@ public interface Observation {
     //Nachbedingung: Liefert den Vorgänger oder null, falls kein Vorgänger vorhanden ist.
     Observation getPrevious();
 
+    //Nachbedingung: Liefert das beobachtete Individuum oder null, falls kein explizites Individuum beobachtet wurde.
+    Individuum getIndividuum();
+
     //Nachbedingung: Liefert einen Iterator über alle zeitlich vor dieser Observation gelegenen Observationen,
     // welche valid sind.
     default Iterator<Observation> earlier(){
