@@ -4,13 +4,15 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 /**
- * Cristof:
+ * Christof:
+ * - Definition der Untertypen beziehungen
  * - interfaces: Observation, Pollinator, Wasp.
  * - Klassen: FlowerFly, ObservationIterator
  * Patrick:
  * - interfaces: SocialBee, WildBee, SolitaryBee, CommunalBee
- * - Klassen: Bumblebee, HoneyBee,
+ * - Klassen: Bumblebee, HoneyBee, BeeIterator
  * Tobias:
+ * - Testen der Untertyp beziehungen
  * - interfaces: Bee
  * - Klassen: LasioglossumCalceatum, OsmiaCornuta, AndrenaBucephala, BeeIterator
  * */
