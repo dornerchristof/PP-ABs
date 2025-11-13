@@ -16,9 +16,14 @@ public interface Observation {
 
     //Nachbedingung: Liefert einen Iterator über alle zeitlich vor dieser Observation gelegenen Observationen,
     // welche valid sind.
-    Iterator<Observation> earlier();
+    default Iterator<Observation> earlier(){
+        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
+    }
 
     //Nachbedingung: Liefert einen Iterator über alle zeitlich nach dieser Observation gelegenen Observationen.,
     // welche valid sind.
-    Iterator<Observation> later();
+    default Iterator<Observation> later(){
+        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
+    }
+
 }

@@ -67,16 +67,6 @@ public class AndrenaBucephala implements CommunalBee{
     }
 
     @Override
-    public Iterator<Observation> earlier() {
-        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
-    }
-
-    @Override
     public Bee getEarlierObservation() {
         return earlierObservation;
     }

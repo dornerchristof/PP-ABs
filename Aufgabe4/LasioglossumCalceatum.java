@@ -6,7 +6,7 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
     private boolean valid = true;
     private String comment;
     private final Date date;
-    private final Lifestyle lifestyle;
+    private Lifestyle lifestyle;
     private int tagNumber = -1;
     private Bee earlierObservation;
 
@@ -14,11 +14,11 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
         this.comment = comment;
         this.date = date;
         this.lifestyle = Lifestyle.SOCIAL;
+        Test.observations.add(this);
     }
 
     public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle) {
-        this.comment = comment;
-        this.date = date;
+        this(comment, date);
         this.lifestyle = solitaryLifestyle ? Lifestyle.SOLITARY : Lifestyle.SOCIAL;
     }
     public LasioglossumCalceatum(String comment, Date date, int tagNumber) {
@@ -65,16 +65,6 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
     @Override
     public void remove() {
         valid = false;
-    }
-
-    @Override
-    public Iterator<Observation> earlier() {
-        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
     }
 
     @Override

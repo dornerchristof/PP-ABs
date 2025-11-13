@@ -8,6 +8,7 @@ public class HoneyBee implements SocialBee{
     protected HoneyBee(String comment, Date date) {
         this.comment = comment;
         this.date = date;
+        Test.addObservation(this);
     }
 
     @Override
@@ -38,15 +39,5 @@ public class HoneyBee implements SocialBee{
     @Override
     public void remove() {
         valid = false;
-    }
-
-    @Override
-    public Iterator<Observation> earlier() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return null;
     }
 }

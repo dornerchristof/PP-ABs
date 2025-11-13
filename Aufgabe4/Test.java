@@ -14,12 +14,15 @@ import java.util.List;
 //Honigbienen und Hummeln sind keine SolitaryBee und keine CommunalBee, da sie nur sozial leben.
 //Honigbienen sind keine Wildbienen, da sie nur als Nutztiere dienen.
 
-//AndrenaBucephala sind keine SocialBee, da sie nur communal und solitär leben
+//AndrenaBucephala ist nicht Untertyp von SocialBee, da sie nur communal bzw. solitär leben. Da nicht alle sozialen Bienen Andrena
+//Bucephala sind, ist AndrenaBucephala kein Obertyp von SocialBee.
 //LasioglossumCalceatum ist keine CommunalBee, da sie generell sozial und nur in kalten Regionen solitär leben.
 //OsmiaCornuta ist keine CommunalBee oder SocialBee, da sie nur solitär leben.
 
 //CommunalBee, SolitaryBee und WildBee sind keine SocialBee, da SocialBee nicht ausschließlich wild leben.
 //SocialBee sind keine CommunalBee, SolitaryBee oder WildBee, da SocialBee nicht ausschließlich wild leben.
+
+
 
 public class Test {
 

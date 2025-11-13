@@ -12,6 +12,7 @@ public class OsmiaCornuta implements SolitaryBee{
     public OsmiaCornuta(String comment, Date date) {
         this.comment = comment;
         this.date = date;
+        Test.observations.add(this);
     }
     public OsmiaCornuta(String comment, Date date, int tagNumber) {
         this(comment, date);
@@ -58,18 +59,6 @@ public class OsmiaCornuta implements SolitaryBee{
     public void remove() {
         valid = false;
     }
-
-    @Override
-    public Iterator<Observation> earlier() {
-        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
-    }
-
-
 
     @Override
     public boolean fromBeekeeping() {

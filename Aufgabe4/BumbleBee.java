@@ -10,13 +10,13 @@ public class BumbleBee implements SocialBee, WildBee{
     private int tagNumber = -1;
 
     public BumbleBee(String comment, Date date, boolean fromBeekeeping) {
-        this.comment = comment;
-        this.date = date;
+        this(comment, date);
         this.fromBeekeeping = fromBeekeeping;
     }
     public BumbleBee(String comment, Date date) {
         this.comment = comment;
         this.date = date;
+        Test.addObservation(this);
     }
 
     public BumbleBee(String comment, Date date, int tagNumber) {
@@ -78,16 +78,6 @@ public class BumbleBee implements SocialBee, WildBee{
     @Override
     public void remove() {
         valid = false;
-    }
-
-    @Override
-    public Iterator<Observation> earlier() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Observation> later() {
-        return null;
     }
 
     @Override

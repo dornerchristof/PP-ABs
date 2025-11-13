@@ -33,7 +33,7 @@ public class ObservationIterator implements Iterator<Observation> {
            if(index == 0) return null;
            return observations.get(index-1);
         }
-            if(index == observations.size() - 2) return null;
+            if(index == observations.size() - 1) return null;
             return observations.get(index + 1);
     }
 

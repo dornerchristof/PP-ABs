@@ -37,18 +37,4 @@ public class FlowerFly implements Pollinator{
     public void remove() {
         valid = false;
     }
-
-    //Nachbedingung: Liefert einen Iterator über alle zeitlich vor dieser Observation gelegenen Observationen,
-    // welche valid sind.
-    @Override
-    public Iterator<Observation> earlier() {
-        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
-    }
-
-    //Nachbedingung: Liefert einen Iterator über alle zeitlich nach dieser Observation gelegenen Observationen.,
-    // welche valid sind.
-    @Override
-    public Iterator<Observation> later() {
-        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
-    }
 }
