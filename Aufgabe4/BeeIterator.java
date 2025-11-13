@@ -57,7 +57,9 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         current = individuum;
         int currentIndex = observations.indexOf(individuum);
         while(currentIndex <= observations.size() - 1){
-            if( observations.get(currentIndex) instanceof Bee s && type.isInstance(s) && filter.test(s)){
+            Observation obs = observations.get(currentIndex);
+            if( isValid(obs)){
+                Bee s = (Bee) obs;
                 if(s.getEarlierObservation().equals(current)){
                     if(s.getTagNumber() != -1) {
                         tagNumber = s.getTagNumber();
@@ -70,8 +72,12 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         }
     }
 
+    private boolean isValid(Observation obs){
+        return obs instanceof Bee s && type.isInstance(s) && filter.test(s);
+    }
+
     private void buildList(){
-        List<Bee> conected = findAllConected(individuum);
+        List<Bee> conected = findAllConnected(individuum);
         same = new LinkedList<>();
         for(Bee bee : conected){
             addSame(bee);
@@ -82,7 +88,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
             if(same.contains(bee)) continue;
             addSame(bee);
             if(bee.getEarlierObservation() != null){
-                List<Bee> conected2 = findAllConected(bee);
+                List<Bee> conected2 = findAllConnected(bee);
                 for(Bee bee2 : conected2){
                     if(!same.contains(bee2)) addSame(bee2);
                 }
@@ -98,28 +104,34 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
     private List<Bee> findAllWithTag(){
         List<Bee> list = new LinkedList<>();
         for(Observation obs : observations){
-            if(obs instanceof Bee bee && bee.getTagNumber() == tagNumber){
-                list.add(bee);
+            if(isValid(obs)){
+                Bee bee = (Bee) obs;
+                if(bee.getTagNumber() == tagNumber){
+                    list.add(bee);
+                }
             }
         }
         return list;
     }
 
-    private List<Bee> findAllConected(Bee now){
+    private List<Bee> findAllConnected(Bee now){
         // Get all earlier
         Bee curr = now;
         List<Bee> list = new LinkedList<>();
         while(curr.getEarlierObservation() != null){
-            if(curr.getEarlierObservation() instanceof Bee s){
-                list.add(s);
-                curr = s;
+            Bee obs = curr.getEarlierObservation();
+            if(isValid(obs)){
+                list.add(obs);
+                curr = obs;
             }
         }
         // Get all later
         curr = now;
         int currIndex = observations.indexOf(curr);
         while(currIndex <= observations.size() - 1){
-            if(observations.get(currIndex) instanceof Bee s){
+            Observation obs = observations.get(currIndex);
+            if(isValid(obs)){
+                Bee s = (Bee) obs;
                 if(s.getEarlierObservation().equals(curr)){
                     list.add(s);
                     curr = s;
@@ -136,10 +148,8 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         int index = same.indexOf(current) + 1;
         while(index <= same.size() - 1){
             candidate = same.get(index);
-            if(candidate != null &&
-                    candidate.valid() &&
-                    filter.test(candidate)){
-                if (type.isInstance(candidate)) return type.cast(candidate);
+            if(isValid(candidate) && type.isInstance(candidate)){
+                 return type.cast(candidate);
             }
             index++;
         }
