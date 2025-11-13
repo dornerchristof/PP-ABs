@@ -3,6 +3,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+/**
+ * Cristof:
+ * - interfaces: Observation, Pollinator, Wasp.
+ * - Klassen: FlowerFly, ObservationIterator
+ * Patrick:
+ * - interfaces: SocialBee, WildBee, SolitaryBee, CommunalBee
+ * - Klassen: Bumblebee, HoneyBee,
+ * Tobias:
+ * - interfaces: Bee
+ * - Klassen: LasioglossumCalceatum, OsmiaCornuta, AndrenaBucephala, BeeIterator
+ * */
+
 
 //Schwebfliegen gehören zu den Fliegen und sind damit nicht mit den Wespen oder Bienen verwandt. Daher gibt es keine
 //Untertypbeziehungen zwischen Schwebfliegen und Wasp und Bee und vice versa.
