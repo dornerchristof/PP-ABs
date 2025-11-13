@@ -133,10 +133,16 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
     private T findNext() {
         buildList();
         Bee candidate = null;
-        if(same.indexOf(current) <= same.size()){
-            candidate = same.get(same.indexOf(current) + 1);
-            if (type.isInstance(candidate)) return type.cast(candidate);
-        };
+        int index = same.indexOf(current) + 1;
+        while(index <= same.size() - 1){
+            candidate = same.get(index);
+            if(candidate != null &&
+                    candidate.valid() &&
+                    filter.test(candidate)){
+                if (type.isInstance(candidate)) return type.cast(candidate);
+            }
+            index++;
+        }
         return null;
     }
 
