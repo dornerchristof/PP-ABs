@@ -38,13 +38,39 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
 
     @Override
     public Iterator<Observation> earlier() {
-        return null;
+        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
     }
 
     @Override
     public Iterator<Observation> later() {
+        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
+    }
+
+    @Override
+    public boolean fromBeekeeping() {
+        return false;
+    }
+
+    @Override
+    public Observation getPrevious() {
         return null;
     }
+
+    @Override
+    public String getTagNumber() {
+        return "";
+    }
+
+    @Override
+    public Individuum getIndividuum() {
+        return null;
+    }
+
+    @Override
+    public Lifestyle getLifestyle() {
+        return null;
+    }
+}
 
     @Override
     public Observation getPrevious() {

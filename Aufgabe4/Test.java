@@ -2,6 +2,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.List;
 
 //Schwebfliegen gehören zu den Fliegen und sind damit nicht mit den Wespen oder Bienen verwandt. Daher gibt es keine
 //Untertypbeziehungen zwischen Schwebfliegen und Wasp und Bee und vice versa.
@@ -11,6 +12,17 @@ import java.util.LinkedList;
 //Wasp ist kein Pollinator, da viele Wespenarten keine Bestäuber sind und vice versa.
 
 public class Test {
+
+    public static List<Observation> observations = new LinkedList<>();
+
+    public static void addObservation(Observation observation){
+        int i =0;
+        while(i < observations.size() && observations.get(i).getDate().before(observation.getDate())){
+            i++;
+        }
+        observations.add(i, observation);
+    }
+
     public static void main(String[] args) throws ParseException {
 
         //Observation-Iterator-Tests

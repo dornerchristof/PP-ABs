@@ -1,40 +1,29 @@
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 public class FlowerFly implements Pollinator{
     private Observation previous;
     private Observation next;
 
-
     private boolean valid = true;
     //Invarianz: comment != null
-    private String comment;
+    private final String comment;
     //Invarianz: date != null
-    private Date date;
+    private final Date date;
 
     //Vorbedingung: date != null, comment != null
     //Nachbedingung: Objekt erstellt und alle Objektvariablen gesetzt.
-    public FlowerFly(Date date, String comment){
+    public FlowerFly(Date date, String comment, List<Observation> observations){
         this.comment = comment;
         this.date = date;
+        Test.addObservation(this);
     }
 
     //Nachbedingung: Liefert das Datum der Observation
     @Override
     public Date getDate() {
         return date;
-    }
-
-    //Nachbedingung: Setzt den Nachfolger der Observation.
-    @Override
-    public void setNextObservation(Observation nextObservation) {
-        next = nextObservation;
-    }
-
-    //Nachbedingung: Liefert den Kommentar zur Observation.
-    @Override
-    public String getComment() {
-        return comment;
     }
 
     //Nachbedingung: Falsch, falls davor remove() ausgeführt wurde.
@@ -49,15 +38,13 @@ public class FlowerFly implements Pollinator{
         valid = false;
     }
 
-    //Nachbedingung: Liefert den Nachfolger oder null, falls kein Nachfolger vorhanden ist.
     @Override
-    public Observation getNext() {
-        return next;
+    public Iterator<Observation> earlier() {
+        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
     }
 
-    //Nachbedingung: Liefert den Vorgänger oder null, falls kein Vorgänger vorhanden ist.
     @Override
-    public Observation getPrevious() {
-        return previous;
+    public Iterator<Observation> later() {
+        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
     }
 }

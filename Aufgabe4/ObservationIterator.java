@@ -1,5 +1,6 @@
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 
@@ -11,6 +12,7 @@ public class ObservationIterator implements Iterator<Observation> {
     //current != null, current.valid() == true
     private Observation current;
     private final Direction direction;
+    private final List<Observation> observations;
 
     public enum Direction {
         LATER,
@@ -18,25 +20,21 @@ public class ObservationIterator implements Iterator<Observation> {
     }
 
     //start != null
-    public ObservationIterator(Observation start, Direction direction) {
+    public ObservationIterator(Observation start, Direction direction, List<Observation> observations) {
         this.current = start;
         this.direction = direction;
+        this.observations = observations;
     }
 
     //Liefert die nächste Observation in der Iteration zurück, oder null, falls das Ende der Iteration erreicht ist.
     private Observation findNext() {
-        var currentDate = current.getDate();
-        Observation result = null;
-        var next = current;
-        while (next.getNext() != null) {
-            next = next.getNext();
-            result = isCloser(currentDate, result, next) ? next : result;
+        int index = observations.indexOf(current);
+        if(direction == Direction.EARLIER){
+           if(index == 0) return null;
+           return observations.get(index-1);
         }
-        while (next.getPrevious() != null) {
-            next = next.getPrevious();
-            result = isCloser(currentDate, result, next) ? next : result;
-        }
-        return result;
+            if(index == observations.size() - 2) return null;
+            return observations.get(index + 1);
     }
 
     //currentDate != null, next != null

@@ -14,7 +14,7 @@ public class OsmiaCornuta implements SolitaryBee{
         this.comment = comment;
         this.date = date;
         this.previous = previous;
-        if(previous != null) previous.setNextObservation(this);
+        Test.addObservation(this);
     }
     public OsmiaCornuta(String tagNumber, Date date, Observation previous, String comment) {
         this(comment, date, previous);
@@ -25,7 +25,6 @@ public class OsmiaCornuta implements SolitaryBee{
     public OsmiaCornuta(Date date, String comment, Observation previous,Observation earlierObservation) {
         this(comment, date, previous);
         this.earlierObservation = earlierObservation;
-        earlierObservation.setNextObservation(this);
     }
 
     public OsmiaCornuta(String tagNumber, Date date, Observation previous, String comment, Observation earlierObservation) {
@@ -39,10 +38,6 @@ public class OsmiaCornuta implements SolitaryBee{
         return date;
     }
 
-    @Override
-    public String getComment() {
-        return comment;
-    }
 
     @Override
     public Observation getPrevious() {
@@ -50,13 +45,13 @@ public class OsmiaCornuta implements SolitaryBee{
     }
 
     @Override
-    public void setNextObservation(Observation laterObservation) {
-        this.next = laterObservation;
+    public String getTagNumber() {
+        return tagNumber;
     }
 
     @Override
-    public String getTagNumber() {
-        return tagNumber;
+    public Lifestyle getLifestyle() {
+        return null;
     }
 
     @Override
@@ -79,9 +74,20 @@ public class OsmiaCornuta implements SolitaryBee{
         valid = false;
     }
 
+    @Override
+    public Iterator<Observation> earlier() {
+        return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
+    }
 
     @Override
-    public Observation getNext() {
-        return next;
+    public Iterator<Observation> later() {
+        return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
+    }
+
+
+
+    @Override
+    public boolean fromBeekeeping() {
+        return false;
     }
 }
