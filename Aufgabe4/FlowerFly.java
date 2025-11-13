@@ -1,10 +1,9 @@
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
+
+//Eine Beobachtung einer Schwebfliege. Schwebfliegen sind Bestäuber.
 public class FlowerFly implements Pollinator{
-    private Observation previous;
-    private Observation next;
 
     private boolean valid = true;
     //Invarianz: comment != null
@@ -13,8 +12,8 @@ public class FlowerFly implements Pollinator{
     private final Date date;
 
     //Vorbedingung: date != null, comment != null
-    //Nachbedingung: Objekt erstellt und alle Objektvariablen gesetzt.
-    public FlowerFly(Date date, String comment, List<Observation> observations){
+    //Nachbedingung: Objekt erstellt und alle Objektvariablen gesetzt und Objekt in die Liste aller Observations eingefügt.
+    public FlowerFly(Date date, String comment){
         this.comment = comment;
         this.date = date;
         Test.addObservation(this);
@@ -26,6 +25,7 @@ public class FlowerFly implements Pollinator{
         return date;
     }
 
+    //Zeigt an, ob die Observation (logisch) entfernt wurde.
     //Nachbedingung: Falsch, falls davor remove() ausgeführt wurde.
     @Override
     public boolean valid() {
@@ -38,11 +38,15 @@ public class FlowerFly implements Pollinator{
         valid = false;
     }
 
+    //Nachbedingung: Liefert einen Iterator über alle zeitlich vor dieser Observation gelegenen Observationen,
+    // welche valid sind.
     @Override
     public Iterator<Observation> earlier() {
         return new ObservationIterator(this, ObservationIterator.Direction.EARLIER, Test.observations);
     }
 
+    //Nachbedingung: Liefert einen Iterator über alle zeitlich nach dieser Observation gelegenen Observationen.,
+    // welche valid sind.
     @Override
     public Iterator<Observation> later() {
         return new ObservationIterator(this, ObservationIterator.Direction.LATER, Test.observations);
