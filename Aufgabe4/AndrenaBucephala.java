@@ -4,7 +4,7 @@ import java.util.function.Predicate;
 
 public class AndrenaBucephala implements CommunalBee{
     private boolean valid = true;
-    protected AndrenaBucephala(String comment, Date date) {
+    protected AndrenaBucephala(String comment, Date date, boolean solitaryLifestyle) {
 
     }
 

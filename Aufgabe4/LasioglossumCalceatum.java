@@ -3,7 +3,7 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
-    protected LasioglossumCalceatum(String comment, Date date) {
+    protected LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle) {
     }
 
     @Override
