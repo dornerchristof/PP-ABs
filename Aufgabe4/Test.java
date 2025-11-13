@@ -41,7 +41,7 @@ public class Test {
         Observation prev = null;
         var timeFormat =new SimpleDateFormat("yyyy-MM-dd");
         for (String date : dates) {
-            prev = new OsmiaCornuta("obs.. " + date, timeFormat.parse(date), prev);
+            prev = new OsmiaCornuta("obs.. " + date, timeFormat.parse(date));
             observationList.add(prev);
         }
         //Testen, ob der Vorherige gefunden wird.

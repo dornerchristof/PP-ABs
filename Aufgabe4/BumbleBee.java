@@ -3,23 +3,61 @@ import java.util.Iterator;
 
 public class BumbleBee implements SocialBee, WildBee{
     private boolean valid = true;
-    private Date date;
-    private String comment;
+    private final Date date;
+    private final String comment;
     private boolean fromBeekeeping;
-    protected BumbleBee(String comment, Date date, boolean fromBeekeeping) {
+    private Bee earlierObservation = null;
+    private int tagNumber = -1;
+
+    public BumbleBee(String comment, Date date, boolean fromBeekeeping) {
         this.comment = comment;
         this.date = date;
         this.fromBeekeeping = fromBeekeeping;
     }
+    public BumbleBee(String comment, Date date) {
+        this.comment = comment;
+        this.date = date;
+    }
+
+    public BumbleBee(String comment, Date date, int tagNumber) {
+        this(comment, date);
+        this.tagNumber = tagNumber;
+    }
+
+    public BumbleBee(String comment, Date date, Bee earlierObservation) {
+        this(comment, date);
+        this.earlierObservation = earlierObservation;
+    }
+
+    public BumbleBee(String comment, Date date, boolean fromBeekeeping, int tagNumber) {
+        this(comment, date, fromBeekeeping);
+        this.tagNumber = tagNumber;
+    }
+
+    public BumbleBee(String comment, Date date, boolean fromBeekeeping, Bee earlierObservation) {
+        this(comment, date, fromBeekeeping);
+        this.earlierObservation = earlierObservation;
+    }
+
+    public BumbleBee(String comment, Date date, int tagNumber, Bee earlierObservation) {
+        this(comment, date, tagNumber);
+        this.earlierObservation = earlierObservation;
+    }
+
+    public BumbleBee(String comment, Date date, boolean fromBeekeeping, int tagNumber, Bee earlierObservation) {
+        this(comment, date, fromBeekeeping, tagNumber);
+        this.earlierObservation = earlierObservation;
+    }
+
 
     @Override
-    public Observation getPrevious() {
-        return null;
+    public Bee getEarlierObservation() {
+        return earlierObservation;
     }
 
     @Override
-    public String getTagNumber() {
-        return "";
+    public int getTagNumber() {
+        return tagNumber;
     }
 
     @Override
