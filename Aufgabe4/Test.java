@@ -16,24 +16,37 @@ import java.util.List;
  * */
 
 
-//Schwebfliegen gehören zu den Fliegen und sind damit nicht mit den Wespen oder Bienen verwandt. Daher gibt es keine
-//Untertypbeziehungen zwischen Schwebfliegen und Wasp und Bee und vice versa.
-//Da die Schwebfliege keine Biene ist, kann sie auch keine WildBee, SocialBee, SolitaryBee oder CommunalBee,
-//da die genannten Typen Untertypen von Bee sind.
+/*
+Schwebfliegen gehören zu den Fliegen und sind damit nicht mit den Wespen verwandt. Daher ist FlowerFly
+nicht Untertyp von Wasp und genauso ist deshalb Wasp nicht Untertyp von FlowerFly.
+Da Bee ein Untertyp von Wasp ist, aber FlowerFly kein Untertyp von Wasp ist, ist FlowerFly auch kein Untertyp von Bee. (Sonst wäre FlowerFly auch eine Wasp.)
+Da Bienen eine Wespe sind und somit nicht mit Fliegen verwandt sind, ist Bee kein Untertyp von FlowerFly.
+Aus demselben Grund sind alle Untertypen von Bee (WildBee, SocialBee, SolitaryBee, CommunalBee, AndrenaBucephala,
+LasioglossumCalceatum, OsmiaCornuta) keine Untertypen von FlowerFly und FlowerFly keine Untertyp von diesen Typen.
 
-//Wasp ist kein Pollinator, da viele Wespenarten keine Bestäuber sind und vice versa.
+Wasp ist kein Untertyp von Pollinator, da viele Wespenarten keine Bestäuber sind und da nicht alle Pollinator
+Wespen sind (z. B. FlowerFly) ist auch Pollinator kein Untertyp von Wasp.
 
-//Honigbienen und Hummeln sind keine SolitaryBee und keine CommunalBee, da sie nur sozial leben.
-//Honigbienen sind keine Wildbienen, da sie nur als Nutztiere dienen.
+//Wild vs Social
+//Solitary vs Social
+//Honey Bee
+//Bumble Bee
+//Osmia Cornuta
+//AndrenaBucephala
+//LasioglossumCalceatum
 
-//AndrenaBucephala ist nicht Untertyp von SocialBee, da sie nur communal bzw. solitär leben. Da nicht alle sozialen Bienen Andrena
-//Bucephala sind, ist AndrenaBucephala kein Obertyp von SocialBee.
-//LasioglossumCalceatum ist keine CommunalBee, da sie generell sozial und nur in kalten Regionen solitär leben.
-//OsmiaCornuta ist keine CommunalBee oder SocialBee, da sie nur solitär leben.
 
-//CommunalBee, SolitaryBee und WildBee sind keine SocialBee, da SocialBee nicht ausschließlich wild leben.
-//SocialBee sind keine CommunalBee, SolitaryBee oder WildBee, da SocialBee nicht ausschließlich wild leben.
+Honigbienen und Hummeln sind keine SolitaryBee und keine CommunalBee, da sie nur sozial leben.
+Honigbienen sind keine Wildbienen, da sie nur als Nutztiere dienen.
 
+AndrenaBucephala ist nicht Untertyp von SocialBee, da sie nur communal bzw. solitär leben. Da nicht alle sozialen Bienen Andrena
+Bucephala sind, ist AndrenaBucephala kein Obertyp von SocialBee.
+LasioglossumCalceatum ist keine CommunalBee, da sie generell sozial und nur in kalten Regionen solitär leben.
+OsmiaCornuta ist keine CommunalBee oder SocialBee, da sie nur solitär leben.
+
+CommunalBee, SolitaryBee und WildBee sind keine SocialBee, da SocialBee nicht ausschließlich wild leben.
+SocialBee sind keine CommunalBee, SolitaryBee oder WildBee, da SocialBee nicht ausschließlich wild leben.
+*/
 
 
 public class Test {
@@ -71,7 +84,5 @@ public class Test {
             if(i.hasNext())
                 System.out.println(observation.getDate() + " after " + i.next().getDate());
         }
-
-
     }
 }
