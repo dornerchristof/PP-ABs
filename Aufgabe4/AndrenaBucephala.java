@@ -34,13 +34,13 @@ public class AndrenaBucephala implements CommunalBee{
     }
 
     @Override
-    public Observation getPrevious() {
+    public Observation getEarlierObservation() {
         return null;
     }
 
     @Override
-    public String getTagNumber() {
-        return "";
+    public int getTagNumber() {
+        return 0;
     }
 
     @Override

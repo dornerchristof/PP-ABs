@@ -6,7 +6,7 @@ public class OsmiaCornuta implements SolitaryBee{
     Observation previous;
     Observation next;
     Observation earlierObservation;
-    String tagNumber;
+    int tagNumber;
     Date date;
     String comment;
     boolean valid = true;
@@ -16,7 +16,7 @@ public class OsmiaCornuta implements SolitaryBee{
         this.previous = previous;
         Test.addObservation(this);
     }
-    public OsmiaCornuta(String tagNumber, Date date, Observation previous, String comment) {
+    public OsmiaCornuta(int tagNumber, Date date, Observation previous, String comment) {
         this(comment, date, previous);
         this.tagNumber = tagNumber;
 
@@ -27,7 +27,7 @@ public class OsmiaCornuta implements SolitaryBee{
         this.earlierObservation = earlierObservation;
     }
 
-    public OsmiaCornuta(String tagNumber, Date date, Observation previous, String comment, Observation earlierObservation) {
+    public OsmiaCornuta(int tagNumber, Date date, Observation previous, String comment, Observation earlierObservation) {
         this(tagNumber, date, previous,comment);
         this.earlierObservation = earlierObservation;
     }
@@ -40,12 +40,12 @@ public class OsmiaCornuta implements SolitaryBee{
 
 
     @Override
-    public Observation getPrevious() {
+    public Observation getEarlierObservation() {
         return previous;
     }
 
     @Override
-    public String getTagNumber() {
+    public int getTagNumber() {
         return tagNumber;
     }
 

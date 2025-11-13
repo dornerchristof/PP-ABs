@@ -1,4 +1,3 @@
-import java.util.Date;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.function.Predicate;
@@ -17,8 +16,8 @@ public class FilteredObservationIterator<T extends Observation> implements Itera
     //start != null
     public FilteredObservationIterator(T start, Predicate<Observation> filter) {
         this.current = start;
-        while (this.current.getPrevious() != null) {
-            this.current = this.current.getPrevious();
+        while (this.current.getEarlierObservation() != null) {
+            this.current = this.current.getEarlierObservation();
         }
         while (!this.current.valid() && this.current != null) {
             this.current = this.current.getNext();
