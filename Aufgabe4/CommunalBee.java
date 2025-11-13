@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public interface CommunalBee extends Bee{
+public interface CommunalBee extends SolitaryBee{
     default Iterator<CommunalBee> communal() {
         if (this.getIndividuum() != null) return null;
         return new FilteredObservationIterator<>(this, o ->
