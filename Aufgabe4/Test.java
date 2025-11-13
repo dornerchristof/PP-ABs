@@ -11,6 +11,16 @@ import java.util.List;
 
 //Wasp ist kein Pollinator, da viele Wespenarten keine Bestäuber sind und vice versa.
 
+//Honigbienen und Hummeln sind keine SolitaryBee und keine CommunalBee, da sie nur sozial leben.
+//Honigbienen sind keine Wildbienen, da sie nur als Nutztiere dienen.
+
+//AndrenaBucephala sind keine SocialBee, da sie nur communal und solitär leben
+//LasioglossumCalceatum ist keine CommunalBee, da sie generell sozial und nur in kalten Regionen solitär leben.
+//OsmiaCornuta ist keine CommunalBee oder SocialBee, da sie nur solitär leben.
+
+//CommunalBee, SolitaryBee und WildBee sind keine SocialBee, da SocialBee nicht ausschließlich wild leben.
+//SocialBee sind keine CommunalBee, SolitaryBee oder WildBee, da SocialBee nicht ausschließlich wild leben.
+
 public class Test {
 
     public static List<Observation> observations = new LinkedList<>();
