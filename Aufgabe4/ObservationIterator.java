@@ -12,6 +12,7 @@ public class ObservationIterator implements Iterator<Observation> {
     //current != null
     private Observation current;
     private final Direction direction;
+    //observations != null, observations.contains(current) == true
     private final List<Observation> observations;
 
     public enum Direction {
@@ -19,7 +20,6 @@ public class ObservationIterator implements Iterator<Observation> {
         EARLIER
     }
 
-    //start != null
     public ObservationIterator(Observation start, Direction direction, List<Observation> observations) {
         this.current = start;
         this.direction = direction;

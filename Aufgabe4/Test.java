@@ -63,13 +63,13 @@ public class Test {
         for(Observation observation : observationList){
             var i = observation.earlier();
             if(i.hasNext())
-                System.out.println(observation.getDate() + ": " + i.next().getDate());
+                System.out.println(observation.getDate() + " before " + i.next().getDate());
         }
         //Testen, ob der Nachfolger gefunden wird.
         for(Observation observation : observationList){
             var i = observation.later();
             if(i.hasNext())
-                System.out.println(observation.getDate() + ": " + i.next().getDate());
+                System.out.println(observation.getDate() + " after " + i.next().getDate());
         }
 
 

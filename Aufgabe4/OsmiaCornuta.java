@@ -12,7 +12,7 @@ public class OsmiaCornuta implements SolitaryBee{
     public OsmiaCornuta(String comment, Date date) {
         this.comment = comment;
         this.date = date;
-        Test.observations.add(this);
+        Test.addObservation(this);
     }
     public OsmiaCornuta(String comment, Date date, int tagNumber) {
         this(comment, date);
