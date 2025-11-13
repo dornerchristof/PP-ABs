@@ -5,14 +5,30 @@ import java.util.function.Predicate;
 public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
     private boolean valid = true;
     private String comment;
-    private Date date;
+    private final Date date;
     private final Lifestyle lifestyle;
-    private int tagNumber;
+    private int tagNumber = -1;
     private Bee earlierObservation;
+
+    public LasioglossumCalceatum(String comment, Date date) {
+        this.comment = comment;
+        this.date = date;
+        this.lifestyle = Lifestyle.SOCIAL;
+    }
+
     public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle) {
         this.comment = comment;
         this.date = date;
         this.lifestyle = solitaryLifestyle ? Lifestyle.SOLITARY : Lifestyle.SOCIAL;
+    }
+    public LasioglossumCalceatum(String comment, Date date, int tagNumber) {
+        this(comment, date);
+        this.tagNumber = tagNumber;
+    }
+
+    public LasioglossumCalceatum(String comment, Date date, Bee earlierObservation) {
+        this(comment, date);
+        this.earlierObservation = earlierObservation;
     }
 
     public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle, int tagNumber) {
@@ -22,6 +38,11 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
 
     public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle, Bee earlierObservation) {
         this(comment, date, solitaryLifestyle);
+        this.earlierObservation = earlierObservation;
+    }
+
+    public LasioglossumCalceatum(String comment, Date date, int tagNumber, Bee earlierObservation) {
+        this(comment, date, tagNumber);
         this.earlierObservation = earlierObservation;
     }
 
