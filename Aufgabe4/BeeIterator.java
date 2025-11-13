@@ -60,7 +60,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
             Observation obs = observations.get(currentIndex);
             if( isValid(obs)){
                 Bee s = (Bee) obs;
-                if(s.getEarlierObservation().equals(current)){
+                if(s.getEarlierObservation() != null && s.getEarlierObservation().equals(current)){
                     if(s.getTagNumber() != -1) {
                         tagNumber = s.getTagNumber();
                         return;
@@ -132,7 +132,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
             Observation obs = observations.get(currIndex);
             if(isValid(obs)){
                 Bee s = (Bee) obs;
-                if(s.getEarlierObservation().equals(curr)){
+                if(s.getEarlierObservation() != null && s.getEarlierObservation().equals(curr)){
                     list.add(s);
                     curr = s;
                 }

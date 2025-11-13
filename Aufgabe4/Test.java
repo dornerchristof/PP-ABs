@@ -64,27 +64,100 @@ public class Test {
     }
 
     public static void main(String[] args) throws ParseException {
+        //Erstelle objekte aller Typen:
+        var timeFormat = new SimpleDateFormat("yyyy-MM-dd");
+        // FLowerFly:
+        Test.addObservation(new FlowerFly(timeFormat.parse("2025-05-10"), "Schwebfliege an Lavendel"));
+        Test.addObservation(new FlowerFly(timeFormat.parse("2025-06-15"), "Schwebfliege an Sonnenblume"));
+        Test.addObservation(new FlowerFly(timeFormat.parse("2025-07-20"), "Schwebfliege an Margerite"));
+        Test.addObservation(new FlowerFly(timeFormat.parse("2025-08-05"), "Schwebfliege an Klee"));
+        Test.addObservation(new FlowerFly(timeFormat.parse("2025-09-12"), "Schwebfliege an Astern"));
+        // OsmiaCornuta:
+        Observation osmia1_1 = new OsmiaCornuta("Osmia Cornuta an Kirschblüte", timeFormat.parse("2025-04-05"));
+        Test.addObservation(osmia1_1);
+        Test.addObservation(new OsmiaCornuta("Osmia Cornuta nochmal gesehen", timeFormat.parse("2025-04-10"), (Bee) osmia1_1));
 
-        //Observation-Iterator-Tests
-        var dates = new String[]{"2025-10-1", "2025-10-2", "2025-10-3", "2025-04-1", "2025-04-2", "2025-11-23"};
-        var observationList = new LinkedList<Observation>();
-        Observation prev = null;
-        var timeFormat =new SimpleDateFormat("yyyy-MM-dd");
-        for (String date : dates) {
-            prev = new OsmiaCornuta("obs.. " + date, timeFormat.parse(date));
-            observationList.add(prev);
+        Observation osmia2_1 = new OsmiaCornuta("Osmia beim Nistplatz", timeFormat.parse("2025-04-12"));
+        Test.addObservation(osmia2_1);
+        Observation osmia2_2 = new OsmiaCornuta("Osmia sammelt Pollen", timeFormat.parse("2025-04-15"), 102, (Bee) osmia2_1);
+        Test.addObservation(osmia2_2);
+        Observation osmia2_3 = new OsmiaCornuta("Osmia an Apfelblüte", timeFormat.parse("2025-04-18"), (Bee) osmia2_2);
+        Test.addObservation(osmia2_3);
+        // LasioglossumCalceatum:
+        Observation lasio1_1 = new LasioglossumCalceatum("Lasioglossum bei Kolonie", timeFormat.parse("2025-05-05"), false, 201);
+        Test.addObservation(lasio1_1);
+        Test.addObservation(new LasioglossumCalceatum("Lasioglossum zurück zur Kolonie", timeFormat.parse("2025-05-08"), false, 201, (Bee) lasio1_1));
+
+        Observation lasio2_1 = new LasioglossumCalceatum("Lasioglossum allein", timeFormat.parse("2025-05-12"), true, 202);
+        Test.addObservation(lasio2_1);
+        Observation lasio2_2 = new LasioglossumCalceatum("Lasioglossum gräbt Nest", timeFormat.parse("2025-05-15"), true, 202, (Bee) lasio2_1);
+        Test.addObservation(lasio2_2);
+        Test.addObservation(new LasioglossumCalceatum("Lasioglossum am Nest", timeFormat.parse("2025-05-20"), true, 202, (Bee) lasio2_2));
+
+        // AndrenaBucephala Observations:
+        Observation andrena1_1 = new AndrenaBucephala("Andrena bei Gemeinschaftsnest", timeFormat.parse("2025-04-20"), false, 301);
+        Test.addObservation(andrena1_1);
+        Test.addObservation(new AndrenaBucephala("Andrena zurück zum Nest", timeFormat.parse("2025-04-25"), false, 301, (Bee) andrena1_1));
+
+        Observation andrena2_1 = new AndrenaBucephala("Andrena alleine unterwegs", timeFormat.parse("2025-04-28"), true, 302);
+        Test.addObservation(andrena2_1);
+        Observation andrena2_2 = new AndrenaBucephala("Andrena an Weidenblüte", timeFormat.parse("2025-05-02"), true, 302, (Bee) andrena2_1);
+        Test.addObservation(andrena2_2);
+        Test.addObservation(new AndrenaBucephala("Andrena sammelt Pollen", timeFormat.parse("2025-05-06"), true, 302, (Bee) andrena2_2));
+
+        // HoneyBee:
+        Observation honey1_1 = new HoneyBee("Honigbiene am Bienenstock", timeFormat.parse("2025-06-01"), 401);
+        Test.addObservation(honey1_1);
+        Test.addObservation(new HoneyBee("Honigbiene sammelt Nektar", timeFormat.parse("2025-06-05"), 401, (Bee) honey1_1));
+
+        Observation honey2_1 = new HoneyBee("Honigbiene an Rapsblüte", timeFormat.parse("2025-06-08"), 402);
+        Test.addObservation(honey2_1);
+        Observation honey2_2 = new HoneyBee("Honigbiene auf Rückflug", timeFormat.parse("2025-06-10"), 402, (Bee) honey2_1);
+        Test.addObservation(honey2_2);
+        Test.addObservation(new HoneyBee("Honigbiene beim Schwänzeltanz", timeFormat.parse("2025-06-12"), 402, (Bee) honey2_2));
+
+        // BumbleBee:
+        Observation bumble1_1 = new BumbleBee("Hummel in freier Wildbahn", timeFormat.parse("2025-05-25"), false);
+        Test.addObservation(bumble1_1);
+        Test.addObservation(new BumbleBee("Hummel an Klatschmohn", timeFormat.parse("2025-05-28"), false, (Bee) bumble1_1));
+
+        Observation bumble2_1 = new BumbleBee("Hummel aus Zucht", timeFormat.parse("2025-06-02"), true, 502);
+        Test.addObservation(bumble2_1);
+        Observation bumble2_2 = new BumbleBee("Hummel im Gewächshaus", timeFormat.parse("2025-06-06"), true, 502);
+        Test.addObservation(bumble2_2);
+        Test.addObservation(new BumbleBee("Hummel bestäubt Tomaten", timeFormat.parse("2025-06-10"), true, 502, (Bee) bumble2_1));
+
+
+        // Teste ein paar sameBee() Iteratoren
+        System.out.println("Test sameBee() für Osmia 2_2:");
+        var osmiaIterator = ((Bee) osmia2_1).sameBee();
+        while (true) {
+            Bee b = osmiaIterator.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
         }
-        //Testen, ob der Vorherige gefunden wird.
-        for(Observation observation : observationList){
-            var i = observation.earlier();
-            if(i.hasNext())
-                System.out.println(observation.getDate() + " before " + i.next().getDate());
-        }
-        //Testen, ob der Nachfolger gefunden wird.
-        for(Observation observation : observationList){
-            var i = observation.later();
-            if(i.hasNext())
-                System.out.println(observation.getDate() + " after " + i.next().getDate());
-        }
+
+//            //Observation-Iterator-Tests
+//            var dates = new String[]{"2025-10-1", "2025-10-2", "2025-10-3", "2025-04-1", "2025-04-2", "2025-11-23"};
+//            var observationList = new LinkedList<Observation>();
+//            Observation prev = null;
+//            for (String date : dates) {
+//                prev = new OsmiaCornuta("obs.. " + date, timeFormat.parse(date));
+//                observationList.add(prev);
+//                addObservation(prev);
+//            }
+//            //Testen, ob der Vorherige gefunden wird.
+//            for (Observation observation : observationList) {
+//                var i = observation.earlier();
+//                if (i.hasNext())
+//                    System.out.println(observation.getDate() + " before " + i.next().getDate());
+//            }
+//            //Testen, ob der Nachfolger gefunden wird.
+//            for (Observation observation : observationList) {
+//                var i = observation.later();
+//                if (i.hasNext())
+//                    System.out.println(observation.getDate() + " after " + i.next().getDate());
+//            }
+
+
     }
 }
