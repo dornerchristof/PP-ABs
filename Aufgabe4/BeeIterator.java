@@ -1,7 +1,8 @@
 import java.util.*;
+import java.util.function.Predicate;
 
-public class BeeIterator implements Iterator<Bee> {
-    private final Bee individum;
+public class BeeIterator<T extends Bee> implements Iterator<T> {
+    private final Bee individuum;
     private int tagNumber;
     private Bee current;
     private LinkedList<Bee> same;
@@ -9,15 +10,28 @@ public class BeeIterator implements Iterator<Bee> {
     private boolean asc = true;
     private Date from;
     private Date to;
-    public BeeIterator(List<Observation> observations, Bee individum) {
-        this.individum = individum;
+
+    @SuppressWarnings("unchecked")
+    private Class<T> type = (Class<T>) Bee.class;
+    private Predicate<Bee> filter = b -> true;
+
+    public BeeIterator(List<Observation> observations, Bee individuum) {
+        this.individuum = individuum;
         this.observations = observations;
         buildList();
         current = same.getFirst();
     }
+    public BeeIterator(List<Observation> observations, Bee individuum, Class<T> type, Predicate<Bee> filter) {
+        this.individuum = individuum;
+        this.observations = observations;
+        buildList();
+        current = same.getFirst();
+        this.type = type;
+        this.filter = filter;
+    }
 
-    public BeeIterator(List<Observation> observations, Bee individum, Boolean asc,Date from, Date to) {
-        this.individum = individum;
+    public BeeIterator(List<Observation> observations, Bee individuum, Boolean asc, Date from, Date to) {
+        this.individuum = individuum;
         this.observations = observations;
         this.asc = asc;
         this.from = from;
@@ -30,7 +44,7 @@ public class BeeIterator implements Iterator<Bee> {
     }
 
     private void findTagNumber() {
-        Bee current = individum;
+        Bee current = individuum;
         while (current.getEarlierObservation() != null) {
             if (current.getEarlierObservation() instanceof Bee s) {
                 if (s.getTagNumber() != -1) {
@@ -40,10 +54,10 @@ public class BeeIterator implements Iterator<Bee> {
                 current = s;
             }
         }
-        current = individum;
-        int currentIndex = observations.indexOf(individum);
+        current = individuum;
+        int currentIndex = observations.indexOf(individuum);
         while(currentIndex <= observations.size() - 1){
-            if(observations.get(currentIndex) instanceof Bee s){
+            if( observations.get(currentIndex) instanceof Bee s && type.isInstance(s) && filter.test(s)){
                 if(s.getEarlierObservation().equals(current)){
                     if(s.getTagNumber() != -1) {
                         tagNumber = s.getTagNumber();
@@ -57,7 +71,7 @@ public class BeeIterator implements Iterator<Bee> {
     }
 
     private void buildList(){
-        List<Bee> conected = findAllConected(individum);
+        List<Bee> conected = findAllConected(individuum);
         same = new LinkedList<>();
         for(Bee bee : conected){
             addSame(bee);
@@ -116,9 +130,13 @@ public class BeeIterator implements Iterator<Bee> {
         return list;
     }
 
-    private Bee findNext() {
+    private T findNext() {
         buildList();
-        if(same.indexOf(current) <= same.size()) return same.get(same.indexOf(current) + 1);
+        Bee candidate = null;
+        if(same.indexOf(current) <= same.size()){
+            candidate = same.get(same.indexOf(current) + 1);
+            if (type.isInstance(candidate)) return type.cast(candidate);
+        };
         return null;
     }
 
@@ -144,9 +162,10 @@ public class BeeIterator implements Iterator<Bee> {
     }
 
     @Override
-    public Bee next() {
-        current = findNext();
+    public T next() {
+        T t = findNext();
+        current = t;
         if (current == null) throw new NoSuchElementException();
-        return current;
+        return t;
     }
 }

@@ -8,9 +8,9 @@ public interface Bee extends Pollinator, Wasp{
     Lifestyle getLifestyle();
     default Iterator<Bee> sameBee(){
 
-        return new BeeIterator(Test.observations, this);
+        return new BeeIterator<>(Test.observations, this);
     };
     default Iterator<Bee> sameBee(Boolean flip, Date from, Date to){
-        return new BeeIterator(Test.observations, this, flip, from, to);
+        return new BeeIterator<>(Test.observations, this, flip, from, to);
     };
 }

@@ -3,13 +3,6 @@ import java.util.Iterator;
 public interface SolitaryBee extends WildBee {
 
     default Iterator<SolitaryBee> solitary(){
-        if (this.getIndividuum() != null) return null;
-        return new FilteredObservationIterator<>(this, o ->
-        {
-            if (!(o instanceof SolitaryBee s)) return false;
-            return this.getIndividuum().equals(s.getIndividuum())
-                    && s.getLifestyle() == Lifestyle.SOLITARY;
-        }
-        );
+        return new BeeIterator<>(Test.observations, this, SolitaryBee.class, b -> b.getLifestyle() == Lifestyle.SOLITARY);
     };
 }
