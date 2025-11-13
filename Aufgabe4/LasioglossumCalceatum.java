@@ -3,22 +3,47 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
-    protected LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle) {
+    private boolean valid = true;
+    private String comment;
+    private Date date;
+    private final Lifestyle lifestyle;
+    private int tagNumber;
+    private Bee earlierObservation;
+    public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle) {
+        this.comment = comment;
+        this.date = date;
+        this.lifestyle = solitaryLifestyle ? Lifestyle.SOLITARY : Lifestyle.SOCIAL;
+    }
+
+    public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle, int tagNumber) {
+        this(comment, date, solitaryLifestyle);
+        this.tagNumber = tagNumber;
+    }
+
+    public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle, Bee earlierObservation) {
+        this(comment, date, solitaryLifestyle);
+        this.earlierObservation = earlierObservation;
+    }
+
+    public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle, int tagNumber, Bee earlierObservation) {
+        this(comment, date, solitaryLifestyle, tagNumber);
+        this.earlierObservation = earlierObservation;
     }
 
     @Override
     public Date getDate() {
-        return null;
+        return date;
     }
+
 
     @Override
     public boolean valid() {
-        return false;
+        return valid;
     }
 
     @Override
     public void remove() {
-
+        valid = false;
     }
 
     @Override
@@ -39,17 +64,18 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
 
     @Override
     public Bee getEarlierObservation() {
-        return null;
+        return earlierObservation;
     }
 
     @Override
     public int getTagNumber() {
-        return 0;
+        return tagNumber;
     }
-
 
     @Override
     public Lifestyle getLifestyle() {
-        return null;
+        return lifestyle;
     }
+
+
 }
