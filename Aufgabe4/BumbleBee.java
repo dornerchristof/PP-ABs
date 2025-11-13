@@ -1,13 +1,15 @@
 import java.util.Date;
 import java.util.Iterator;
 
-public class BumbleBee implements SocialBee{
+public class BumbleBee implements SocialBee, WildBee{
     private boolean valid = true;
     private Date date;
     private String comment;
-    protected BumbleBee(String comment, Date date) {
+    private boolean fromBeekeeping;
+    protected BumbleBee(String comment, Date date, boolean fromBeekeeping) {
         this.comment = comment;
         this.date = date;
+        this.fromBeekeeping = fromBeekeeping;
     }
 
     @Override
@@ -53,5 +55,10 @@ public class BumbleBee implements SocialBee{
     @Override
     public Iterator<Observation> later() {
         return null;
+    }
+
+    @Override
+    public boolean fromBeekeeping() {
+        return fromBeekeeping;
     }
 }
