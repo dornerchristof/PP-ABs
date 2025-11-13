@@ -1,15 +1,16 @@
+import java.util.Date;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
 public interface Bee extends Pollinator, Wasp{
-    Observation getPrevious();
-    String getTagNumber();
-    Individuum getIndividuum();
+    Bee getEarlierObservation();
+    int getTagNumber();
     Lifestyle getLifestyle();
     default Iterator<Bee> sameBee(){
-        return null; //TODO: implement me
+
+        return new BeeIterator(Test.observations, this);
     };
-    default Iterator<Bee> sameBee(Boolean flip, Predicate<Observation> between){
-        return null; //TODO: implement me
+    default Iterator<Bee> sameBee(Boolean flip, Date from, Date to){
+        return new BeeIterator(Test.observations, this, flip, from, to);
     };
 }
