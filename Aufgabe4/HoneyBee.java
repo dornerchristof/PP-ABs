@@ -10,7 +10,6 @@ public class HoneyBee implements SocialBee{
     protected HoneyBee(String comment, Date date) {
         this.comment = comment;
         this.date = date;
-        Test.addObservation(this);
     }
 
     public HoneyBee(String comment, Date date, int tagNumber) {

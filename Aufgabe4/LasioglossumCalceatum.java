@@ -14,7 +14,6 @@ public class LasioglossumCalceatum implements SocialBee, SolitaryBee {
         this.comment = comment;
         this.date = date;
         this.lifestyle = Lifestyle.SOCIAL;
-        Test.observations.add(this);
     }
 
     public LasioglossumCalceatum(String comment, Date date, boolean solitaryLifestyle) {

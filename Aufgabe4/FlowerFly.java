@@ -16,7 +16,6 @@ public class FlowerFly implements Pollinator{
     public FlowerFly(Date date, String comment){
         this.comment = comment;
         this.date = date;
-        Test.addObservation(this);
     }
 
     //Nachbedingung: Liefert das Datum der Observation

@@ -16,7 +16,6 @@ public class BumbleBee implements SocialBee, WildBee{
     public BumbleBee(String comment, Date date) {
         this.comment = comment;
         this.date = date;
-        Test.addObservation(this);
     }
 
     public BumbleBee(String comment, Date date, int tagNumber) {
