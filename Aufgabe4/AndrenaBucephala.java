@@ -2,7 +2,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
-public class AndrenaBucephala implements Bee{
+public class AndrenaBucephala implements CommunalBee{
     private boolean valid = true;
     protected AndrenaBucephala(String comment, Date date) {
 
@@ -14,16 +14,6 @@ public class AndrenaBucephala implements Bee{
     }
 
     @Override
-    public void setNextObservation(Observation nextObservation) {
-
-    }
-
-    @Override
-    public String getComment() {
-        return "";
-    }
-
-    @Override
     public boolean valid() {
         return false;
     }
@@ -31,11 +21,6 @@ public class AndrenaBucephala implements Bee{
     @Override
     public void remove() {
         valid = false;
-    }
-
-    @Override
-    public Observation getNext() {
-        return null;
     }
 
     @Override
@@ -59,6 +44,16 @@ public class AndrenaBucephala implements Bee{
     }
 
     @Override
+    public Individuum getIndividuum() {
+        return null;
+    }
+
+    @Override
+    public Lifestyle getLifestyle() {
+        return null;
+    }
+
+    @Override
     public Iterator<Bee> sameBee() {
         return null;
     }
@@ -69,4 +64,8 @@ public class AndrenaBucephala implements Bee{
     }
 
 
+    @Override
+    public boolean fromBeekeeping() {
+        return false;
+    }
 }
