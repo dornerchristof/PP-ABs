@@ -3,32 +3,27 @@ import java.util.Iterator;
 import java.util.function.Predicate;
 
 public class OsmiaCornuta implements SolitaryBee{
-    Observation previous;
-    Observation next;
-    Observation earlierObservation;
-    int tagNumber;
-    Date date;
-    String comment;
-    boolean valid = true;
-    public OsmiaCornuta(String comment, Date date, Observation previous) {
+    private Bee earlierObservation;
+    private int tagNumber = -1;
+    private final Date date;
+    private String comment;
+    private boolean valid = true;
+    private final Lifestyle lifestyle = Lifestyle.SOLITARY;
+    public OsmiaCornuta(String comment, Date date) {
         this.comment = comment;
         this.date = date;
-        this.previous = previous;
-        Test.addObservation(this);
     }
-    public OsmiaCornuta(int tagNumber, Date date, Observation previous, String comment) {
-        this(comment, date, previous);
+    public OsmiaCornuta(String comment, Date date, int tagNumber) {
+        this(comment, date);
         this.tagNumber = tagNumber;
-
     }
-
-    public OsmiaCornuta(Date date, String comment, Observation previous,Observation earlierObservation) {
-        this(comment, date, previous);
+    public OsmiaCornuta(String comment, Date date, Bee earlierObservation) {
+        this(comment, date);
         this.earlierObservation = earlierObservation;
     }
 
-    public OsmiaCornuta(int tagNumber, Date date, String comment, Observation earlierObservation) {
-        this(tagNumber, date, previous,comment);
+    public OsmiaCornuta(String comment, Date date, int tagNumber, Bee earlierObservation) {
+        this(comment, date, tagNumber);
         this.earlierObservation = earlierObservation;
     }
 
@@ -40,28 +35,18 @@ public class OsmiaCornuta implements SolitaryBee{
 
 
     @Override
-    public Observation getPrevious() {
-        return null;
+    public Bee getEarlierObservation() {
+        return earlierObservation;
     }
 
     @Override
     public int getTagNumber() {
-        return 0;
+        return tagNumber;
     }
 
     @Override
     public Lifestyle getLifestyle() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Bee> sameBee() {
-        return null;
-    }
-
-    @Override
-    public Iterator<Bee> sameBee(Boolean flip, Predicate<Observation> between) {
-        return null;
+        return lifestyle;
     }
 
     @Override
