@@ -23,11 +23,6 @@ public class BumbleBee implements SocialBee, WildBee{
     }
 
     @Override
-    public Individuum getIndividuum() {
-        return null;
-    }
-
-    @Override
     public Lifestyle getLifestyle() {
         return Lifestyle.SOCIAL;
     }

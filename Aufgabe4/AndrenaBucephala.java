@@ -34,21 +34,6 @@ public class AndrenaBucephala implements CommunalBee{
     }
 
     @Override
-    public Observation getEarlierObservation() {
-        return null;
-    }
-
-    @Override
-    public int getTagNumber() {
-        return 0;
-    }
-
-    @Override
-    public Individuum getIndividuum() {
-        return null;
-    }
-
-    @Override
     public Lifestyle getLifestyle() {
         return null;
     }

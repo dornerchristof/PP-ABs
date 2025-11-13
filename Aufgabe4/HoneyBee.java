@@ -11,18 +11,13 @@ public class HoneyBee implements SocialBee{
     }
 
     @Override
-    public Observation getPrevious() {
+    public Bee getEarlierObservation() {
         return null;
     }
 
     @Override
-    public String getTagNumber() {
-        return "";
-    }
-
-    @Override
-    public Individuum getIndividuum() {
-        return null;
+    public int getTagNumber() {
+        return 0;
     }
 
     @Override

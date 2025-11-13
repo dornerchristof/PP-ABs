@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 //View (referenzierender Iterator), die entweder alle zeitlich vor oder nach der übergebenen Observation passierten
 //Observationen liefert.
 public class ObservationIterator implements Iterator<Observation> {
-    //current != null, current.valid() == true
+    //current != null
     private Observation current;
     private final Direction direction;
     private final List<Observation> observations;
@@ -37,28 +37,8 @@ public class ObservationIterator implements Iterator<Observation> {
             return observations.get(index + 1);
     }
 
-    //currentDate != null, next != null
-    //Liefert wahr zurück, wenn next zwischen currentDate und currentClosest liegt und valide ist (und damit ein besserer
-    //Kandidat für die nächste Observation in der Iteration ist) oder falls currentClosest == null und next valide ist.
-    private boolean isCloser(Date currentDate, Observation currentClosest, Observation next) {
-        if (next.valid()) {
-            if (currentClosest == null) {
-                return direction == Direction.LATER && next.getDate().after(currentDate)
-                        || direction == Direction.EARLIER && next.getDate().before(currentDate);
-            } else {
-                if (direction == Direction.LATER) {
-                    return next.getDate().after(currentDate) && next.getDate().before(currentClosest.getDate());
-                } else if (direction == Direction.EARLIER) {
-                    return next.getDate().before(currentDate) && next.getDate().after(currentClosest.getDate());
-                }
-            }
-
-        }
-        return false;
-    }
-
-    //Findet heraus, ob es ein nächstes Element gibt oder die Iteration am Ende ist.
-    //Insbesondere überspringt es Observationen, die !valid() sind.
+    //Evaluiert zu wahr, wenn es noch ein Element in der Iteration gibt (next() eine Observation zurückliefert)
+    //Nachbedingung: falls wahr zurückgegeben wird, liefert next() das nächste Objekt in der Iteration
     @Override
     public boolean hasNext() {
         return findNext() != null;

@@ -11,7 +11,6 @@ public class BeeIterator implements Iterator<Bee> {
     private Date to;
     public BeeIterator(List<Observation> observations, Bee individum) {
         this.individum = individum;
-        tagNumber = individum.getTagNumber();
         this.observations = observations;
         buildList();
         current = same.getFirst();
@@ -19,7 +18,6 @@ public class BeeIterator implements Iterator<Bee> {
 
     public BeeIterator(List<Observation> observations, Bee individum, Boolean asc,Date from, Date to) {
         this.individum = individum;
-        tagNumber = individum.getTagNumber();
         this.observations = observations;
         this.asc = asc;
         this.from = from;
