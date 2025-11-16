@@ -12,7 +12,7 @@ public class AndrenaBucephala implements CommunalBee{
     public AndrenaBucephala(String comment, Date date) {
         this.comment = comment;
         this.date = date;
-        this.lifestyle = Lifestyle.COMMUNAL;
+//        this.lifestyle = Lifestyle.COMMUNAL;
     }
     public AndrenaBucephala(String comment, Date date, boolean solitaryLifestyle) {
         this(comment, date);

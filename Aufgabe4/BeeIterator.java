@@ -24,10 +24,10 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
     public BeeIterator(List<Observation> observations, Bee individuum, Class<T> type, Predicate<Bee> filter) {
         this.individuum = individuum;
         this.observations = observations;
-        buildList();
-        current = same.getFirst();
         this.type = type;
         this.filter = filter;
+        buildList();
+        current = same.getFirst();
     }
 
     public BeeIterator(List<Observation> observations, Bee individuum, Boolean asc, Date from, Date to) {
@@ -118,12 +118,14 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         // Get all earlier
         Bee curr = now;
         List<Bee> list = new LinkedList<>();
+        list.add(now);
+
         while(curr.getEarlierObservation() != null){
             Bee obs = curr.getEarlierObservation();
             if(isValid(obs)){
                 list.add(obs);
-                curr = obs;
             }
+            curr = obs;
         }
         // Get all later
         curr = now;

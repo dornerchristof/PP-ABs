@@ -61,8 +61,10 @@ public class Test {
         //Erstelle objekte aller Typen:
         var timeFormat = new SimpleDateFormat("yyyy-MM-dd");
         // FLowerFly:
-        Test.addObservation(new FlowerFly(timeFormat.parse("2025-05-10"), "Schwebfliege an Lavendel"));
-        Test.addObservation(new FlowerFly(timeFormat.parse("2025-06-15"), "Schwebfliege an Sonnenblume"));
+        Observation ff1 = new FlowerFly(timeFormat.parse("2025-05-10"), "Schwebfliege an Lavendel");
+        Test.addObservation(ff1);
+        Observation ff2 = new FlowerFly(timeFormat.parse("2025-06-15"), "Schwebfliege an Sonnenblume");
+        Test.addObservation(ff2);
         Test.addObservation(new FlowerFly(timeFormat.parse("2025-07-20"), "Schwebfliege an Margerite"));
         Test.addObservation(new FlowerFly(timeFormat.parse("2025-08-05"), "Schwebfliege an Klee"));
         Test.addObservation(new FlowerFly(timeFormat.parse("2025-09-12"), "Schwebfliege an Astern"));
@@ -121,14 +123,120 @@ public class Test {
         Test.addObservation(bumble2_2);
         Test.addObservation(new BumbleBee("Hummel bestäubt Tomaten", timeFormat.parse("2025-06-10"), true, 502, (Bee) bumble2_1));
 
+        System.out.println("======Test sameBee()=======");
 
         // Teste ein paar sameBee() Iteratoren
         System.out.println("Test sameBee() für Osmia 2_2:");
         var osmiaIterator = ((Bee) osmia2_1).sameBee();
-        while (true) {
+        while (osmiaIterator.hasNext()) {
             Bee b = osmiaIterator.next();
             System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
         }
+
+        System.out.println("Test für BumbleBee 1_1:");
+        var bumblebee1Iterator = ((Bee) bumble1_1).sameBee();
+        while (bumblebee1Iterator.hasNext()) {
+            Bee b = bumblebee1Iterator.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("Test für LasioglossumCalceatum 1_1:");
+        var lasioIterator = ((Bee) lasio1_1).sameBee();
+        while (lasioIterator.hasNext()) {
+            Bee b = lasioIterator.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("Test für AndrenaBucephala 1_1:");
+        var andrenaIterator = ((Bee) andrena1_1).sameBee();
+        while (andrenaIterator.hasNext()) {
+            Bee b = andrenaIterator.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("Test für Honeybee 1_1:");
+        var honeyBeeIterator = ((Bee) honey1_1).sameBee();
+        while (honeyBeeIterator.hasNext()) {
+            Bee b = honeyBeeIterator.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+        System.out.println("======Test solitary()=======");
+        System.out.println("Test für AndrenaBucephala 2_1:");
+        var andrenaSolitary = ((SolitaryBee) andrena2_1).solitary();
+        while (andrenaSolitary.hasNext()) {
+            Bee b = andrenaSolitary.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+        System.out.println("Test für OsmiaCornuta 1_1:");
+        var osmiaSolitary = ((SolitaryBee) osmia1_1).solitary();
+        while (osmiaSolitary.hasNext()) {
+            Bee b = osmiaSolitary.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+        System.out.println("Test für Lasio 1_1:");
+        var lasioSolitary = ((SolitaryBee) lasio1_1).solitary();
+        while (lasioSolitary.hasNext()) {
+            Bee b = lasioSolitary.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("======Test comunal()=======");
+        System.out.println("Test für Lasio 1_1:");
+        var andrenaComunal = ((CommunalBee) andrena1_1).communal();
+        while (andrenaComunal.hasNext()) {
+            Bee b = andrenaComunal.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("======Test social()=======");
+        System.out.println("Test für Lasio 1_1:");
+        var lasioSocial = ((SocialBee) lasio1_1).social();
+        while (lasioSocial.hasNext()) {
+            Bee b = lasioSocial.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+        System.out.println("Test für BumbleBee 1_1:");
+        var bumbleSocial = ((SocialBee) bumble1_1).social();
+        while (bumbleSocial.hasNext()) {
+            Bee b = bumbleSocial.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+        System.out.println("Test für Honeybee 1_1:");
+        var honeySocial = ((SocialBee) honey1_1).social();
+        while (honeySocial.hasNext()) {
+            Bee b = honeySocial.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+        System.out.println("======Test wild()=======");
+        System.out.println("Test für OsmiaCornuta 1_1:");
+        var  osmiaWild = ((WildBee) osmia1_1).wild(false);
+        while (osmiaWild.hasNext()) {
+            Bee b = osmiaWild.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("Test für Lasio 1_1:");
+        var  lasioWild = ((WildBee) lasio1_1).wild(false);
+        while (lasioWild.hasNext()) {
+            Bee b = lasioWild.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("Test für BumbleBee 1_1:");
+        var  bumbleWild = ((WildBee) bumble1_1).wild(false);
+        while (bumbleWild.hasNext()) {
+            Bee b = bumbleWild.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+        System.out.println("Test für Andrena 1_1:");
+        var  andrenaWild = ((WildBee) andrena1_1).wild(false);
+        while (andrenaWild.hasNext()) {
+            Bee b = andrenaWild.next();
+            System.out.println("Gefunden: tag " + b.getTagNumber() + " am " + b.getDate());
+        }
+
+
 
 //            //Observation-Iterator-Tests
 //            var dates = new String[]{"2025-10-1", "2025-10-2", "2025-10-3", "2025-04-1", "2025-04-2", "2025-11-23"};
