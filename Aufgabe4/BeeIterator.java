@@ -1,11 +1,17 @@
 import java.util.*;
 import java.util.function.Predicate;
 
+//EIGENE KLASSE
+
+// View (referenzierenden Iterator), alle Beobachtungen eines bestimmten Individums.
 public class BeeIterator<T extends Bee> implements Iterator<T> {
+    // Invarianz: individuum != null
     private final Bee individuum;
     private int tagNumber;
+    // Invarianz: current != null
     private Bee current;
     private LinkedList<Bee> same;
+    // Invarianz: oberations != null, observations.contains(current) == true, Die Liste aller Observationen die in der Klasse Test vorhanden sind.
     private final List<Observation> observations;
     private boolean asc = true;
     private Date from;
@@ -42,7 +48,8 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         }
         current = same.getFirst();
     }
-
+    // Sucht eine Tag Nummer die irgendeiner Beobachtung des selben Individuums zugeordnet ist.
+    // Vorbedingung: Die angegeben Tag Nummern aller Beobachtungen eines Individums sind gleich.
     private void findTagNumber() {
         Bee current = individuum;
         while (current.getEarlierObservation() != null) {
@@ -71,11 +78,13 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
             currentIndex++;
         }
     }
-
+    // Gibt zurück ob eine eingabe Beobachtung valid ist.
     private boolean isValid(Observation obs){
         return obs instanceof Bee s && type.isInstance(s) && filter.test(s);
     }
 
+    // Führt alle wichtigen Aktionen aus um die Liste neu aufzubauen.
+    // Sie wird aus den observations immer wieder neu gebaut um auf Änderungen nach dem erstellen des Iterators weiterhin bezug nehmen zu können.
     private void buildList(){
         List<Bee> conected = findAllConnected(individuum);
         same = new LinkedList<>();
@@ -101,6 +110,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         if(!asc) reverseSame();
     }
 
+    // Sucht alle Individuen die die slebe Tag Nummer wie in der Objektvariable tagNumber gespeichert wird.
     private List<Bee> findAllWithTag(){
         List<Bee> list = new LinkedList<>();
         for(Observation obs : observations){
@@ -113,7 +123,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         }
         return list;
     }
-
+    // Liefert alle Beobachtungen die über die die getEarlierObservation() Funktion von individuum verbunden sind.
     private List<Bee> findAllConnected(Bee now){
         // Get all earlier
         Bee curr = now;
@@ -143,7 +153,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         }
         return list;
     }
-
+    // Liefert die nächste Observation in der Iteration zurück, oder null, falls das Ende der Iteration erreicht ist.
     private T findNext() {
         buildList();
         Bee candidate = null;
@@ -157,7 +167,8 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         }
         return null;
     }
-
+    // Fügt einen nuen eintrag in die same Liste zeitlich sortiert hinzu.
+    // Vorbedingung: same != null
     private void addSame(Bee bee){
         int i =0;
         while(i < same.size() && same.get(i).getDate().before(bee.getDate())){
@@ -166,6 +177,7 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         same.add(i, bee);
     }
 
+    // Dreht die Sortierung ddr Liste um.
     private void reverseSame(){
         for(int i = 0; i < same.size() / 2; i++){
             Bee temp = same.get(i);
@@ -174,11 +186,16 @@ public class BeeIterator<T extends Bee> implements Iterator<T> {
         }
     }
 
+    //Evaluiert zu wahr, wenn es noch ein Element in der Iteration gibt (next() eine Observation zurückliefert)
+    //Nachbedingung: falls wahr zurückgegeben wird, liefert next() das nächste Objekt in der Iteration
     @Override
     public boolean hasNext() {
         return findNext() != null;
     }
 
+    //Vorbedingung: hasNext() == true
+    //Liefert die nächste Observation
+    // Nachbedingung: Setzt current auf den nächsten gültigen wert.
     @Override
     public T next() {
         T t = findNext();
