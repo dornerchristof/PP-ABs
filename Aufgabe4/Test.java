@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 /**
  * Christof:
- * - Definition der Untertypen beziehungen
+ * - Begründung der fehlenden Untertypbeziehungen.
  * - interfaces: Observation, Pollinator, Wasp.
  * - Klassen: FlowerFly, ObservationIterator
  * Patrick:
