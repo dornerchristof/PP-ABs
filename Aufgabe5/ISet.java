@@ -1,6 +1,6 @@
 import java.util.Iterator;
 
-public class ISet<E> implements OrdSet<E, Iterator<E>{
+public class ISet<E> implements OrdSet<E, Iterator<E>>{
     private Ordered<?, ?> c;
 
     public ISet(Ordered<?, ?> c) {
