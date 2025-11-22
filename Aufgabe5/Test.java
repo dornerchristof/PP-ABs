@@ -53,6 +53,7 @@ public class Test {
         MSet<WildBee,Integer> b1 = new MSet<>(null);
         MSet<HoneyBee,String> b2 = new MSet<>(null);
 
+        // Elements einfügen
         isetnum.setBefore(integers[0], integers[4]);
         isetnum.setBefore(integers[1], integers[2]);
         isetnum.setBefore(integers[3], integers[5]);
@@ -60,28 +61,31 @@ public class Test {
         a1.setBefore(bees[0], bees[1]);
         a1.setBefore(bees[2], bees[3]);
         a1.setBefore(bees[2], bees[5]);
+//
+ //       isetwildbee.setBefore(wildBees[0], wildBees[4]);
+//        isetwildbee.setBefore(wildBees[1], wildBees[2]);
+//        isetwildbee.setBefore(wildBees[3], wildBees[5]);
+//
+//        c2.setBefore(honeyBees[0], honeyBees[4]);
+//        c2.setBefore(honeyBees[1], honeyBees[2]);
+//        c2.setBefore(honeyBees[3], honeyBees[5]);
 
-        isetwildbee.setBefore(wildBees[0], wildBees[4]);
-        isetwildbee.setBefore(wildBees[1], wildBees[2]);
-        isetwildbee.setBefore(wildBees[3], wildBees[5]);
-
-        c2.setBefore(honeyBees[0], honeyBees[4]);
-        c2.setBefore(honeyBees[1], honeyBees[2]);
-        c2.setBefore(honeyBees[3], honeyBees[5]);
-
+        System.out.println(isetnum);
 
         copyElements(isetnum,osetnum);
-        copyRelations(numOrder, isetnum, osetnum);
+        //copyRelations(numOrder, isetnum, osetnum);
 
         copyElements(a1,a2);
-        copyRelations(beeOrder,a1,a2);
+        //copyRelations(beeOrder,a1,a2);
 
         copyElements(isetwildbee,c1);
-        copyRelations(wildBeeOrder,isetwildbee,c1);
+        //copyRelations(wildBeeOrder,isetwildbee,c1);
 
         copyElements(c2,osethoneybee);
-        copyRelations(honeyBeeOrder,c2,osethoneybee);
+        //copyRelations(honeyBeeOrder,c2,osethoneybee);
 
+        // Teil 2
+        System.out.println("Teil 2");
 
         Iterator<WildBee> c1it = c1.iterator();
         c1it.forEachRemaining(c -> {
@@ -98,12 +102,13 @@ public class Test {
         copyElements(c2,a2);
         copyElements(c2,b2);
 
+        System.out.println(c1);
         System.out.println(a1);
     }
 
 
     // Kopiert Elemente aus src nach dest, indem aufeinanderfolgende Paare
-// gesetzt werden (vermeidet das problematische setBefore(..., null)).
+    // gesetzt werden (vermeidet das problematische setBefore(..., null)).
     public static <E> void copyElements(Iterable<? extends E> src,
                                         OrdSet<? super E, ?> dest) {
         Iterator<? extends E> it = src.iterator();
@@ -126,6 +131,7 @@ public class Test {
             for (E y : elems) {
                 if (x == y) continue;
                 if (srcOrder.before(x, y) != null) {
+                    System.out.println(x.toString()+ ", "+y);
                     try {
                         dest.setBefore(x, y);
                     } catch (IllegalArgumentException ex) {

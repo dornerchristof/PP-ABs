@@ -33,6 +33,7 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
 
     }
 
+
     @Override public void check(Ordered<E, ?> c) throws IllegalArgumentException {
 
         for(var x : elements){

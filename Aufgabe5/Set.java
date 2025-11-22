@@ -12,6 +12,7 @@ public abstract class Set<E> {
     //von y to x
     protected boolean pathToY(E x, E y, NodeList list) {
         var nodeX = elements.findByElement(x);
+        if (nodeX == null) return false;
         if (nodeX.successors.findByElement(y) != null) {
             return true;
         } else {
