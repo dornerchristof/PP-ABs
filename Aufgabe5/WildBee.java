@@ -32,4 +32,9 @@ public class WildBee extends Bee implements Modifiable<Integer, WildBee> {
         return bee +"\nWildBee: " + this.length + "mm";
     }
 
+    @Override
+    public String toString(){
+        return "WildBee length: " + this.length;
+    }
+
 }

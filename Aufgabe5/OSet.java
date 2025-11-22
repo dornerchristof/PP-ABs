@@ -14,9 +14,9 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
     }
 
     @Override public int size() { return size; }
-    @Override public Iterator<E> iterator() {
-        return new ElementIterator();
-    }
+    //@Override public Iterator<E> iterator() {
+     //   return new ElementIterator();
+    //}
 
     /**
      * Privater Iterator, der über die Elemente (Typ E) des Containers läuft.

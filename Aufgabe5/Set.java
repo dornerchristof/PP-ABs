@@ -19,6 +19,25 @@ public abstract class Set<E> {
         }
     }
 
+    public Iterator<E> iterator() {
+         return new SetIterator(elements.iterator());
+    }
+    private class SetIterator implements Iterator<E>{
+        private final Iterator<Set<E>.Node> i;
+
+        private SetIterator(Iterator<Set<E>.Node> i){
+            this.i = i;
+        }
+        @Override
+        public boolean hasNext() {
+            return i.hasNext();
+        }
+
+        @Override
+        public E next() {
+            return i.next().element;
+        }
+    }
     /**
      * Eine einfache, selbstgebaute, verkettete Liste von Nodes.
      * Implementiert Iterable<Node<E>>, damit sie einfach durchlaufen werden kann.
@@ -84,7 +103,7 @@ public abstract class Set<E> {
         @Override
         public Iterator<Node> iterator() {
             // Gibt den Iterator über die internen Nodes zurück.
-            return new NodeList.NodeListIterator();
+            return new NodeList.NodeListIterator(head);
         }
 
         // --- 3. Der Iterator für NodeList ---
@@ -94,8 +113,11 @@ public abstract class Set<E> {
          * Muss nur hasNext() und next() implementieren.
          */
         private class NodeListIterator implements Iterator<Node> {
-            private Node current = head;
+            private Node current;
 
+            private NodeListIterator(Node current) {
+                this.current = current;
+            }
             @Override
             public boolean hasNext() {
                 return current != null;

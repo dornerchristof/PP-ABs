@@ -28,9 +28,30 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
     public Iterator<E> before(E x, E y) {
         var nodeX = elements.findByElement(x);
         if(nodeX  == null) return null;
-        if(nodeX.successors.findByElement(y) != null) //TODO: Transitivität
-            return new ISetIterator(nodeX.successors.iterator()); //TODO: Iterator nur die richtigen Elemente
+        var list = new NodeList();
+        if (pathToY(x, y, list)) {
+            return new ISetIterator(list);
+        }
         return null;
+    }
+
+    //Falls x in Relation zu y steht, befindet sich in der NodeList der Weg
+    //von y to x
+    private boolean pathToY(E x, E y, NodeList list) {
+        var nodeX = elements.findByElement(x);
+        if (nodeX.successors.findByElement(y) != null) {
+            list.add(nodeX.successors.findByElement(y));
+            return true;
+        } else {
+            for (var successor : nodeX.successors) {
+                var result = pathToY(successor.element, y, list);
+                if (result) {
+                    list.add(successor);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     //Versucht x und y in eine Ordnungsbeziehung zu setzen
@@ -42,27 +63,24 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
             elements.add(x);
         if(elements.findByElement(y) == null)
             elements.add(y);
-        elements.findByElement(x).successors.add(y);
-    }
-
-    @Override
-    public Iterator<E> iterator() {
-        return new ISetIterator(elements.iterator());
+        elements.findByElement(x).successors.add(elements.findByElement(y));
     }
 
     private class ISetIterator implements Iterator<E>{
-        private final Iterator<Set<E>.Node> i;
-        private ISetIterator(Iterator<Set<E>.Node> i){
+        private final NodeList i;
+        private final Iterator<Node>  nodeIterator;
+        private ISetIterator(NodeList i){
             this.i = i;
+            nodeIterator = i.iterator();
         }
         @Override
         public boolean hasNext() {
-             return i.hasNext();
+             return nodeIterator.hasNext();
         }
 
         @Override
         public E next() {
-            return i.next().element;
+            return nodeIterator.next().element;
         }
     }
 

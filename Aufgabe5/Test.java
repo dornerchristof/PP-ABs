@@ -15,6 +15,7 @@ public class Test {
         }
         ISet<WildBee> beeSet =new ISet<>(wildBeeOrder);
         beeSet.setBefore(wildBees[0], wildBees[1]);
+        beeSet.setBefore(wildBees[0], wildBees[4]);//Transitivität
         try {
             beeSet.setBefore(wildBees[1], wildBees[0]);
         } catch (IllegalArgumentException e) {
