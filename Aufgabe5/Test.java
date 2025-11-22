@@ -319,74 +319,74 @@ public class Test {
 
         // -- NUM --
         System.out.println("--- Num Checks ---");
-        safeCheck(isetnum2, isetnum2, "isetnum.check(isetnum)");
-        safeCheck(isetnum2, osetnum2, "isetnum.check(osetnum)");
-        safeCheckForced(isetnum2, msetnum2, "isetnum.checkForced(msetnum)");
+        safeCheck(isetnum2, isetnum2, "isetnum2.check(isetnum2)");
+        safeCheck(isetnum2, osetnum2, "isetnum2.check(osetnum2)");
+        safeCheckForced(isetnum2, msetnum2, "isetnum2.checkForced(msetnum2)");
 
-        safeCheck(osetnum2, isetnum2, "osetnum.check(isetnum)");
-        safeCheck(osetnum2, osetnum2, "osetnum.check(osetnum)");
-        safeCheck(osetnum2, msetnum2, "osetnum.check(msetnum)");
+        safeCheck(osetnum2, isetnum2, "osetnum2.check(isetnum2)");
+        safeCheck(osetnum2, osetnum2, "osetnum2.check(osetnum2)");
+        safeCheck(osetnum2, msetnum2, "osetnum2.check(msetnum2)");
 
-        safeCheck(msetnum2, isetnum2, "msetnum.check(isetnum)");
-        safeCheck(msetnum2, osetnum2, "msetnum.check(osetnum)");
-        safeCheck(msetnum2, msetnum2, "msetnum.check(msetnum)");
+        safeCheck(msetnum2, isetnum2, "msetnum2.check(isetnum2)");
+        safeCheckForced(msetnum2, osetnum2, "msetnum2.check(osetnum2)");
+        safeCheckForced(msetnum2, msetnum2, "msetnum2.check(msetnum2)");
 
         // -- BEE --
         System.out.println("--- Bee Checks ---");
-        safeCheck(isetbee2, isetbee2, "a1.check(a1)");
-        safeCheck(isetbee2, osetbee2, "a1.check(a2)");
+        safeCheck(isetbee2, isetbee2, "isetbee2.check(isetbee2)");
+        safeCheck(isetbee2, osetbee2, "isetbee2.check(osetbee2)");
         // a2 Check (nicht in Liste, aber der Vollständigkeit halber aus dem Code-Block)
         // a2.check(a1); a2.check(a2);
 
         // -- WILDBEE --
         System.out.println("--- WildBee Checks ---");
-        safeCheck(isetwildbee2, isetwildbee2, "isetwildbee.check(isetwildbee)");
-        safeCheck(isetwildbee2, osetwildbee2, "isetwildbee.check(c1)"); // c1 ist OSet<WildBee>
-        safeCheckForced(isetwildbee2, msetwildbee2, "isetwildbee.checkForced(b1)"); // b1 ist MSet
+        safeCheck(isetwildbee2, isetwildbee2, "isetwildbee2.check(isetwildbee2)");
+        safeCheck(isetwildbee2, osetwildbee2, "isetwildbee2.check(osetwildbee2)"); // c1 ist OSet<WildBee>
+        safeCheckForced(isetwildbee2, msetwildbee2, "isetwildbee2.checkForced(msetwildbee2)"); // b1 ist MSet
 
-        safeCheck(osetwildbee2, isetwildbee2, "c1.check(isetwildbee)");
-        safeCheck(osetwildbee2, osetwildbee2, "c1.check(c1)");
-        safeCheck(osetwildbee2, msetwildbee2, "c1.check(b1)");
+        safeCheck(osetwildbee2, isetwildbee2, "osetwildbee2.check(isetwildbee2)");
+        safeCheck(osetwildbee2, osetwildbee2, "osetwildbee2.check(osetwildbee2)");
+        safeCheck(osetwildbee2, msetwildbee2, "osetwildbee2.check(msetwildbee2)");
 
-        safeCheck(msetwildbee2, isetwildbee2, "b1.check(isetwildbee)");
-        safeCheck(msetwildbee2, osetwildbee2, "b1.check(c1)");
-        safeCheck(msetwildbee2, msetwildbee2, "b1.check(b1)");
+        safeCheck(msetwildbee2, isetwildbee2, "msetwildbee2.check(isetwildbee2)");
+        safeCheck(msetwildbee2, osetwildbee2, "msetwildbee2.check(osetwildbee2)");
+        safeCheck(msetwildbee2, msetwildbee2, "msetwildbee2.check(msetwildbee2)");
 
         // -- HONEYBEE --
         System.out.println("--- HoneyBee Checks ---");
-        safeCheck(isethoneybee2, isethoneybee2, "c2.check(c2)");
-        safeCheck(isethoneybee2, osethoneybee2, "c2.check(osethoneybee)");
-        safeCheckForced(isethoneybee2, msethoneybee2, "c2.checkForced(b2)");
+        safeCheck(isethoneybee2, isethoneybee2, "isethoneybee2.check(isethoneybee2)");
+        safeCheck(isethoneybee2, osethoneybee2, "isethoneybee2.check(osethoneybee2)");
+        safeCheckForced(isethoneybee2, msethoneybee2, "isethoneybee2.checkForced(msethoneybee2)");
 
-        safeCheck(osethoneybee2, isethoneybee2, "osethoneybee.check(c2)");
-        safeCheck(osethoneybee2, osethoneybee2, "osethoneybee.check(osethoneybee)");
-        safeCheck(osethoneybee2, msethoneybee2, "osethoneybee.check(b2)");
+        safeCheck(osethoneybee2, isethoneybee2, "osethoneybee.check(isethoneybee2)");
+        safeCheck(osethoneybee2, osethoneybee2, "osethoneybee.check(osethoneybee2)");
+        safeCheck(osethoneybee2, msethoneybee2, "osethoneybee.check(msethoneybee2)");
 
-        safeCheck(msethoneybee2, isethoneybee2, "b2.check(c2)");
-        safeCheck(msethoneybee2, osethoneybee2, "b2.check(osethoneybee)");
-        safeCheck(msethoneybee2, msethoneybee2, "b2.check(b2)");
+        safeCheck(msethoneybee2, isethoneybee2, "msethoneybee2.check(isethoneybee2)");
+        safeCheck(msethoneybee2, osethoneybee2, "msethoneybee2.check(osethoneybee2)");
+        safeCheck(msethoneybee2, msethoneybee2, "msethoneybee2.check(msethoneybee2)");
 
         // -- CROSS CHECKS (WildBee -> Bee) --
         System.out.println("--- Cross Checks (WildBee -> Bee) ---");
-        safeCheck(isetwildbee2, isetbee2, "isetwildbee.check(a1)");
-        safeCheck(isetwildbee2, osetbee2, "isetwildbee.check(a2)");
+        safeCheckForced(isetwildbee2, isetbee2, "isetwildbee.check(isetbee2)");
+        safeCheckForced(isetwildbee2, osetbee2, "isetwildbee.check(osetbee2)");
 
-        safeCheck(osetwildbee2, isetbee2, "c1.check(a1)");
-        safeCheck(osetwildbee2, osetbee2, "c1.check(a2)");
+        safeCheckForced(osetwildbee2, isetbee2, "osetwildbee2.check(isetbee2)");
+        safeCheckForced(osetwildbee2, osetbee2, "osetwildbee2.check(osetbee2)");
 
-        safeCheck(msetwildbee2, isetbee2, "b1.check(a1)");
-        safeCheck(msetwildbee2, osetbee2, "b1.check(a2)");
+        safeCheckForced(msetwildbee2, isetbee2, "msetwildbee2.check(isetbee2)");
+        safeCheckForced(msetwildbee2, osetbee2, "msetwildbee2.check(osetbee2)");
 
         // -- CROSS CHECKS (HoneyBee -> Bee) --
         System.out.println("--- Cross Checks (HoneyBee -> Bee) ---");
-        safeCheck(isethoneybee2, isetbee2, "c2.check(a1)");
-        safeCheck(isethoneybee2, osetbee2, "c2.check(a2)");
+        safeCheckForced(isethoneybee2, isetbee2, "isethoneybee2.check(isetbee2)");
+        safeCheckForced(isethoneybee2, osetbee2, "isethoneybee2.check(osetbee2)");
 
-        safeCheck(osethoneybee2, isetbee2, "osethoneybee.check(a1)");
-        safeCheck(osethoneybee2, osetbee2, "osethoneybee.check(a2)");
+        safeCheckForced(osethoneybee2, isetbee2, "osethoneybee.check(isetbee2)");
+        safeCheckForced(osethoneybee2, osetbee2, "osethoneybee.check(osetbee2)");
 
-        safeCheck(msethoneybee2, isetbee2, "b2.check(a1)");
-        safeCheck(msethoneybee2, osetbee2, "b2.check(a2)");
+        safeCheckForced(msethoneybee2, isetbee2, "msethoneybee2.check(isetbee2)");
+        safeCheckForced(msethoneybee2, osetbee2, "msethoneybee2.check(osetbee2)");
 
         System.out.println("\nTests abgeschlossen.");
     }
