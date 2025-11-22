@@ -2,6 +2,26 @@ import java.util.Iterator;
 
 public abstract class Set<E> {
 
+    //Falls x in Relation zu y steht, befindet sich in der NodeList der Weg
+    //von y to x
+    protected boolean pathToY(E x, E y, NodeList list) {
+        var nodeX = elements.findByElement(x);
+        if (nodeX.successors.findByElement(y) != null) {
+            list.add(nodeX.successors.findByElement(y));
+            return true;
+        } else {
+            for (var successor : nodeX.successors) {
+                var result = pathToY(successor.element, y, list);
+                if (result) {
+                    list.add(successor);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
     protected NodeList elements = new NodeList();
 
      protected class Node {
@@ -81,6 +101,19 @@ public abstract class Set<E> {
         }
 
         void remove(Node node) {
+            if (head == node) {
+                head = head.next;
+            } else {
+                Node current = head;
+                while (current.next != node) {
+                    current = current.next;
+                }
+                current.next = current.next.next;
+            }
+        }
+
+        void remove(E value) {
+            Node node = findByElement(value);
             if (head == node) {
                 head = head.next;
             } else {

@@ -54,24 +54,6 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
         return null;
     }
 
-    //Falls x in Relation zu y steht, befindet sich in der NodeList der Weg
-    //von y to x
-    private boolean pathToY(E x, E y, NodeList list) {
-        var nodeX = elements.findByElement(x);
-        if (nodeX.successors.findByElement(y) != null) {
-            list.add(nodeX.successors.findByElement(y));
-            return true;
-        } else {
-            for (var successor : nodeX.successors) {
-                var result = pathToY(successor.element, y, list);
-                if (result) {
-                    list.add(successor);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
     //Versucht x und y in eine Ordnungsbeziehung zu setzen
     @Override
