@@ -2,6 +2,12 @@ import java.util.Iterator;
 
 public abstract class Set<E> {
 
+    /// Invarianz: Alle Ordnungsbeziehungen erfüllen diese Ordnung (wenn c != null).
+    protected Ordered<E, ?> c;
+
+    protected Set(Ordered<E, ?> c) {
+        this.c = c;
+    }
     //Falls x in Relation zu y steht, befindet sich in der NodeList der Weg
     //von y to x
     protected boolean pathToY(E x, E y, NodeList list) {
@@ -18,6 +24,19 @@ public abstract class Set<E> {
             }
         }
         return false;
+    }
+
+    public abstract Object before(E x, E y);
+
+    //Versucht x und y in eine Ordnungsbeziehung zu setzen
+    public void setBefore(E x, E y) {
+        if (x == y || before(x, y) != null) throw new IllegalArgumentException("Diese Beziehung existiert bereits.");
+        if(c != null && c.before(x, y) ==null) throw new IllegalArgumentException("X ist nicht in Ordnung zu y");
+        //noinspection SuspiciousNameCombination
+        if(before(y, x) != null) throw new IllegalArgumentException("Y ist bereits in Ordnung zu x");
+        elements.addIfAbsent(x);
+        elements.addIfAbsent(y);
+        elements.findByElement(x).successors.addIfAbsent(elements.findByElement(y).element);
     }
 
 

@@ -3,11 +3,10 @@ import java.util.Iterator;
 public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
 
 
-    private Ordered<E, ?> c;
     private int size = 0;
 
     public OSet(Ordered<E, ?> c) {
-        this.c = c;
+        super(c);
     }
 
     @Override public int size() { return size; }
@@ -66,7 +65,8 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
         return new OSetView(intermediateNodes, this);
     }
 
-    @Override public void setBefore(E x, E y)throws IllegalArgumentException {
+    @Override
+    public void setBefore(E x, E y)throws IllegalArgumentException {
         if (x == y || before(x, y) != null) throw new IllegalArgumentException("Diese Beziehung existiert bereits.");
         if(c != null && c.before(x, y) ==null) throw new IllegalArgumentException("X ist nicht in Ordnung zu y");
         //noinspection SuspiciousNameCombination
