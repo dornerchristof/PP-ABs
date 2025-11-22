@@ -1,7 +1,4 @@
 import java.util.Iterator;
-import java.util.function.Consumer;
-import java.util.function.IntFunction;
-import java.util.function.Supplier;
 
 //Tobias: Modifiable, Ordere, OrdSet, OSet
 //Patrick: Tests, HoneyBee, WildBee, Num
@@ -56,6 +53,22 @@ public class Test {
         MSet<WildBee,Integer> b1 = new MSet<>(null);
         MSet<HoneyBee,String> b2 = new MSet<>(null);
 
+        isetnum.setBefore(integers[0], integers[4]);
+        isetnum.setBefore(integers[1], integers[2]);
+        isetnum.setBefore(integers[3], integers[5]);
+
+        a1.setBefore(bees[0], bees[1]);
+        a1.setBefore(bees[2], bees[3]);
+        a1.setBefore(bees[2], bees[5]);
+
+        isetwildbee.setBefore(wildBees[0], wildBees[4]);
+        isetwildbee.setBefore(wildBees[1], wildBees[2]);
+        isetwildbee.setBefore(wildBees[3], wildBees[5]);
+
+        c2.setBefore(honeyBees[0], honeyBees[4]);
+        c2.setBefore(honeyBees[1], honeyBees[2]);
+        c2.setBefore(honeyBees[3], honeyBees[5]);
+
 
         copyElements(isetnum,osetnum);
         copyRelations(numOrder, isetnum, osetnum);
@@ -84,6 +97,8 @@ public class Test {
         });
         copyElements(c2,a2);
         copyElements(c2,b2);
+
+        System.out.println(a1);
     }
 
 
