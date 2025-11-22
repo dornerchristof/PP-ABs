@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
 
 
-    private final NodeList<E> elements = new NodeList<>();
+    private final NodeList elements = new NodeList();
     private Ordered<?, ?> c;
     private int size = 0;
 
@@ -25,7 +25,7 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
     private class ElementIterator implements Iterator<E> {
 
         // Wir nutzen den internen NodeListIterator, um die Kette zu durchlaufen.
-        private final Iterator<Node<E>> nodeIterator = elements.iterator();
+        private final Iterator<Set<E>.Node> nodeIterator = elements.iterator();
 
         @Override
         public boolean hasNext() {
@@ -34,7 +34,7 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
 
         @Override
         public E next() {
-            Node<E> node = nodeIterator.next();
+            Set<E>.Node node = nodeIterator.next();
             return node.element;
         }
 
@@ -55,11 +55,11 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
     private class OSetView implements ModifiableOrdered<E> {
 
         // Die Elemente, die in dieser View enthalten sind (als einfache NodeList)
-        private final NodeList<E> viewElements;
+        private final NodeList viewElements;
         private final OSet<E> parentContainer; // Referenz zum ursprünglichen OSet
 
         // Privater Konstruktor: wird nur von OSet.before erzeugt.
-        private OSetView(NodeList<E> elements, OSet<E> parent) {
+        private OSetView(NodeList elements, OSet<E> parent) {
             this.viewElements = elements;
             this.parentContainer = parent;
         }
@@ -115,7 +115,7 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
             // Erzeuge eine NEUE View, die das Element x enthält.
             // Da Arrays verboten sind, müsste die NodeList hier kopiert werden
             // und x als neuer Node hinzugefügt werden.
-            NodeList<E> newElements = copyAndAdd(viewElements, x);
+            NodeList newElements = copyAndAdd(viewElements, x);
             return new OSetView(newElements, this.parentContainer);
         }
 
@@ -131,7 +131,7 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
             // *Wichtig:* Die Kanten werden im ELTERN-Container entfernt!
             // Da dies eine View ist, wird hier nur die lokale Liste angepasst:
 
-            NodeList<E> newElements = copyAndRemove(viewElements, x);
+            NodeList newElements = copyAndRemove(viewElements, x);
 
             // OPTIONAL/ZUSÄTZLICH: Müsste die parentContainer.checkForced(x) Logik auslösen,
             // um Kanten zu entfernen, falls der Parameter hier X wäre. Hier entfernt
@@ -157,7 +157,7 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
 
         // Finde alle Einträge Z, sodass X < Z < Y (transitiv).
         // Nutze hier die Graphen-Traversierung, um die 'Zwischen-Nodes' zu identifizieren.
-        NodeList<E> intermediateNodes = findIntermediateElements(x, y);
+        NodeList intermediateNodes = findIntermediateElements(x, y);
 
         // Gib eine neue OSetView-Instanz zurück, die Ordered und Modifiable implementiert.
         return new OSetView(intermediateNodes, this);
@@ -165,9 +165,9 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
 
     // Private Hilfsmethoden für Graphen-Traversierung und Listen-Operationen
     private boolean getTransitivePath(E x, E y) { /* ... Pfadsuche ... */ return false; }
-    private NodeList<E> findIntermediateElements(E x, E y) { /* ... Zwischenknotensuche ... */ return new NodeList<E>(); }
-    private NodeList<E> copyAndAdd(NodeList<E> original, E element) { /* ... Erzeugt neue Liste ... */ return new NodeList<E>(); }
-    private NodeList<E> copyAndRemove(NodeList<E> original, E element) { /* ... Erzeugt neue Liste ... */ return new NodeList<E>(); }
+    private NodeList findIntermediateElements(E x, E y) { /* ... Zwischenknotensuche ... */ return new NodeList(); }
+    private NodeList copyAndAdd(NodeList original, E element) { /* ... Erzeugt neue Liste ... */ return new NodeList(); }
+    private NodeList copyAndRemove(NodeList original, E element) { /* ... Erzeugt neue Liste ... */ return new NodeList(); }
 
 
 }
