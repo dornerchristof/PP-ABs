@@ -10,14 +10,14 @@ public interface OrdSet <E, R> extends Iterable<E>, Ordered<E, R> {
      * @param c Das neue Ordered-Objekt zur Validierung.
      * @throws IllegalArgumentException falls eine bestehende Beziehung nicht mehr erlaubt ist.
      */
-    void check(Ordered<E,?> c) throws IllegalArgumentException;
+    void check(Ordered<? super E,?> c) throws IllegalArgumentException;
 
     /**
      * Ähnlich zu check, jedoch wird das neue c auf jeden Fall gesetzt.
      * Alle für das neue c nicht mehr erlaubten Ordnungsbeziehungen werden entfernt.
      * @param c Das neue Ordered-Objekt zur Validierung.
      */
-    void checkForced(Ordered<E, ?> c);
+    void checkForced(Ordered<? super E, ?> c);
 
     /**
      * Anzahl der Einträge im Container.

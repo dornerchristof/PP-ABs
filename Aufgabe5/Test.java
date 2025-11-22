@@ -55,7 +55,9 @@ public class Test {
 
         // Elements einfügen
         isetnum.setBefore(integers[0], integers[4]);
+        //isetnum.setBefore(integers[4], integers[1]);
         isetnum.setBefore(integers[1], integers[2]);
+        //isetnum.setBefore(integers[2], integers[3]);
         isetnum.setBefore(integers[3], integers[5]);
 
         a1.setBefore(bees[0], bees[1]);
@@ -88,7 +90,7 @@ public class Test {
         copyElements(c2,b2);
 
         // Teil 2
-        System.out.println("Teil 2");
+        System.out.println("\nTeil 2\n");
 
         Iterator<WildBee> c1it = c1.iterator();
         c1it.forEachRemaining(c -> {
@@ -105,24 +107,131 @@ public class Test {
             System.out.println(c.sort());
         });
         copyRelations(c2,c2,a2);
+        copyRelations(c2,c2,b2);
         //copyElements(c2,b2);
 
 
+        // Teil 3
+        System.out.println("\nTeil 3\n");
+        System.out.println(isetnum);
+        System.out.println(osetnum);
+
+        osetnum.check(isetnum);
+        osetnum.check(null);
+        osetnum.setBefore(integers[4], integers[5]);
+        osetnum.checkForced(msetnum);
+
+        // Funktioniert nicht, wie erwartet
+        //osetnum.check(b1);
+
+        osethoneybee.checkForced(a2);
+        osethoneybee.check(a2);
+        c1.check(a1);
+        // Funktioniert nicht umgekehrt
+        //a1.check(c1);
+        //a2.check(osethoneybee);
+
+        // Alle Kombinationen die funktionieren
+        // Num
+        isetnum.check(isetnum);
+        isetnum.check(osetnum);
+        isetnum.checkForced(msetnum);
+
+        osetnum.check(isetnum);
+        osetnum.check(osetnum);
+        osetnum.check(msetnum);
+
+        msetnum.check(isetnum);
+        msetnum.check(osetnum);
+        msetnum.check(msetnum);
+
+        // Bee
+        a1.check(a1);
+        a1.checkForced(a2);
+
+        a2.checkForced(a1);
+        a2.check(a2);
+
+        // WildBee
+        isetwildbee.check(isetwildbee);
+        isetwildbee.check(c1);
+        isetwildbee.checkForced(b1);
+
+        c1.check(isetwildbee);
+        c1.check(c1);
+        c1.check(b1);
+
+        b1.check(isetwildbee);
+        b1.check(c1);
+        b1.check(b1);
+
+        // HoneyBee
+        c2.check(c2);
+        c2.check(osethoneybee);
+        c2.checkForced(b2);
+
+        osethoneybee.check(c2);
+        osethoneybee.check(osethoneybee);
+        osethoneybee.check(b2);
+
+        b2.check(c2);
+        b2.check(osethoneybee);
+        b2.check(b2);
+
+        // Cross-Checks: WildBee -> Bee
+        isetwildbee.checkForced(a1);
+        isetwildbee.check(a2);
+
+        c1.checkForced(a1);
+        c1.check(a2);
+
+        b1.checkForced(a1);
+        b1.check(a2);
+
+        // Cross-Checks: HoneyBee -> Bee
+        c2.checkForced(a1);
+        c2.check(a2);
+
+        osethoneybee.checkForced(a1);
+        osethoneybee.check(a2);
+
+        b2.checkForced(a1);
+        b2.check(a2);
+
+        // Teil 4
+        System.out.println("\nTeil 4\n");
+
+        // OSet kann kein Untertyp von MSet sein, da es ein Obertyp ist.
+        // OSet kann kein Untertyp von ISet sein, da z. B.: Der Rückgabetyp der Methode before ist bei ISet ein Iterator<E>
+        //                                                  und bei OSet ein ModifiableOrdered<E>. Diese beiden Typen
+        //                                                  stehen in keiner Beziehung zueinander.
+        // ISet kann kein Untertyp von OSet sein, da z. B.: Der Rückgabetyp der Methode before ist bei ISet ein Iterator<E>
+        //                                                 und bei OSet ein ModifiableOrdered<E>. Diese beiden Typen
+        //                                                 stehen in keiner Beziehung zueinander.
+
+        OSet<Num> test = new MSet<>(null);
+        // Funktioniert nicht
+        //ISet<WildBee> test2 = new MSet<WildBee, Integer>(null);
+        //MSet<WildBee,Integer> test2 = new ISet<>(null);
+        //ISet<WildBee> test2 = new OSet<WildBee>(null);
+        //OSet<WildBee> test2 = new ISet<WildBee>(null);
     }
 
 
     // Kopiert Elemente aus src nach dest, indem aufeinanderfolgende Paare
     // gesetzt werden (vermeidet das problematische setBefore(..., null)).
-    public static <E> void copyElements(Iterable<? extends E> src, OrdSet<? super E, ?> dest) {
+    public static <E> void copyElements(OrdSet<E,?> src, OrdSet<? super E, ?> dest) {
         Iterator<? extends E> it = src.iterator();
         if (!it.hasNext()) return;
         E prev = it.next();
         while (it.hasNext()) {
             E cur = it.next();
-            try {
-                dest.setBefore(prev, cur);
-            } catch (IllegalArgumentException ex) {
-                System.out.println(prev + ", " + cur + ": " + ex.getMessage());
+            if (src.before(prev,cur) != null){
+                try {
+                    dest.setBefore(prev, cur);
+                } catch (IllegalArgumentException ex) {
+                    System.out.println(prev + ", " + cur + ": " + ex.getMessage());
+                }
             }
             prev = cur;
         }
@@ -132,7 +241,8 @@ public class Test {
     public static <E> void copyRelations(Ordered<? super E, ?> srcOrder, Iterable<? extends E> elems, OrdSet<? super E, ?> dest) {
         for (E x : elems) {
             for (E y : elems) {
-                if (!x.equals(y) && srcOrder.before(x, y) != null) {
+                //noinspection SuspiciousNameCombination
+                if (x !=y && srcOrder.before(x, y) != null && dest.before(x, y) == null && dest.before(y, x) == null) {
                     //System.out.println(x.toString()+ ", "+y + "  =  " + srcOrder.before(x, y));
                     try {
                         dest.setBefore(x, y);

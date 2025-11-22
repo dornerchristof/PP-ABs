@@ -3,9 +3,9 @@ import java.util.Iterator;
 public abstract class Set<E> {
 
     /// Invarianz: Alle Ordnungsbeziehungen erfüllen diese Ordnung (wenn c != null).
-    protected Ordered<E, ?> c;
+    protected Ordered<? super E, ?> c;
 
-    protected Set(Ordered<E, ?> c) {
+    protected Set(Ordered<? super E, ?> c) {
         this.c = c;
     }
     //Falls x in Relation zu y steht, befindet sich in der NodeList der Weg

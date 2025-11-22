@@ -6,14 +6,14 @@ import java.util.Iterator;
 /// angegeben wird, bestimmt dieses Objekt, ob eine Ordnungsbeziehung erlaubt ist..
 public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
 
-    public ISet(Ordered<E, ?> c) {
+    public ISet(Ordered<? super E, ?> c) {
         super(c);
     }
 
     /// Die Methode versucht, c zu verändern.
     /// Falls nicht alle bereits bestehenden Relationen c erfüllen, wird eine Exception ausgelöst und c bleibt unverändert.
     @Override
-    public void check(Ordered<E, ?> c) throws IllegalArgumentException {
+    public void check(Ordered<? super E, ?> c) throws IllegalArgumentException {
         for(var x : elements){
             for(var xRy : x.successors){
                if(c.before(x.element, xRy.element) == null)
@@ -25,7 +25,7 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
 
     /// Die Methode verändert c. Falls eine bestehende Relation c widerspricht, wird diese entfernt.
     @Override
-    public void checkForced(Ordered<E, ?> c) {
+    public void checkForced(Ordered<? super E, ?> c) {
         for(var x : elements){
             for(var xRy : x.successors){
                 if(c.before(x.element, xRy.element) == null)

@@ -34,17 +34,19 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
     }
 
 
-    @Override public void check(Ordered<E, ?> c) throws IllegalArgumentException {
+    @Override public void check(Ordered<? super E, ?> c) throws IllegalArgumentException {
 
         for(var x : elements){
             for(var xRy : x.successors){
-                if(c.before(x.element, xRy.element) == null)
+                if(c != null && c.before(x.element, xRy.element) == null) {
+                    System.out.println(x.element + " " + xRy.element);
                     throw new IllegalArgumentException("Diese Beziehung ist nicht erlaubt.");
+                };
             }
         }
         this.c = c;
     }
-    @Override public void checkForced(Ordered<E, ?> c) {
+    @Override public void checkForced(Ordered<? super E, ?> c) {
         for(var x : elements){
             for(var xRy : x.successors){
                 if(c.before(x.element, xRy.element) == null)
@@ -64,17 +66,6 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
         }
 
         return new OSetView(intermediateNodes, this);
-    }
-
-    @Override
-    public void setBefore(E x, E y)throws IllegalArgumentException {
-        if (x == y || before(x, y) != null) throw new IllegalArgumentException("Diese Beziehung existiert bereits.");
-        if(c != null && c.before(x, y) ==null) throw new IllegalArgumentException("X ist nicht in Ordnung zu y");
-        //noinspection SuspiciousNameCombination
-        if(before(y, x) != null) throw new IllegalArgumentException("Y ist bereits in Ordnung zu x");
-        elements.addIfAbsent(x);
-        elements.addIfAbsent(y);
-        elements.findByElement(x).successors.addIfAbsent(elements.findByElement(y));
     }
 
 
