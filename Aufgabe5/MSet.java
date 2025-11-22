@@ -11,6 +11,10 @@ public class MSet<E extends Modifiable<X, E>, X> extends OSet<E> {
         var it = iterator();
         while(it.hasNext()){
             var e = it.next();
+            if(it.hasNext()){
+                this.setBefore(e.add(x), e);
+                return;
+            }
             this.setBefore(e.add(x), e);
         }
     }
@@ -19,7 +23,11 @@ public class MSet<E extends Modifiable<X, E>, X> extends OSet<E> {
         var it = iterator();
         while(it.hasNext()){
             var e = it.next();
-            this.setBefore(e.add(x), e);
+            if(it.hasNext()) {
+                this.setBefore(e.subtract(x), e);
+                return;
+            }
+            this.setBefore(e.subtract(x), e);
         }
     }
 }
