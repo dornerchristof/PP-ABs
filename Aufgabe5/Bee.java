@@ -10,6 +10,6 @@ public class Bee {
 
     @Override
     public String toString() {
-        return "Bienenbeobachtung-Test";
+        return "Bienenbeobachtung:\n" + observationDescription;
     }
 }

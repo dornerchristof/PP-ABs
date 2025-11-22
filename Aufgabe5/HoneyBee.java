@@ -23,4 +23,10 @@ public class HoneyBee extends Bee implements Modifiable<String, HoneyBee>{
         return new HoneyBee(this.observationDescription, replacement);
     }
 
+    @Override
+    public String toString() {
+        String bee = super.toString();
+        return bee +"\nHoneyBee: " + this.heritage;
+    }
+
 }

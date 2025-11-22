@@ -26,4 +26,10 @@ public class WildBee extends Bee implements Modifiable<Integer, WildBee> {
             return this;
     }
 
+    @Override
+    public String toString() {
+        String bee = super.toString();
+        return bee +"\nWildBee: " + this.length + "mm";
+    }
+
 }
