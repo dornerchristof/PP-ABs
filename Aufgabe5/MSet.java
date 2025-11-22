@@ -1,7 +1,7 @@
 
 
 
-public class MSet<E extends Modifiable<X, E>, X> extends ISet<E>{
+public class MSet<E extends Modifiable<X, E>, X> extends OSet<E> {
 
     public MSet(Ordered<E, X> c) {
         super(c);

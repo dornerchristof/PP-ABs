@@ -144,6 +144,8 @@ public class Test {
         } catch (IllegalArgumentException e) {
             System.out.println("Exception caught: "+ e.getMessage());
         }
+
+
         try {
             set.setBefore(arr[5], arr[0]);
         } catch (IllegalArgumentException e) {
