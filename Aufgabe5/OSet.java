@@ -40,8 +40,8 @@ public class OSet<E> extends Set implements OrdSet<E, ModifiableOrdered<E>> {
 
     }
 
-    @Override public void check(Ordered<?, ?> newC) throws IllegalArgumentException { /* ... Implementierung ... */ }
-    @Override public void checkForced(Ordered<?, ?> newC) { /* ... Implementierung ... */ }
+    @Override public void check(Ordered<E, ?> newC) throws IllegalArgumentException { /* ... Implementierung ... */ }
+    @Override public void checkForced(Ordered<E, ?> newC) { /* ... Implementierung ... */ }
     @Override public void setBefore(E x, E y) throws IllegalArgumentException { /* ... Implementierung der setBefore Logik ... */ }
 
 

@@ -1,7 +1,11 @@
 import java.util.HashMap;
 import java.util.Iterator;
 
+
+/// Ein Container, in dem die Elemente in einer partiellen Ordnung zueinander stehen, falls ein Objekt c
+/// angegeben wird, bestimmt dieses Objekt, ob eine Ordnungsbeziehung erlaubt ist..
 public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
+    /// Invarianz: Alle Ordnungsbeziehungen erfüllen diese Ordnung (wenn c != null).
     private Ordered<E, ?> c;
 
 
@@ -9,14 +13,29 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
         this.c = c;
     }
 
+    /// Die Methode versucht, c zu verändern.
+    /// Falls nicht alle bereits bestehenden Relationen c erfüllen, wird eine Exception ausgelöst und c bleibt unverändert.
     @Override
-    public void check(Ordered<?, ?> c) throws IllegalArgumentException {
-
+    public void check(Ordered<E, ?> c) throws IllegalArgumentException {
+        for(var x : elements){
+            for(var xRy : x.successors){
+               if(c.before(x.element, xRy.element) == null)
+                   throw new IllegalArgumentException("Diese Beziehung ist nicht erlaubt.");
+            }
+        }
+        this.c = c;
     }
 
+    /// Die Methode verändert c. Falls eine bestehende Relation c widerspricht, wird diese entfernt.
     @Override
-    public void checkForced(Ordered<?, ?> c) {
-
+    public void checkForced(Ordered<E, ?> c) {
+        for(var x : elements){
+            for(var xRy : x.successors){
+                if(c.before(x.element, xRy.element) == null)
+                    x.successors.remove(xRy);
+            }
+        }
+        this.c = c;
     }
 
     @Override
