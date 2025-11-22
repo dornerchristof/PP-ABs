@@ -55,6 +55,26 @@ public abstract class Set<E> {
         Node(E element) {
             this.element = element;
         }
+
+        @Override
+        public String toString() {
+            if (element == null) {
+                return "";
+            }
+            return element.toString();
+        }
+    }
+
+    public String toString(){
+        StringBuilder res = new StringBuilder();
+         elements.iterator().forEachRemaining(element -> {
+             res.append(element.toString());
+             res.append(", ");
+         });
+         if(!res.isEmpty()){
+         res.delete(res.length()-2, res.length());
+         }
+         return res.toString();
     }
 
     public Iterator<E> iterator() {

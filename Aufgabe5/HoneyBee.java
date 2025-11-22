@@ -29,4 +29,8 @@ public class HoneyBee extends Bee implements Modifiable<String, HoneyBee>{
         return bee +"\nHoneyBee: " + this.heritage;
     }
 
+    public String sort() {
+        return this.heritage;
+    }
+
 }
