@@ -48,11 +48,13 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
         var nodeX = elements.findByElement(x);
         if(nodeX  == null) return null;
         var list = new NodeList();
-        if (pathToY(x, y, list)) {
+        if (pathToY(x, y, list))
+        {
             return new ISetIterator(list);
         }
         return null;
     }
+
 
 
     //Versucht x und y in eine Ordnungsbeziehung zu setzen
@@ -64,14 +66,12 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
         if(before(y, x) != null) throw new IllegalArgumentException("Y ist bereits in Ordnung zu x");
         elements.addIfAbsent(x);
         elements.addIfAbsent(y);
-        elements.findByElement(x).successors.addIfAbsent(elements.findByElement(y));
+        elements.findByElement(x).successors.addIfAbsent(elements.findByElement(y).element);
     }
 
     private class ISetIterator implements Iterator<E>{
-        private final NodeList i;
         private final Iterator<Node>  nodeIterator;
         private ISetIterator(NodeList i){
-            this.i = i;
             nodeIterator = i.iterator();
         }
         @Override
