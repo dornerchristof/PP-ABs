@@ -1,16 +1,18 @@
 import java.util.Iterator;
 
-public abstract class Set {
-    
-     protected class Node<E> {
+public abstract class Set<E> {
+
+    protected NodeList elements = new NodeList();
+
+     protected class Node {
 
         final E element;
-        Node<E> next;
+        Node next;
 
         // Die Successors-Liste speichert die Kanten (Ordnungsbeziehungen)
         // und wird hier als interne NodeList verwendet (Adjazenzliste).
         // Jeder Node braucht seine eigene, da er Startpunkt einer partiellen Ordnung ist.
-        final NodeList<E> successors = new NodeList<>();
+        final NodeList successors = new NodeList();
 
         Node(E element) {
             this.element = element;
@@ -21,17 +23,17 @@ public abstract class Set {
      * Eine einfache, selbstgebaute, verkettete Liste von Nodes.
      * Implementiert Iterable<Node<E>>, damit sie einfach durchlaufen werden kann.
      */
-     protected class NodeList<E> implements Iterable<Node<E>> {
+     protected class NodeList implements Iterable<Node> {
 
-        private Node<E> head;
+        private Node head;
         private int size = 0;
 
         // Fügt einen Node am Ende der Liste hinzu.
-        void add(Node<E> newNode) {
+        void add(Node newNode) {
             if (head == null) {
                 head = newNode;
             } else {
-                Node<E> current = head;
+                Node current = head;
                 while (current.next != null) {
                     current = current.next;
                 }
@@ -40,11 +42,15 @@ public abstract class Set {
             size++;
         }
 
-        void remove(Node<E> node) {
+        void add(E value){
+            add(new Node(value));
+        }
+
+        void remove(Node node) {
             if (head == node) {
                 head = head.next;
             } else {
-                Node<E> current = head;
+                Node current = head;
                 while (current.next != node) {
                     current = current.next;
                 }
@@ -57,8 +63,8 @@ public abstract class Set {
          * @param element Das zu suchende Element.
          * @return Der gefundene Node oder null.
          */
-        Node<E> findByElement(E element) {
-            Node<E> current = head;
+        Node findByElement(E element) {
+            Node current = head;
             while (current != null) {
                 // Prüfung auf Objektidentität, wie in der Angabe gefordert[cite: 85].
                 if (current.element == element) {
@@ -69,10 +75,14 @@ public abstract class Set {
             return null;
         }
 
+        public int size(){
+           return size;
+        }
+
         // ... Hier würden weitere Hilfsmethoden wie remove/copy etc. folgen ...
 
         @Override
-        public Iterator<Node<E>> iterator() {
+        public Iterator<Node> iterator() {
             // Gibt den Iterator über die internen Nodes zurück.
             return new NodeList.NodeListIterator();
         }
@@ -83,8 +93,8 @@ public abstract class Set {
          * Privater Iterator für die NodeList.
          * Muss nur hasNext() und next() implementieren.
          */
-        private class NodeListIterator implements Iterator<Node<E>> {
-            private Node<E> current = head;
+        private class NodeListIterator implements Iterator<Node> {
+            private Node current = head;
 
             @Override
             public boolean hasNext() {
@@ -92,11 +102,11 @@ public abstract class Set {
             }
 
             @Override
-            public Node<E> next() {
+            public Node next() {
                 if (!hasNext()) {
                     throw new java.util.NoSuchElementException();
                 }
-                Node<E> temp = current;
+                Node temp = current;
                 current = current.next;
                 return temp;
             }
