@@ -21,6 +21,11 @@ public class Test {
         } catch (IllegalArgumentException e) {
             System.out.println("Exception caught:");
         }
+        try {
+            beeSet.setBefore(wildBees[5], wildBees[0]);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Exception caught:");
+        }
         System.out.println("Aufgabe 5:");
     }
 }

@@ -59,11 +59,11 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
     public void setBefore(E x, E y) {
         if (x == y || before(x, y) != null) throw new IllegalArgumentException("Diese Beziehung existiert bereits.");
         if(c != null && c.before(x, y) ==null) throw new IllegalArgumentException("X ist nicht in Ordnung zu y");
-        if(elements.findByElement(x) == null)
-            elements.add(x);
-        if(elements.findByElement(y) == null)
-            elements.add(y);
-        elements.findByElement(x).successors.add(elements.findByElement(y));
+        //noinspection SuspiciousNameCombination
+        if(before(y, x) != null) throw new IllegalArgumentException("Y ist bereits in Ordnung zu x");
+        elements.addIfAbsent(x);
+        elements.addIfAbsent(y);
+        elements.findByElement(x).successors.addIfAbsent(elements.findByElement(y));
     }
 
     private class ISetIterator implements Iterator<E>{

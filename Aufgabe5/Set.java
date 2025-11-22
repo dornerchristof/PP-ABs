@@ -65,6 +65,21 @@ public abstract class Set<E> {
             add(new Node(value));
         }
 
+        /// Fügt den übergebenen Wert in die Liste, falls dieser noch nicht verhanden ist.
+        void addIfAbsent(E value){
+            if(findByElement(value) == null){
+                add(value);
+            }
+        }
+
+        /// Fügt die Node in die Liste ein, falls der darin enthaltene Wert noch nicht in der Liste
+        /// vorhanden ist.
+        void addIfAbsent(Node value){
+            if(findByElement(value.element) == null){
+                add(value);
+            }
+        }
+
         void remove(Node node) {
             if (head == node) {
                 head = head.next;
