@@ -131,6 +131,28 @@ public abstract class Set<E> {
             }
         }
 
+        /// Gibt eine neue Liste mit umgedrehter Reihenfolge zurück.
+        NodeList reverseOrder() {
+            NodeList reversed = new NodeList();
+            Node last = null;
+            for (int i = 0; i < size(); i++) {
+               last = preceding(last) ;
+               reversed.add(last.element);
+            }
+            return reversed;
+        }
+
+        /// Gibt die Node direkt vor der übergebenen zurück oder sich selbst, wenn das
+        /// erste Element der Liste übergeben wurde. Wenn null übergeben wird, dann wird das
+        /// letzte Element zurückgegeben.
+        private Node preceding(Node x){
+            Node current = head;
+            while(current.next != x && current.next != null){
+                current = current.next;
+            }
+            return current;
+        }
+
         /// Fügt die Node in die Liste ein, falls der darin enthaltene Wert noch nicht in der Liste
         /// vorhanden ist.
         void addIfAbsent(Node value){

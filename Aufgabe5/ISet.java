@@ -47,11 +47,10 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
         var list = new NodeList();
         if (pathToY(x, y, list))
         {
-            return new ISetIterator(list);
+            return new ISetIterator(list.reverseOrder());
         }
         return null;
     }
-
 
 
     private class ISetIterator implements Iterator<E>{
@@ -59,6 +58,7 @@ public class ISet<E> extends Set<E> implements OrdSet<E, Iterator<E>>{
         private ISetIterator(NodeList i){
             nodeIterator = i.iterator();
         }
+
         @Override
         public boolean hasNext() {
              return nodeIterator.hasNext();
