@@ -144,7 +144,14 @@ public class Test {
 
     public static <E> void testISet(E[] arr, ISet<E> set) {
         set.setBefore(arr[0], arr[1]);
-        set.setBefore(arr[0], arr[4]);//Transitivität
+        set.setBefore(arr[1], arr[2]);//Transitivität
+        set.setBefore(arr[2], arr[3]);
+        set.setBefore(arr[3], arr[4]);
+        var it = set.before(arr[0], arr[4]);
+        while(it.hasNext()){
+            System.out.println(it.next());
+        }
+
         try {
             set.setBefore(arr[1], arr[0]);
         } catch (IllegalArgumentException e) {
