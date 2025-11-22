@@ -219,28 +219,28 @@ public class Test {
         // Teil 5
         System.out.println("\nTeil 5\n");
 
-        System.out.println("=== 1. Test der Domänen-Objekte und Modifiable Schnittstelle ===");
+        System.out.println("=== 5.1. Test der Domänen-Objekte und Modifiable Schnittstelle ===");
 
-        // 1.1 Num Test
+        // 5.1.1 Num Test
         Num n1 = new Num(10);
         Num n2 = new Num(5);
         System.out.println("Num Original: " + n1);
         System.out.println("Num Add (10+5): " + n1.add(n2));
         System.out.println("Num Subtract (10-5): " + n1.subtract(n2));
 
-        // 1.2 WildBee Test
+        // 5.1.2 WildBee Test
         WildBee wb = new WildBee("WildBiene A", 20);
         System.out.println("WildBee Original: " + wb + ", Länge: " + wb.length());
         System.out.println("WildBee Add (Length + 5): " + wb.add(5));
         System.out.println("WildBee Subtract (Length - 5): " + wb.subtract(5));
 
-        // 1.3 HoneyBee Test
+        // 5.1.3 HoneyBee Test
         HoneyBee hb = new HoneyBee("HonigBiene B", "Kärntner");
         System.out.println("HoneyBee Original: " + hb + ", Sort: " + hb.sort());
         System.out.println("HoneyBee Add (' Landrasse'): " + hb.add(" Landrasse"));
         System.out.println("HoneyBee Subtract ('Kärntner'): " + hb.subtract("Kärntner"));
 
-        System.out.println("\n=== 2. Initialisierung der Container ===");
+        System.out.println("\n=== 5.2. Initialisierung der Container ===");
 
         // Elemente vorbereiten
         Num[] nums2 = { new Num(1), new Num(2), new Num(3), new Num(4) };
@@ -282,9 +282,9 @@ public class Test {
 
         System.out.println("Sets initialisiert und befüllt.");
 
-        System.out.println("\n=== 3. Test spezifischer Set-Methoden ===");
+        System.out.println("\n=== 5.3. Test spezifischer Set-Methoden ===");
 
-        // 3.1 ISet: before (Iterator)
+        // 5.3.1 ISet: before (Iterator)
         System.out.println("-- ISet.before (Iterator) --");
         Iterator<Num> it = isetnum2.before(nums2[0], nums2[2]); // Pfad 0->1->2 existiert durch fillSet
         if (it != null) {
@@ -295,7 +295,7 @@ public class Test {
             System.out.println("Kein Pfad gefunden (Erwartet falls fillSet keine Pfade setzt)");
         }
 
-        // 3.2 OSet: before (View & ModifiableOrdered)
+        // 5.3.2 OSet: before (View & ModifiableOrdered)
         System.out.println("-- OSet.before (View) --");
         var view = osetnum2.before(nums2[0], nums2[2]);
         if (view != null) {
@@ -306,7 +306,7 @@ public class Test {
             System.out.println("View add ausgeführt (Test der Rückgabe).");
         }
 
-        // 3.3 MSet: plus / minus
+        // 5.3.3 MSet: plus / minus
         System.out.println("-- MSet Operations --");
         System.out.println("MSet vor plus: " + msetnum2);
         msetnum2.plus(new Num(100));
@@ -314,7 +314,7 @@ public class Test {
         msetnum2.minus(new Num(50));
         System.out.println("MSet nach minus(50): " + msetnum2);
 
-        System.out.println("\n=== 4. Ausführung der Check-Kombinationen ===");
+        System.out.println("\n=== 5.4. Ausführung der Check-Kombinationen ===");
         // Wir verwenden Hilfsmethoden, um Exceptions abzufangen
 
         // -- NUM --
