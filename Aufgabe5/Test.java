@@ -327,7 +327,7 @@ public class Test {
         safeCheck(osetnum2, osetnum2, "osetnum2.check(osetnum2)");
         safeCheck(osetnum2, msetnum2, "osetnum2.check(msetnum2)");
 
-        safeCheck(msetnum2, isetnum2, "msetnum2.check(isetnum2)");
+        safeCheckForced(msetnum2, isetnum2, "msetnum2.check(isetnum2)");
         safeCheckForced(msetnum2, osetnum2, "msetnum2.check(osetnum2)");
         safeCheckForced(msetnum2, msetnum2, "msetnum2.check(msetnum2)");
 
@@ -469,9 +469,9 @@ public class Test {
         System.out.print("Test " + desc + ": ");
         try {
             subject.check(criteria);
-            System.out.println("OK");
+            System.out.println(ANSI_GREEN+"OK"+ ANSI_RESET);
         } catch (Exception e) {
-            System.out.println("FAIL (" + e.getMessage() + ")");
+            System.out.println(ANSI_RED+"FAIL (" + e.getMessage() + ")"+ ANSI_RESET);
         }
     }
 
@@ -480,10 +480,18 @@ public class Test {
         System.out.print("Test " + desc + ": ");
         try {
             subject.checkForced(criteria);
-            System.out.println("OK (Forced)");
+            System.out.println(ANSI_GREEN+"OK (Forced)"+ ANSI_RESET);
         } catch (Exception e) {
-            System.out.println("FAIL (" + e.getMessage() + ")");
+            System.out.println(ANSI_RED+"FAIL (" + e.getMessage() + ")" + ANSI_RESET);
         }
     }
+
+    // Source - https://stackoverflow.com/a
+    // Posted by WhiteFang34, modified by community. See post 'Timeline' for change history
+    // Retrieved 2025-11-22, License - CC BY-SA 3.0
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
 
 }
