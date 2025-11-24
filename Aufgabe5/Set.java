@@ -183,7 +183,7 @@ public abstract class Set<E> {
         }
 
         /**
-         * Sucht einen Node anhand des Elements (Objektidentität, da equals/hashCode verboten sind).
+         * Sucht einen Node anhand des Elements.
          * @param element Das zu suchende Element.
          * @return Der gefundene Node oder null.
          */
@@ -203,16 +203,11 @@ public abstract class Set<E> {
            return size;
         }
 
-        // ... Hier würden weitere Hilfsmethoden wie remove/copy etc. folgen ...
-
         @Override
         public Iterator<Node> iterator() {
             // Gibt den Iterator über die internen Nodes zurück.
             return new NodeList.NodeListIterator(head);
         }
-
-        // --- 3. Der Iterator für NodeList ---
-
         /**
          * Privater Iterator für die NodeList.
          * Muss nur hasNext() und next() implementieren.

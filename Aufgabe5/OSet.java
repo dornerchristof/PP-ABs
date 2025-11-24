@@ -131,7 +131,13 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
             parentContainer.setBefore(x, y);
         }
 
-
+        /**
+         * Erweitert this um x
+         * @param x
+         * @return ein neues Object welche Modifiable und Ordered implementier
+         * mit der selben Ordungn und Objekten wie in this nur mit einem zusätzlichen Element x.
+         * Postcondition: this und x sind unverändert
+         */
         @Override
         public ModifiableOrdered<E> add(E x) {
             if (viewElements.findByElement(x) != null) {
@@ -141,6 +147,12 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
             return new OSetView(newElements, this.parentContainer);
         }
 
+        /**
+         * Entfernt x von this
+         * @param x
+         * @return ein neues Object welche Modifiable und Ordered implementier.
+         * Postcondition: this und x sind unverändert.
+         */
         @Override
         public ModifiableOrdered<E> subtract(E x) {
             if (viewElements.findByElement(x) == null) {
