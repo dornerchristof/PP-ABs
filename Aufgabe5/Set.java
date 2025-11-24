@@ -107,7 +107,7 @@ public abstract class Set<E> {
         private int size = 0;
 
         // Fügt einen Node am Ende der Liste hinzu.
-        void add(Node newNode) {
+        protected void add(Node newNode) {
             if (head == null) {
                 head = newNode;
             } else {
@@ -120,19 +120,19 @@ public abstract class Set<E> {
             size++;
         }
 
-        void add(E value){
+        protected void add(E value){
             add(new Node(value));
         }
 
         /// Fügt den übergebenen Wert in die Liste, falls dieser noch nicht verhanden ist.
-        void addIfAbsent(E value){
+        protected void addIfAbsent(E value){
             if(findByElement(value) == null){
                 add(value);
             }
         }
 
         /// Gibt eine neue Liste mit umgedrehter Reihenfolge zurück.
-        NodeList reverseOrder() {
+        protected NodeList reverseOrder() {
             NodeList reversed = new NodeList();
             Node last = null;
             for (int i = 0; i < size(); i++) {
@@ -153,15 +153,9 @@ public abstract class Set<E> {
             return current;
         }
 
-        /// Fügt die Node in die Liste ein, falls der darin enthaltene Wert noch nicht in der Liste
-        /// vorhanden ist.
-        void addIfAbsent(Node value){
-            if(findByElement(value.element) == null){
-                add(value);
-            }
-        }
 
-        void remove(Node node) {
+
+        protected void remove(Node node) {
             if (head == node) {
                 head = head.next;
             } else {
@@ -173,7 +167,7 @@ public abstract class Set<E> {
             }
         }
 
-        void remove(E value) {
+        protected void remove(E value) {
             Node node = findByElement(value);
             if (head == node) {
                 head = head.next;
@@ -191,7 +185,7 @@ public abstract class Set<E> {
          * @param element Das zu suchende Element.
          * @return Der gefundene Node oder null.
          */
-        Node findByElement(E element) {
+        protected Node findByElement(E element) {
             Node current = head;
             while (current != null) {
                 // Prüfung auf Objektidentität, wie in der Angabe gefordert[cite: 85].
@@ -203,7 +197,7 @@ public abstract class Set<E> {
             return null;
         }
 
-        public int size(){
+        protected int size(){
            return size;
         }
 
