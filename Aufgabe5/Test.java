@@ -1,8 +1,9 @@
 import java.util.Iterator;
 
-//Tobias: Modifiable, Ordere, OrdSet, OSet
-//Patrick: Tests, HoneyBee, WildBee, Num
-//Christof: ISet, MSet, OrdSet
+//Tobias: Implementierung von  Modifiable, Ordere, OrdSet, OSet. Arbeit am Set
+//Patrick: Schreiben der Tests und daraus resultierende Fehlerbehebungen mit den Anderen.
+//          Implementierung von HoneyBee, WildBee, Num
+//Christof: Implementierung von ISet, MSet, OrdSet. Arbeit am Set
 
 //Begründung fehlender Untertypbeziehungen ab Zeile 200
 public class Test {
