@@ -120,6 +120,7 @@ public abstract class Set<E> {
             size++;
         }
 
+        /// Entfernt das Element aus der Liste
         protected void add(E value){
             add(new Node(value));
         }
@@ -154,7 +155,7 @@ public abstract class Set<E> {
         }
 
 
-
+        /// Entfernt genau die übergebene Node aus der Liste
         protected void remove(Node node) {
             if (head == node) {
                 head = head.next;
@@ -167,6 +168,7 @@ public abstract class Set<E> {
             }
         }
 
+        /// Entfernt das Element aus der Node
         protected void remove(E value) {
             Node node = findByElement(value);
             if (head == node) {
