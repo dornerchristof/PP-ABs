@@ -9,36 +9,31 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
         super(c);
     }
 
+    /**
+     * Gibt die Menge aller Elemente im Container zurück.
+     * @return Die Menge aller Elemente im Container
+     * Invarianz: size >= 0
+     */
     @Override public int size() { return size; }
 
     /**
-     * Privater Iterator, der über die Elemente (Typ E) des Containers läuft.
-     * Er nutzt den Iterator der internen NodeList und extrahiert das Element.
+     ** Setzt das Objekt c (kann auch null sein), das für künftige Prüfungen
+     * erlaubter Ordnungsbeziehungen verwendet wird.
+     * Alle schon bestehenden Ordnungsbeziehungen werden mit dem neuen c überprüft.
+     * Bei Fehler bleibt c unverändert und eine IllegalArgumentException wird ausgelöst.
+     * @param c Das neue Ordered-Objekt zur Validierung.
+     * @throws IllegalArgumentException falls eine bestehende Beziehung nicht mehr erlaubt ist.
+     * Postcondition: Alle Ordnungsbeziehungen stimmen mit dem neuen c überein.
      */
-    private class ElementIterator implements Iterator<E> {
-
-        // Wir nutzen den internen NodeListIterator, um die Kette zu durchlaufen.
-        private final Iterator<Node> nodeIterator = elements.iterator();
-
-        @Override
-        public boolean hasNext() {
-            return nodeIterator.hasNext();
-        }
-
-        @Override
-        public E next() {
-            Set<E>.Node node = nodeIterator.next();
-            return node.element;
-        }
-
-    }
-
-
     @Override public void check(Ordered<? super E, ?> c) throws IllegalArgumentException {
+        if (c == null) {
+            this.c = null;
+            return;
+        }
 
         for(var x : elements){
             for(var xRy : x.successors){
-                if(c != null && c.before(x.element, xRy.element) == null) {
+                if(c.before(x.element, xRy.element) == null) {
                     System.out.println(x.element + " " + xRy.element);
                     throw new IllegalArgumentException("Diese Beziehung ist nicht erlaubt.");
                 };
@@ -46,7 +41,17 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
         }
         this.c = c;
     }
+
+    /**
+     * Ähnlich zu check, aber c wird auf jeden Fall gesetzt.
+     * @param c Das neue Ordered-Objekt zur Validierung.
+     * Postcondition: Alle Beziehungen, die von c nicht erlaubt sind, wurden entfernt.
+     */
     @Override public void checkForced(Ordered<? super E, ?> c) {
+        if (c == null) {
+            this.c = null;
+            return;
+        }
         for(var x : elements){
             for(var xRy : x.successors){
                 if(c.before(x.element, xRy.element) == null)
@@ -55,7 +60,14 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
         }
         this.c = c;
     }
-
+    /**
+     * Prüft, ob x vor y liegt.
+     * @param x Eintrag von Typ E
+     * @param y Eintrag von Typ E
+     * @return Ein Ergbnis vom Typ ModifiableOrdered, das != null ist, falls x vor y liegt. In welchem alle Werte zwischen x, und y enthalten sind.
+     * Precondition: x und y sind in this enthalten.
+     * Postcondition: this, x und y sind werden nicht verändert
+     */
     @Override
     public ModifiableOrdered<E> before(E x, E y) {
         NodeList intermediateNodes = new NodeList();
@@ -71,23 +83,25 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
 
     /**
      * Innere Klasse, die einen Teil der Elemente (nach x, vor y) repräsentiert.
-     * Implementiert die geforderten Interfaces Ordered und Modifiable.
-     * Dieses Objekt repräsentiert die Ordnung des Eltern-OSet.
+     * Implementiert die geforderten Interfaces Ordered und Modifiable durch das interface Modifiableordered.
      */
     private class OSetView implements ModifiableOrdered<E> {
 
-        // Die Elemente, die in dieser View enthalten sind (als einfache NodeList)
         private final NodeList viewElements;
-        private final OSet<E> parentContainer; // Referenz zum ursprünglichen OSet
+        private final OSet<E> parentContainer;
 
-        // Privater Konstruktor: wird nur von OSet.before erzeugt.
         private OSetView(NodeList elements, OSet<E> parent) {
             this.viewElements = elements;
             this.parentContainer = parent;
         }
 
-        // --- Implementierung von Ordered<E, Boolean>---
-
+        /**
+         * Prüft, ob x vor y liegt.
+         * @param x Eintrag von Typ E
+         * @param y Eintrag von Typ E
+         * @return Ein Ergbnis vom Typ boolean, das != null ist, falls x und y in der Liste enthalten sind und x vor y liegt.
+         * Postcondition: this, x und y sind werden nicht verändert
+         */
         @Override
         public Boolean before(E x, E y) {
 
@@ -102,10 +116,12 @@ public class OSet<E> extends Set<E> implements OrdSet<E, ModifiableOrdered<E>> {
         }
 
         /**
-         *
-         * @param x
-         * @param y
-         * @throws IllegalArgumentException if x or y are not in this view or if
+         * Setzt x vor y. In der Ordnung von this. Eine Implementierung kann bestimmte Annahmen für das Vorkommen und
+         * die Ordnung von x und y setzen und von deren Einhaltung ausgehen. Falls diese Annahmen nicht eingehalten werden,
+         * wird eine IllegalArgumentException geworfen.
+         * @param x Ein Eintrag vom Typ E
+         * @param y Ein Eintrag vom Typ E
+         * Precondition: x und y sind in this enthalten.
          */
         @Override
         public void setBefore(E x, E y) throws IllegalArgumentException {
