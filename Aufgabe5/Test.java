@@ -3,6 +3,8 @@ import java.util.Iterator;
 //Tobias: Modifiable, Ordere, OrdSet, OSet
 //Patrick: Tests, HoneyBee, WildBee, Num
 //Christof: ISet, MSet, OrdSet
+
+//Begründung fehlender Untertypbeziehungen ab Zeile 200
 public class Test {
     public static void main(String[] args) {
 
