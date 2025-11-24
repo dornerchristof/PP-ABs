@@ -248,7 +248,7 @@ public class Test {
         WildBee[] wbees = { new WildBee("WB1", 10), new WildBee("WB2", 12), new WildBee("WB3", 14) };
         HoneyBee[] hbees = { new HoneyBee("HB1", "A"), new HoneyBee("HB2", "B"), new HoneyBee("HB3", "C") };
 
-        // Container Instanziierung (wie in der Anforderung benannt)
+        // Container Instanziierung
         ISet<Num> isetnum2 = new ISet<>(null);
         OSet<Num> osetnum2 = new OSet<>(null);
         MSet<Num,Num> msetnum2 = new MSet<>(null);
@@ -300,7 +300,6 @@ public class Test {
         var view = osetnum2.before(nums2[0], nums2[2]);
         if (view != null) {
             System.out.println("View erhalten.");
-            // Test view modification
             Num extra = new Num(99);
             var newView = view.add(extra);
             System.out.println("View add ausgeführt (Test der Rückgabe).");
@@ -315,7 +314,6 @@ public class Test {
         System.out.println("MSet nach minus(50): " + msetnum2);
 
         System.out.println("\n=== 5.4. Ausführung der Check-Kombinationen ===");
-        // Wir verwenden Hilfsmethoden, um Exceptions abzufangen
 
         // -- NUM --
         System.out.println("--- Num Checks ---");
@@ -335,14 +333,12 @@ public class Test {
         System.out.println("--- Bee Checks ---");
         safeCheck(isetbee2, isetbee2, "isetbee2.check(isetbee2)");
         safeCheck(isetbee2, osetbee2, "isetbee2.check(osetbee2)");
-        // a2 Check (nicht in Liste, aber der Vollständigkeit halber aus dem Code-Block)
-        // a2.check(a1); a2.check(a2);
 
         // -- WILDBEE --
         System.out.println("--- WildBee Checks ---");
         safeCheck(isetwildbee2, isetwildbee2, "isetwildbee2.check(isetwildbee2)");
-        safeCheck(isetwildbee2, osetwildbee2, "isetwildbee2.check(osetwildbee2)"); // c1 ist OSet<WildBee>
-        safeCheckForced(isetwildbee2, msetwildbee2, "isetwildbee2.checkForced(msetwildbee2)"); // b1 ist MSet
+        safeCheck(isetwildbee2, osetwildbee2, "isetwildbee2.check(osetwildbee2)");
+        safeCheckForced(isetwildbee2, msetwildbee2, "isetwildbee2.checkForced(msetwildbee2)");
 
         safeCheck(osetwildbee2, isetwildbee2, "osetwildbee2.check(isetwildbee2)");
         safeCheck(osetwildbee2, osetwildbee2, "osetwildbee2.check(osetwildbee2)");
@@ -417,7 +413,6 @@ public class Test {
             for (E y : elems) {
                 //noinspection SuspiciousNameCombination
                 if (x !=y && srcOrder.before(x, y) != null && dest.before(x, y) == null && dest.before(y, x) == null) {
-                    //System.out.println(x.toString()+ ", "+y + "  =  " + srcOrder.before(x, y));
                     try {
                         dest.setBefore(x, y);
                     } catch (IllegalArgumentException ex) {
