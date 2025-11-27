@@ -1,4 +1,4 @@
 // FLower
 // Active for 10 Days
-public class Z {
+public class Z extends Flower {
 }
