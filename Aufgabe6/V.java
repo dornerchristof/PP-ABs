@@ -5,25 +5,34 @@ public class V extends Bee {
         totalActiveDays = 8;
     }
 
+
     @Override
-    boolean collect(X plantX, boolean takesAlternative) {
-        return false;
+    public boolean prefersFlower(Flower flower) {
+        return flower.isPreferredByV();
     }
 
     @Override
-    boolean collect(Y plantY, boolean takesAlternative) {
+    public boolean acceptsFlower(Flower flower) {
+        return flower.isAcceptedByV();
+    }
+
+    @Override
+    public void pollinateFlower(Flower flower) {
+        flower.pollinatedByV(this);
+    }
+
+    @Override
+    public void gotNectarFromX() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void gotNectarFromY() {
         collectedY++;
-        activeFor++;
-        return true;
     }
 
     @Override
-    boolean collect(Z plantZ, boolean takesAlternative) {
-        if (takesAlternative) {
-            collectedZ++;
-            activeFor++;
-            return true;
-        }
-        return false;
+    public void gotNectarFromZ() {
+        collectedZ++;
     }
 }

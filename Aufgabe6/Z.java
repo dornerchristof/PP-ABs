@@ -36,17 +36,19 @@ public class Z extends Flower {
     }
 
     @Override
-    public void pollinatedByU() {
+    public void pollinatedByU(U u) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void pollinatedByV() {
+    public void pollinatedByV(V v) {
         visitedByV++;
+        v.gotNectarFromZ();
     }
 
     @Override
-    public void pollinatedByW() {
+    public void pollinatedByW(W w) {
         visitedByW++;
+        w.gotNectarFromZ();
     }
 }

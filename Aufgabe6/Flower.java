@@ -27,9 +27,9 @@ public abstract class Flower { //TODO: Visibility
     public abstract boolean isAcceptedByW();
 
 
-    public abstract void pollinatedByU();
-    public abstract void pollinatedByV();
-    public abstract void pollinatedByW();
+    public abstract void pollinatedByU(U u);
+    public abstract void pollinatedByV(V v);
+    public abstract void pollinatedByW(W w);
 
 
 

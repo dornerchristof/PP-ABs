@@ -37,17 +37,19 @@ public class Y extends Flower {
     }
 
     @Override
-    public void pollinatedByU() {
+    public void pollinatedByU(U u) {
         visitedByU++;
+        u.gotNectarFromY();
     }
 
     @Override
-    public void pollinatedByV() {
+    public void pollinatedByV(V v) {
         visitedByV++;
+        v.gotNectarFromY();
     }
 
     @Override
-    public void pollinatedByW() {
+    public void pollinatedByW(W w) {
         throw new UnsupportedOperationException();
     }
 }

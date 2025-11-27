@@ -12,6 +12,14 @@ public abstract class Bee { //TODO: Visibility
     /// Nachbedingung: Pflanze wurde bestäubt.
     public abstract void pollinateFlower(Flower flower);
 
+    /// "Handshake" oder "Callback" von der Pflanze, damit wir wissen, welche Pflanze
+    /// wir in pollinatedFlower aufgerufen haben.
+    /// Client-History-Constraint: Darf nur innerhalb einer Methode aufgerufen werden, die
+    /// von pollinateFlower() aufgerufen wurde.
+    public abstract void gotNectarFromX();
+    public abstract void gotNectarFromY();
+    public abstract void gotNectarFromZ();
+
     public int collectedFromX() {
         return collectedX;
     };

@@ -17,29 +17,23 @@ public class U extends Bee {
 
     @Override
     public void pollinateFlower(Flower flower) {
-        flower.pollinatedByU();
+        flower.pollinatedByU(this);
     }
 
     @Override
-    boolean collect(X plantX, boolean takesAlternative) {
+    public void gotNectarFromX() {
         collectedX++;
-        activeFor++;
-        return true;
     }
 
     @Override
-    boolean collect(Y plantY, boolean takesAlternative) {
-        if (takesAlternative) {
-            collectedY++;
-            activeFor++;
-            return true;
-        }
-        return false;
+    public void gotNectarFromY() {
+        collectedY++;
     }
 
     @Override
-    boolean collect(Z plantZ, boolean takesAlternative) {
-        return false;
+    public void gotNectarFromZ() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
 
 }
