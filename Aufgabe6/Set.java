@@ -9,6 +9,10 @@ public class Set<T> {
         head = null;
     }
 
+    public void add(T node){
+        add(new Node<>(node));
+    }
+
     public void add(Node<T> node){
         if (head == null) head = node;
         else {
