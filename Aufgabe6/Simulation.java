@@ -8,12 +8,15 @@ public class Simulation {
 
     public void simulate() {
 
+        //while something still alive
         for (int i = 0; i < 7; i++) {
             addRandomBee();
             addRandomBee();
             addRandomFlower();
             addRandomFlower();
-
+            for(Object c : flowerSet){
+                ((Flower)c).dayPassed();
+            }
         }
     }
     private Bee createRandomBee(int x) {

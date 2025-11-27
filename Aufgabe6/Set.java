@@ -1,7 +1,9 @@
+import java.util.Iterator;
+
 //TODO: Make this a normal class without Typeparameters
 //TODO: Is this in the right place should it be moved inside the Simulation class? or somewhere else? What about visibility
 @Annotations.Responsible(Annotations.names.Tobias)
-public class Set<T> {
+public class Set<T> implements Iterable<T> {
     private Node<T> head;
     private int size = 0;
 
@@ -42,4 +44,24 @@ public class Set<T> {
         return current;
     }
 
+    @Override
+    public Iterator<T> iterator() {
+        return new SetIterator();
+    }
+
+    private class SetIterator implements Iterator<T>{
+        private Node<T> current = head;
+
+        @Override
+        public boolean hasNext() {
+            return current != null;
+        }
+
+        @Override
+        public T next() {
+            T elem = current.elem;
+            current = current.next;
+            return elem;
+        }
+    }
 }

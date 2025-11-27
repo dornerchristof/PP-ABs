@@ -1,4 +1,53 @@
 // Flower
 // Active for 9 Days
 public class X extends Flower {
+
+    public X(){
+        super(9);
+    }
+
+    @Override
+    public boolean isPreferredByU() {
+        return true;
+    }
+
+    @Override
+    public boolean isPreferredByV() {
+        return false;
+    }
+
+    @Override
+    public boolean isPreferredByW() {
+        return false;
+    }
+
+    @Override
+    public boolean isAcceptedByU() {
+        return false;
+    }
+
+    @Override
+    public boolean isAcceptedByV() {
+        return false;
+    }
+
+    @Override
+    public boolean isAcceptedByW() {
+        return true;
+    }
+
+    @Override
+    public void pollinatedByU() {
+        visitedByU++;
+    }
+
+    @Override
+    public void pollinatedByV() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void pollinatedByW() {
+        visitedByW++;
+    }
 }

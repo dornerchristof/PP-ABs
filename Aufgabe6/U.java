@@ -6,6 +6,21 @@ public class U extends Bee {
     }
 
     @Override
+    public boolean prefersFlower(Flower flower) {
+        return flower.isPreferredByU();
+    }
+
+    @Override
+    public boolean acceptsFlower(Flower flower) {
+        return flower.isAcceptedByU();
+    }
+
+    @Override
+    public void pollinateFlower(Flower flower) {
+        flower.pollinatedByU();
+    }
+
+    @Override
     boolean collect(X plantX, boolean takesAlternative) {
         collectedX++;
         activeFor++;
