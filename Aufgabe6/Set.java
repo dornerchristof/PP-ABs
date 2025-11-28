@@ -7,15 +7,34 @@ public class Set implements Iterable {
     private Node head;
     private int size = 0;
 
+    @Annotations.Responsible(Annotations.names.Tobias)
+    private static class Node {
+        final Object elem;
+        Node next;
+
+        public Node(Object elem) {
+            this.elem = elem;
+        }
+
+        public Object getElem() {
+            return elem;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+    }
+
     public Set(){
         head = null;
     }
 
-    public void add(Object node){
-        add(new Node(node));
-    }
-
-    public void add(Node node){
+    public void add(Object obj){
+        Node node = new Node(obj);;
         if (head == null) head = node;
         else {
             Node current = head;
@@ -25,11 +44,11 @@ public class Set implements Iterable {
         size++;
     }
 
-    public void remove (Node node){
-        if (head == node) head = head.next;
+    public void remove (Object node){
+        if (head.elem == node) head = head.next;
         else {
             Node current = head;
-            while (current.next != node) current = current.next;
+            while (current.next.elem != node) current = current.next;
             current.next = current.next.next;
         }
         size--;
@@ -39,11 +58,6 @@ public class Set implements Iterable {
         return size;
     }
 
-    public Node findByElement(Object element){
-        Node current = head;
-        while (current != null && current.elem != element) current = current.next;
-        return current;
-    }
     public Object findByIndex(int index){
         if (index < 0 || index >= size) return null;
         Node current = head;
