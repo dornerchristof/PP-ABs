@@ -51,7 +51,7 @@ public class Simulation {
         boolean flowerAlive = false;
         boolean beeAlive = false;
         for(Object c : flowerSet){
-            if(((Flower)c).lives()){
+            if(((Flower)c).blooms()){
                 flowerAlive = true;
                 break;
             }
@@ -78,7 +78,7 @@ public class Simulation {
                 Flower ftv = null;
                 while (ftv == null || (favoriteExists && !bee.prefersFlower(ftv)) || (!favoriteExists && !bee.acceptsFlower(ftv))) {
                     ftv = (Flower)flowerSet.findByIndex(rand.nextInt(flowerSet.size()));
-                    if (!ftv.lives()){
+                    if (!ftv.blooms()){
                         ftv = null;
                     }
                 }
@@ -89,7 +89,7 @@ public class Simulation {
 
     private boolean favoriteExists(Bee bee) {
         for (Object o : flowerSet) {
-            if (bee.prefersFlower((Flower)o) && ((Flower)o).lives()) {
+            if (bee.prefersFlower((Flower)o) && ((Flower)o).blooms()) {
                 return true;
             }
         }
@@ -97,7 +97,7 @@ public class Simulation {
     }
     private boolean acceptableExists(Bee bee) {
         for (Object o : flowerSet) {
-            if (bee.acceptsFlower((Flower)o) && ((Flower)o).lives()) {
+            if (bee.acceptsFlower((Flower)o) && ((Flower)o).blooms()) {
                 return true;
             }
         }
