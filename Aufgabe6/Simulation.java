@@ -1,5 +1,6 @@
 import java.util.Random;
 
+@Annotations.Responsible(Annotations.names.Patrick)
 public class Simulation {
     // TODO: inner implementation of Set (for Object?)
     private Set beeSet = new Set();

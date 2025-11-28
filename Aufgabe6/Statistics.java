@@ -1,3 +1,5 @@
+
+@Annotations.Responsible(Annotations.names.Patrick)
 public class Statistics {
     private int ZbyV = 0;
     private int YbyV = 0;

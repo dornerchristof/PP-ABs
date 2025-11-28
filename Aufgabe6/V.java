@@ -1,5 +1,6 @@
 // Bee likes Y also takes Z, doesn't like X
 // Active for 8 Days
+@Annotations.Responsible(Annotations.names.Patrick)
 public class V extends Bee {
     public V() {
         totalActiveDays = 8;

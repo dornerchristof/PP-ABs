@@ -1,3 +1,5 @@
+
+@Annotations.Responsible(Annotations.names.Patrick)
 public abstract class Bee { //TODO: Visibility
     protected int collectedX = 0;
     protected int collectedY = 0;
