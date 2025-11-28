@@ -2,7 +2,7 @@ public abstract class Bee { //TODO: Visibility
     protected int collectedX = 0;
     protected int collectedY = 0;
     protected int collectedZ = 0;
-    protected int activeFor = 0;
+    protected int daysLived = 0;
     protected int totalActiveDays = 0;
 
     public abstract boolean prefersFlower(Flower flower);
@@ -30,7 +30,11 @@ public abstract class Bee { //TODO: Visibility
         return collectedZ;
     };
 
+    public void endDay() {
+        daysLived++;
+    };
+
     public boolean isActive() {
-        return activeFor < totalActiveDays;
+        return daysLived < totalActiveDays;
     };
 }
