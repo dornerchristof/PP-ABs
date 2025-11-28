@@ -32,6 +32,7 @@ public class Set<T> implements Iterable<T> {
             while (current.next != node) current = current.next;
             current.next = current.next.next;
         }
+        size--;
     }
 
     public int size(){

@@ -41,4 +41,9 @@ public class Test {
 
     // Total for now: A-6, B-7, C-6
 
+    public static void main(String[] args) {
+        Simulation sim = new Simulation();
+        sim.simulate();
+    }
+
 }
