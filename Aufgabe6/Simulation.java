@@ -1,12 +1,15 @@
 import java.util.Random;
 
 @Annotations.Responsible(Annotations.names.Patrick)
+@Annotations.Invariant("beeSet != null")
+@Annotations.Invariant("flowerSet != null")
+@Annotations.Invariant("rand != null")
 public class Simulation {
     private final Set beeSet = new Set();
     private final Set flowerSet = new Set();
     private final Random rand = new Random();
 
-
+    @Annotations.Postcondition("Simulation wurde durchgeführt und Statistiken ausgegeben")
     public void simulate() {
         for (int i = 0; i < 7; i++) {
             addRandomBee();
@@ -35,6 +38,7 @@ public class Simulation {
         printStats();
     }
 
+    @Annotations.Postcondition("Statistiken wurden auf der Konsole ausgegeben")
     private void printStats() {
         Statistics stats = new Statistics();
         for(Object c : flowerSet){
@@ -46,6 +50,7 @@ public class Simulation {
         stats.print();
     }
 
+    @Annotations.Postcondition("Gibt true zurück, falls mindestens eine Biene und eine Blume noch aktiv sind")
     private boolean areBeesAndFlowersActive(){
         boolean flowerAlive = false;
         boolean beeAlive = false;
@@ -65,6 +70,7 @@ public class Simulation {
         return beeAlive;
     }
 
+    @Annotations.Postcondition("Ein Simulations-Tag für alle Bienen wurde durchgeführt")
     private void simulateBeeDay() {
         for (Object o : beeSet) {
             Bee bee = (Bee) o;
@@ -86,6 +92,8 @@ public class Simulation {
         }
     }
 
+    @Annotations.Precondition("bee != null")
+    @Annotations.Postcondition("Gibt true zurück, wenn eine bevorzugte Blume im Set existiert")
     private boolean favoriteExists(Bee bee) {
         for (Object o : flowerSet) {
             if (bee.prefersFlower((Flower)o) && ((Flower)o).lives()) {
@@ -103,6 +111,8 @@ public class Simulation {
         return false;
     }
 
+    @Annotations.Precondition("x ist 0, 1 oder 2")
+    @Annotations.Postcondition("Gibt eine neue Bienen-Instanz zurück (U, V oder W) und erhöht den Zähler")
     private Bee createRandomBee(int x) {
         return switch (x) {
             case 0 -> new U();
@@ -111,6 +121,9 @@ public class Simulation {
             default -> null;
         };
     }
+
+    @Annotations.Precondition("x ist 0, 1 oder 2")
+    @Annotations.Postcondition("Gibt eine neue Blumen-Instanz zurück (X, Y oder Z) und erhöht den Zähler")
     private Flower createRandomFlower(int x) {
         return switch (x) {
             case 0 -> new X();
@@ -120,6 +133,7 @@ public class Simulation {
         };
     }
 
+    @Annotations.Postcondition("Zufällige Bienen wurden zum beeSet hinzugefügt")
     private void addRandomBee() {
         int x = rand.nextInt(3);
         int y = rand.nextInt(8) + 2;
@@ -133,6 +147,8 @@ public class Simulation {
             beeSet.add(createRandomBee(x2));
         }
     }
+
+    @Annotations.Postcondition("Zufällige Blumen wurden zum flowerSet hinzugefügt")
     private void addRandomFlower() {
         int x = rand.nextInt(3);
         int y = rand.nextInt(8) + 2;
