@@ -1,4 +1,40 @@
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Test.UsedClasses({
+        Test.class,
+        Simulation.class,
+        Set.class,
+        Node.class,
+        Bee.class,
+        Flower.class,
+        U.class,
+        V.class,
+        W.class,
+        X.class,
+        Y.class,
+        Z.class,
+        Statistics.class,
+        Annotations.Precondition.class,
+        Annotations.Postcondition.class,
+        Annotations.Invariant.class,
+        Annotations.ClientHistoryConstraint.class,
+        Annotations.ServerHistoryConstraint.class,
+        Annotations.Preconditions.class,
+        Annotations.Postconditions.class,
+        Annotations.Invariants.class,
+        Annotations.ClientHistoryConstraints.class,
+        Annotations.ServerHistoryConstraints.class,
+        Annotations.Responsible.class,
+})
 public class Test {
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    public @interface UsedClasses {
+        Class<?>[] value();
+    }
     //TODO: An interface dor an Annotation which describes which classes, interfaces und Annotationen zur Lösung gehören.
     // The above might have to be in a diffrent file and just be called here
     //General TODO's:
