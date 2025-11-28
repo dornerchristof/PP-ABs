@@ -25,34 +25,34 @@ public class Statistics {
     }
 
     public void collectData(U bee){
-        ZbyU += bee.collectedZ;
-        YbyU += bee.collectedY;
-        XbyU += bee.collectedX;
+        ZbyU += bee.collectedFromZ();
+        YbyU += bee.collectedFromY();
+        XbyU += bee.collectedFromX();
     }
     public void collectData(V bee){
-        ZbyV += bee.collectedZ;
-        YbyV += bee.collectedY;
-        XbyV += bee.collectedX;
+        ZbyV += bee.collectedFromZ();
+        YbyV += bee.collectedFromY();
+        XbyV += bee.collectedFromX();
     }
     public void collectData(W bee){
-        ZbyW += bee.collectedZ;
-        YbyW += bee.collectedY;
-        XbyW += bee.collectedX;
+        ZbyW += bee.collectedFromZ();
+        YbyW += bee.collectedFromY();
+        XbyW += bee.collectedFromX();
     }
     public void collectData(X flower){
-        WviX += flower.visitedByW;
-        VviX += flower.visitedByV;
-        UviX += flower.visitedByU;
+        WviX += flower.visitedByW();
+        VviX += flower.visitedByV();
+        UviX += flower.visitedByU();
     }
     public void collectData(Y flower){
-        WviY += flower.visitedByW;
-        VviY += flower.visitedByV;
-        UviY += flower.visitedByU;
+        WviY += flower.visitedByW();
+        VviY += flower.visitedByV();
+        UviY += flower.visitedByU();
     }
     public void collectData(Z flower){
-        WviZ += flower.visitedByW;
-        VviZ += flower.visitedByV;
-        UviZ += flower.visitedByU;
+        WviZ += flower.visitedByW();
+        VviZ += flower.visitedByV();
+        UviZ += flower.visitedByU();
     }
 
     public void print() {
