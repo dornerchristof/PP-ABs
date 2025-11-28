@@ -1,5 +1,6 @@
 
 @Annotations.Responsible(Annotations.names.Patrick)
+@Annotations.ServerHistoryConstraint("Alle Statistik-Variablen zählen ausschließlich hoch")
 public class Statistics {
     private int ZbyV = 0;
     private int YbyV = 0;
@@ -24,37 +25,55 @@ public class Statistics {
     public Statistics() {
     }
 
+    @Annotations.Precondition("bee != null")
+    @Annotations.Postcondition("Gesammelter Nektar von Biene U wurde zur Statistik hinzugefügt")
     public void collectData(U bee){
         ZbyU += bee.collectedFromZ();
         YbyU += bee.collectedFromY();
         XbyU += bee.collectedFromX();
     }
+
+    @Annotations.Precondition("bee != null")
+    @Annotations.Postcondition("Gesammelter Nektar von Biene V wurde zur Statistik hinzugefügt")
     public void collectData(V bee){
         ZbyV += bee.collectedFromZ();
         YbyV += bee.collectedFromY();
         XbyV += bee.collectedFromX();
     }
+
+    @Annotations.Precondition("bee != null")
+    @Annotations.Postcondition("Gesammelter Nektar von Biene W wurde zur Statistik hinzugefügt")
     public void collectData(W bee){
         ZbyW += bee.collectedFromZ();
         YbyW += bee.collectedFromY();
         XbyW += bee.collectedFromX();
     }
+
+    @Annotations.Precondition("flower != null")
+    @Annotations.Postcondition("Besuche auf Blume X wurden zur Statistik hinzugefügt")
     public void collectData(X flower){
         WviX += flower.visitedByW();
         VviX += flower.visitedByV();
         UviX += flower.visitedByU();
     }
+
+    @Annotations.Precondition("flower != null")
+    @Annotations.Postcondition("Besuche auf Blume Y wurden zur Statistik hinzugefügt")
     public void collectData(Y flower){
         WviY += flower.visitedByW();
         VviY += flower.visitedByV();
         UviY += flower.visitedByU();
     }
+
+    @Annotations.Precondition("flower != null")
+    @Annotations.Postcondition("Besuche auf Blume Z wurden zur Statistik hinzugefügt")
     public void collectData(Z flower){
         WviZ += flower.visitedByW();
         VviZ += flower.visitedByV();
         UviZ += flower.visitedByU();
     }
 
+    @Annotations.Postcondition("Statistik-Tabelle wurde auf der Konsole ausgegeben")
     public void print() {
         System.out.println("\nSTATISTIK: GESAMMELTER NEKTAR (Bienen-Sicht)");
         System.out.println("+-------+-------+-------+-------+-------+");
