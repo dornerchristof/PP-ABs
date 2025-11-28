@@ -8,8 +8,6 @@
 @Annotations.Invariant("visitedByV >= 0")
 @Annotations.Invariant("visitedByW >= 0")
 public abstract class Flower {
-
-
     protected int visitedByU = 0;
     protected int visitedByV = 0;
     protected int visitedByW = 0;
@@ -47,27 +45,29 @@ public abstract class Flower {
     public abstract boolean isAcceptedByW();
 
     @Annotations.Precondition("isPreferredByU() == true || isAcceptedByU == true")
+    @Annotations.Postcondition("visitedByU um eins erhöht und u.gotNectarFromU() aufgerufen.")
     public abstract void pollinatedByU(U u);
     @Annotations.Precondition("isPreferredByV() == true || isAcceptedByV == true")
+    @Annotations.Postcondition("visitedByV um eins erhöht und u.gotNectarFromV() aufgerufen.")
     public abstract void pollinatedByV(V v);
     @Annotations.Precondition("isPreferredByV() == true || isAcceptedByV == true")
+    @Annotations.Postcondition("visitedByW um eins erhöht und u.gotNectarFromW() aufgerufen.")
     public abstract void pollinatedByW(W w);
 
     @Annotations.Precondition("stats != null")
     @Annotations.Postcondition("Speichert die Statistikdaten im stats Objekt")
     public abstract void sendData(Statistics stats);
 
-    /// Die Blume wurde von Biene U besucht
     @Annotations.Postcondition("Anzahl an Besuchen der Biene U")
     public int visitedByU(){
         return visitedByU;
     }
-    /// Die Blume wurde von Biene V besucht
+
     @Annotations.Postcondition("Anzahl an Besuchen der Biene U")
     public int visitedByV(){
         return visitedByV;
     }
-    /// Die Blume wurde von Biene W besucht
+
     @Annotations.Postcondition("Anzahl an Besuchen der Biene U")
     public int visitedByW(){
         return visitedByW;
