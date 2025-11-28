@@ -62,6 +62,42 @@ public class Annotations {
         Invariant[] value();
     }
 
+    @Responsible(names.Tobias)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Repeatable(ClientHistoryConstraints.class)
+    @Inherited
+    @Target(ElementType.TYPE)
+    @Documented
+    public @interface ClientHistoryConstraint {
+        String value();
+    }
+    @Responsible(names.Tobias)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Inherited
+    @Documented
+    public @interface ClientHistoryConstraints {
+        ClientHistoryConstraint[] value();
+    }
+
+    @Responsible(names.Tobias)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Repeatable(ServerHistoryConstraints.class)
+    @Inherited
+    @Target(ElementType.TYPE)
+    @Documented
+    public @interface ServerHistoryConstraint {
+        String value();
+    }
+    @Responsible(names.Tobias)
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target(ElementType.TYPE)
+    @Inherited
+    @Documented
+    public @interface ServerHistoryConstraints {
+        ServerHistoryConstraint[] value();
+    }
+
     // TODO: Should this show up in the javadoc
     @Responsible(names.Tobias)
     @Retention(RetentionPolicy.RUNTIME)
