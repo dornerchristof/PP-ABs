@@ -1,14 +1,13 @@
 import java.util.Random;
 
+@Annotations.Responsible(Annotations.names.Patrick)
 public class Simulation {
-    // TODO: inner implementation of Set (for Object?)
-    private Set beeSet = new Set();
-    private Set flowerSet = new Set();
-    private Random rand = new Random();
+    private final Set beeSet = new Set();
+    private final Set flowerSet = new Set();
+    private final Random rand = new Random();
+
 
     public void simulate() {
-
-        //while something still alive
         for (int i = 0; i < 7; i++) {
             addRandomBee();
             addRandomFlower();

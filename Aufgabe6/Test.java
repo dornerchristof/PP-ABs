@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
         Test.class,
         Simulation.class,
         Set.class,
-        Node.class,
         Bee.class,
         Flower.class,
         U.class,
@@ -17,6 +16,7 @@ import java.lang.annotation.Target;
         Y.class,
         Z.class,
         Statistics.class,
+        Annotations.class,
         Annotations.Precondition.class,
         Annotations.Postcondition.class,
         Annotations.Invariant.class,
@@ -28,6 +28,7 @@ import java.lang.annotation.Target;
         Annotations.ClientHistoryConstraints.class,
         Annotations.ServerHistoryConstraints.class,
         Annotations.Responsible.class,
+        Test.UsedClasses.class
 })
 public class Test {
     @Retention(RetentionPolicy.RUNTIME)
