@@ -1,5 +1,6 @@
-// FLower
-// Active for 10 Days
+
+@Annotations.Responsible(Annotations.names.Christof)
+@Annotations.Invariant("Pflanze blüht für 10 Tage")
 public class Z extends Flower {
     public Z() {
         super(10);
