@@ -43,6 +43,12 @@ public class Set<T> implements Iterable<T> {
         while (current != null && current.elem != element) current = current.next;
         return current;
     }
+    public T findByIndex(int index){
+        if (index < 0 || index >= size) return null;
+        Node<T> current = head;
+        for (int i = 0; i < index; i++) current = current.next;
+        return current.elem;
+    }
 
     @Override
     public Iterator<T> iterator() {
