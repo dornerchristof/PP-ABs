@@ -51,4 +51,9 @@ public class Z extends Flower {
         visitedByW++;
         w.gotNectarFromZ();
     }
+
+    @Override
+    public void sendData(Statistics stats) {
+        stats.collectData(this);
+    }
 }

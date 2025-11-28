@@ -52,4 +52,9 @@ public class X extends Flower {
         visitedByW++;
         w.gotNectarFromX();
     }
+
+    @Override
+    public void sendData(Statistics stats) {
+        stats.collectData(this);
+    }
 }

@@ -32,6 +32,7 @@ public abstract class Flower { //TODO: Visibility
     public abstract void pollinatedByW(W w);
 
 
+    public abstract void sendData(Statistics stats);
 
     /// Die Blume wurde von Biene U besucht
     public int visitedByU(){

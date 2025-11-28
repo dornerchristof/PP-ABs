@@ -35,5 +35,8 @@ public class U extends Bee {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-
+    @Override
+    public void sendData(Statistics stats) {
+        stats.collectData(this);
+    }
 }

@@ -1,5 +1,4 @@
 import java.util.Random;
-import java.util.concurrent.Flow;
 
 public class Simulation {
     // TODO: inner implementation of Set (for Object?)
@@ -38,82 +37,14 @@ public class Simulation {
     }
 
     private void printStats() {
-        Z z = new Z();
-
-        int ZbyV = 0;
-        int YbyV = 0;
-        int XbyV = 0;
-        int ZbyU = 0;
-        int YbyU = 0;
-        int XbyU = 0;
-        int ZbyW = 0;
-        int YbyW = 0;
-        int XbyW = 0;
-
-        for (Object o : beeSet) {
-            Bee bee = (Bee) o;
-            if (bee.prefersFlower(z)){ // Bee is W
-                ZbyW += bee.collectedZ;
-                YbyW += bee.collectedY;
-                XbyW += bee.collectedX;
-            }
-            else if (bee.acceptsFlower(z)){ // Bee is V
-                ZbyV += bee.collectedZ;
-                YbyV += bee.collectedY;
-                XbyV += bee.collectedX;
-            }
-            else{ // Bee is U
-                ZbyU += bee.collectedZ;
-                YbyU += bee.collectedY;
-                XbyU += bee.collectedX;
-            }
+        Statistics stats = new Statistics();
+        for(Object c : flowerSet){
+            ((Flower)c).sendData(stats);
         }
-
-        int WviZ = 0;
-        int WviY = 0;
-        int WviX = 0;
-        int VviZ = 0;
-        int VviY = 0;
-        int VviX = 0;
-        int UviZ = 0;
-        int UviY = 0;
-        int UviX = 0;
-
-        for (Object o : flowerSet) {
-            Flower flower = (Flower) o;
-            if (flower.isPreferredByU()){ // Flower is X
-                WviX += flower.visitedByW;
-                VviX += flower.visitedByV;
-                UviX += flower.visitedByU;
-            }
-            else if (flower.isPreferredByV()){ // Flower is Y
-                WviY += flower.visitedByW;
-                VviY += flower.visitedByV;
-                UviY += flower.visitedByU;
-            }
-            else{ // Flower is Z
-                WviZ += flower.visitedByW;
-                VviZ += flower.visitedByV;
-                UviZ += flower.visitedByU;
-            }
+        for(Object c : beeSet){
+           ((Bee)c).sendData(stats);
         }
-        System.out.println("\nSTATISTIK: GESAMMELTER NEKTAR (Bienen-Sicht)");
-        System.out.println("+-------+-------+-------+-------+-------+");
-        System.out.println("| Biene |   X   |   Y   |   Z   | Gesamt|");
-        System.out.println("+-------+-------+-------+-------+-------+");
-        System.out.printf("|   U   | %-5d | %-5d | %-5d | %-5d |\n", XbyU, YbyU, ZbyU, XbyU + YbyU + ZbyU);
-        System.out.printf("|   V   | %-5d | %-5d | %-5d | %-5d |\n", XbyV, YbyV, ZbyV, XbyV + YbyV + ZbyV);
-        System.out.printf("|   W   | %-5d | %-5d | %-5d | %-5d |\n", XbyW, YbyW, ZbyW, XbyW + YbyW + ZbyW);
-        System.out.println("+-------+-------+-------+-------+-------+");
-
-        System.out.println("\nSTATISTIK: ERHALTENE BESUCHE (Blumen-Sicht)");
-        System.out.println("+-------+-------+-------+-------+-------+");
-        System.out.println("| Blume |   U   |   V   |   W   | Gesamt|");
-        System.out.println("+-------+-------+-------+-------+-------+");
-        System.out.printf("|   X   | %-5d | %-5d | %-5d | %-5d |\n", UviX, VviX, WviX, UviX + VviX + WviX);
-        System.out.printf("|   Y   | %-5d | %-5d | %-5d | %-5d |\n", UviY, VviY, WviY, UviY + VviY + WviY);
-        System.out.printf("|   Z   | %-5d | %-5d | %-5d | %-5d |\n", UviZ, VviZ, WviZ, UviZ + VviZ + WviZ);
-        System.out.println("+-------+-------+-------+-------+-------+");
+        stats.print();
     }
 
     private boolean areBeesAndFlowersActive(){

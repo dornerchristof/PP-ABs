@@ -35,4 +35,9 @@ public class W extends Bee {
     public void gotNectarFromZ() {
         collectedZ++;
     }
+
+    @Override
+    public void sendData(Statistics stats) {
+        stats.collectData(this);
+    }
 }

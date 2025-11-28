@@ -52,4 +52,9 @@ public class Y extends Flower {
     public void pollinatedByW(W w) {
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void sendData(Statistics stats) {
+        stats.collectData(this);
+    }
 }

@@ -30,6 +30,8 @@ public abstract class Bee { //TODO: Visibility
         return collectedZ;
     };
 
+    public abstract void sendData(Statistics stats);
+
     public void endDay() {
         daysLived++;
     };
