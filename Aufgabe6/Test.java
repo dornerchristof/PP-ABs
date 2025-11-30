@@ -36,14 +36,9 @@ public class Test {
     // - Interface for invariant Annotation
     // - Interface for History Constraints Annotation
     // - Interface for Who built what class/interface/annotation Annotation (This is not a real sentence right?)
-    // Not a fucking clue yet:
     // In test there should be a way to:
     // Print how many classes interfaces and annotations a member of team was responsible for.
     // Print how many Pre pots invariants and history constraints a person is responsible for.
-    // (╯°□°）╯︵ ┻━┻  My brain just might be a bit fucked:
-    // I am not sure if this actually is in the exercise text but i think i saw a rule stating that except for
-    // inner classes and interfaces they should all be in separate files. This is only important because i
-    // want to put all annotation interfaces in one file. Just keep this in mind :) (:
     // Possible Task Split: (A Tobi, B Patrick, C Cristof) always changeable
     // Annotations:
     // - Precondition Annotation - A
@@ -80,7 +75,6 @@ public class Test {
         Simulation sim3 = new Simulation();
         sim3.simulate();
 
-        //1.
         KontextB.run(Test.class);
     }
 
