@@ -5,6 +5,10 @@ import java.util.*;
 @Annotations.Responsible(Annotations.names.Tobias)
 public class KontextB {
         @Annotations.Responsible(Annotations.names.Tobias)
+        @Annotations.ServerHistoryConstraint("Alle Klassenvariablen zählen nur hoch")
+        @Annotations.Invariant("classCount >= 0")
+        @Annotations.Invariant("methodCount >= 0")
+        @Annotations.Invariant("assertionCount >= 0")
         private static class StudentStats {
             int classCount = 0;
             int methodCount = 0;
@@ -12,6 +16,7 @@ public class KontextB {
         }
 
         @Annotations.Precondition( "rootClass != null")
+        @Annotations.Postcondition("Statistik über Klassen, Interfaces, Annoationen, Methoden und Konstruktoren wurden am standard Output ausgegeben")
         public static void run(Class<?> rootClass) {
             System.out.println("\n" + "=".repeat(60));
             System.out.println(" KONTEXT B:");
@@ -36,6 +41,11 @@ public class KontextB {
             }
         }
 
+        @Annotations.Precondition("clazz != null")
+        @Annotations.Precondition("statsMap != null")
+        @Annotations.Postcondition("Statistik über die clazz und die zugehörigen Methoden wurde ausgegeben")
+        @Annotations.Postcondition("Falls die Responsible Person noch nicht in statsMap war wurde sie hinzugefügt")
+        @Annotations.Postcondition("Falls die Person bereits in statsMap war wurden das zugehörige StudentStats Objekt aktualisiert")
         private static void analyzeClass(Class<?> clazz, Map<Annotations.names, StudentStats> statsMap) {
             String isInnerClass = clazz.getDeclaringClass() != null ? " (Innere Klasse von " + clazz.getDeclaringClass().getSimpleName() + ")" : "";
             System.out.println("\n>>> Analyse Klasse: " + clazz.getSimpleName() + isInnerClass);
@@ -56,9 +66,8 @@ public class KontextB {
                 System.out.println("    [Konstruktor] " + c.toString());
                 stats.methodCount++;
 
-                // Annotationen direkt am Konstruktor
-                stats.assertionCount += printExecutableAnnotations(c, Annotations.Precondition.class, "Pre");
-                stats.assertionCount += printExecutableAnnotations(c, Annotations.Postcondition.class, "Post");
+                stats.assertionCount += printConstructorAnnotations(c, Annotations.Precondition.class, "Pre");
+                stats.assertionCount += printConstructorAnnotations(c, Annotations.Postcondition.class, "Post");
             }
 
             if(!clazz.isInterface()){
@@ -79,7 +88,11 @@ public class KontextB {
             }
         }
 
-
+        @Annotations.Precondition("clazz != null")
+        @Annotations.Precondition("type != null")
+        @Annotations.Precondition("label != null")
+        @Annotations.Postcondition("count >= 0")
+        @Annotations.Postcondition("Die Invariants, Server- und ClientHistoryConstraints wurden ausgegeben")
         private static <A extends Annotation> int printClassAnnotations(Class<?> clazz, Class<A> type, String label) {
             int count = 0;
             A[] anns = clazz.getAnnotationsByType(type);
@@ -90,7 +103,12 @@ public class KontextB {
             return count;
         }
 
-        private static <A extends Annotation> int printExecutableAnnotations(Executable exec, Class<A> type, String label) {
+        @Annotations.Precondition("exec != null")
+        @Annotations.Precondition("type != null")
+        @Annotations.Precondition("label != null")
+        @Annotations.Postcondition("count >= 0")
+        @Annotations.Postcondition("Die Pre- und Postconditions des Konstuktors wurden ausgegeben")
+        private static <A extends Annotation> int printConstructorAnnotations(Executable exec, Class<A> type, String label) {
             int count = 0;
             A[] anns = exec.getAnnotationsByType(type);
             for (A ann : anns) {
@@ -100,6 +118,12 @@ public class KontextB {
             return count;
         }
 
+        @Annotations.Precondition("m != null")
+        @Annotations.Precondition("type != null")
+        @Annotations.Precondition("label != null")
+        @Annotations.Postcondition("count >= 0")
+        @Annotations.Postcondition("Die Pre und PostConditions wurden ausgegeben")
+        @Annotations.Postcondition("Falls die Condition geerbt wurde wird zusätzlich die ursprüngliche Klasse angegeben")
         private static <A extends Annotation> int printInheritedMethodAnnotations(Method m, Class<A> type, String label) {
             int count = 0;
             Set foundValues = new Set();
@@ -123,6 +147,10 @@ public class KontextB {
             return count;
         }
 
+        @Annotations.Precondition("original != null")
+        @Annotations.Precondition("currentClass != null")
+        @Annotations.Postcondition("methods.length >= 0")
+        @Annotations.Postcondition("Falls die Methode schon in einer Superklasse deffiniert wurde werden all Vorherigen Deffinitionen zurück gegeben")
         private static List<Method> findOverriddenMethods(Method original, Class<?> currentClass) {
             List<Method> methods = new ArrayList<>();
             if (currentClass == null) return methods;
@@ -142,6 +170,8 @@ public class KontextB {
             return methods;
         }
 
+        @Annotations.Precondition("a != null")
+        @Annotations.Postcondition("Gibt den value der Annotaion als String zurück")
         private static String extractValue(Annotation a) {
             try {
                 Method m = a.annotationType().getMethod("value");
@@ -151,6 +181,8 @@ public class KontextB {
             }
         }
 
+        @Annotations.Precondition("m != null")
+        @Annotations.Postcondition("Gibt die Signatur der Methode als String zurück")
         private static String buildMethodSignature(Method m) {
             StringBuilder sb = new StringBuilder();
             sb.append(Modifier.toString(m.getModifiers())).append(" ");
