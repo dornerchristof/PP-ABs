@@ -111,7 +111,10 @@ public class KontextB {
                 for (A ann : anns) {
                     String val = extractValue(ann);
                     if (foundValues.add(val)) {
-                        String suffix = (pm != m) ? " (geerbt von " + pm.getDeclaringClass().getSimpleName() + ")" : "";
+                        String suffix = "";
+                        if(pm.getDeclaringClass() != m.getDeclaringClass()){
+                            suffix = (pm != m) ? " (geerbt von " + pm.getDeclaringClass().getSimpleName() + ")" : "";
+                        }
                         System.out.println("      @" + label + ": " + val + suffix);
                         count++;
                     }
