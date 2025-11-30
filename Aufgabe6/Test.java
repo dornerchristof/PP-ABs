@@ -17,19 +17,10 @@ import java.lang.annotation.Target;
         Z.class,
         Statistics.class,
         Annotations.class,
-        Annotations.Precondition.class,
-        Annotations.Postcondition.class,
-        Annotations.Invariant.class,
-        Annotations.ClientHistoryConstraint.class,
-        Annotations.ServerHistoryConstraint.class,
-        Annotations.Preconditions.class,
-        Annotations.Postconditions.class,
-        Annotations.Invariants.class,
-        Annotations.ClientHistoryConstraints.class,
-        Annotations.ServerHistoryConstraints.class,
-        Annotations.Responsible.class,
-        Test.UsedClasses.class
+        Test.UsedClasses.class,
+        KontextB.class
 })
+@Annotations.Responsible(Annotations.names.Tobias)
 public class Test {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.TYPE)
@@ -81,6 +72,11 @@ public class Test {
     public static void main(String[] args) {
         Simulation sim = new Simulation();
         sim.simulate();
+
+        //1.
+        KontextB.run(Test.class);
     }
+
+
 
 }

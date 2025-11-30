@@ -33,7 +33,7 @@ public class Set implements Iterable {
         head = null;
     }
 
-    public void add(Object obj){
+    public boolean add(Object obj){
         Node node = new Node(obj);;
         if (head == null) head = node;
         else {
@@ -42,6 +42,7 @@ public class Set implements Iterable {
             current.next = node;
         }
         size++;
+        return true;
     }
 
     public void remove (Object node){
