@@ -70,8 +70,15 @@ public class Test {
     // Total for now: A-6, B-7, C-6
 
     public static void main(String[] args) {
+        System.out.println("Simulation 1:");
         Simulation sim = new Simulation();
         sim.simulate();
+        System.out.println("Simulation 2:");
+        Simulation sim2 = new Simulation();
+        sim2.simulate();
+        System.out.println("Simulation 3:");
+        Simulation sim3 = new Simulation();
+        sim3.simulate();
 
         //1.
         KontextB.run(Test.class);
