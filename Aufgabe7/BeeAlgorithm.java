@@ -24,12 +24,20 @@ public class BeeAlgorithm {
 
 	// Relative Größe des Feldes vergliche zum untersuchten Bereich
 	// 0 <= s <= 1
-	private double s = 0.3;
+	private double s;
 
 	// Anzahl der am Ende zurückgegebenen besten gefunden Stellen
 	private int r;
 
-	// Lokale Suche
+	public BeeAlgorithm(int n, int m, int e, int p, int q, double s, int r) {
+		this.n = n;
+		this.m = m;
+		this.e = e;
+		this.p = p;
+		this.q = q;
+		this.s = s;
+		this.r = r;
+	}
 
 	/// Liefert einen Stream mit w.length Zufallszahlen, die in den von w[i\]
 	/// definierten Grenzen liegen.

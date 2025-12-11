@@ -16,7 +16,7 @@ public class Test {
         DoubleCompare c = new DoubleCompare();
         //Suchschritte
         int t;
-        BeeAlgorithm bee = new BeeAlgorithm();
+        BeeAlgorithm bee = new BeeAlgorithm(10, 8, 3, 20, 10, 0.3, 5);
         var res = bee.run(f, c, w, 3);
 
     }
