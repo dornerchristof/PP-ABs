@@ -71,7 +71,8 @@ public class BeeAlgorithm {
 
 	/// Sucht innerhalb des Feldes nach den besten Parameter und gibt dieses "Unterfeld" wieder zurück
 	/// n ... Anz. an Parameterwerten, die probiert werden (zwischen exzellent und normalen Feldern unterschiedlich)
-	private Field localSearch(Function<List<Double>, Double> f, Field prev, int t) {
+	private Field localSearch(Function<List<Double>, Double> f, Field prev, int t, Comparator<Field> c) {
+
 		//du kannst hier drinnen wahrscheinlich wieder global search verwenden um t Felder zu bekommen
 
 		//Du musst dann noch das machen (siehe Skript):
@@ -88,9 +89,9 @@ public class BeeAlgorithm {
 	public SortedSet<Field> search(int t, Function<List<Double>, Double> f, double [][] w, SortedSet<Field> prev, Comparator<Field> c) {
 		if(t == 0) return prev;
 		//Local search für die e exzellenten Felder
-		var newRes= prev.reversed().stream().limit(e).map(e -> localSearch(f, e, p)).collect(Collectors.toCollection(() -> new TreeSet<>(c)));
+		var newRes= prev.reversed().stream().limit(e).map(e -> localSearch(f, e, p, c)).collect(Collectors.toCollection(() -> new TreeSet<>(c)));
 		//Local search für die m-e normalen Felder
-		newRes.addAll(prev.reversed().stream().skip(e).limit(m-e).map(e -> localSearch(f, e, q))
+		newRes.addAll(prev.reversed().stream().skip(e).limit(m-e).map(e -> localSearch(f, e, q, c))
 				.collect(Collectors.toCollection(() -> new TreeSet<>(c))));
 		//Global search mit dem Rest und Rekursion
 		return search(t - 1, f, w, globalSearch(f, w, n - m, newRes), c);
