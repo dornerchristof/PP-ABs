@@ -26,9 +26,9 @@ public class Test {
         Comparator<Double> c = Comparator.naturalOrder(); // max
 
         // Parameter sind bewusst eher groß, damit es auch Laufzeit gibt.
-        int n = 400, m = 160, e = 40, p = 80, q = 30, r = 10;
+        int n = 4000, m = 1600, e = 400, p = 800, q = 300, r = 100;
         double s = 0.10;
-        int t = 6000;
+        int t = 2000;
 
         var bee = new BeeAlgorithm(n, m, e, p, q, s, r);
 
@@ -60,9 +60,9 @@ public class Test {
         double[][] w = new double[][]{{-5.0, 5.0}, {-5.0, 5.0}};
         Comparator<Double> c = Comparator.naturalOrder(); // max
 
-        int n = 500, m = 200, e = 50, p = 90, q = 35, r = 10;
+        int n = 10000, m = 4000, e = 1000, p = 1800, q = 700, r = 200;
         double s = 0.12;
-        int t = 1200;
+        int t = 2050;
 
         var bee = new BeeAlgorithm(n, m, e, p, q, s, r);
 
@@ -92,9 +92,9 @@ public class Test {
         double[][] w = new double[][]{{-3.0, 3.0}};
         Comparator<Double> c = Comparator.naturalOrder(); // max score
 
-        int n = 400, m = 160, e = 40, p = 80, q = 30, r = 10;
+        int n = 10000, m = 3000, e = 1000, p = 1600, q = 600, r = 200;
         double s = 0.08;
-        int t = 1500;
+        int t = 2500;
 
         var bee = new BeeAlgorithm(n, m, e, p, q, s, r);
 
