@@ -22,11 +22,11 @@ public class Test {
         int runIndex = 1;
 
         Function<List<Double>, Double> f = x -> Math.sin(Math.toRadians(x.getFirst()));
-        double[][] w = new double[][]{{-1800.0, 1800.0}};
+        double[][] w = new double[][]{{-10000.0, 8000.0}};
         Comparator<Double> c = Comparator.naturalOrder(); // max
 
         // Parameter sind bewusst eher groß, damit es auch Laufzeit gibt.
-        int n = 4000, m = 1600, e = 400, p = 800, q = 300, r = 100;
+        int n = 8000, m = 3200, e = 800, p = 1600, q = 600, r = 200;
         double s = 0.10;
         int t = 2000;
 
