@@ -51,67 +51,76 @@ public class BeeAlgorithm {
 
 	// Globale Suche
 	private SortedSet<Field> globalSearch(Function<List<Double>, Double> f,
-			double[][] w, int t, SortedSet<Field> result) {
-		if (t == 0)
-			return result;
+			double[][] w, int t, Comparator<Field> c) {
 
-		List<Double> funcPar = populateRandomSet(w).boxed().toList();
-		double fucRes = f.apply(funcPar);
-		result.add(new Field(fucRes, funcPar, fieldBorders(w, funcPar, s), 0));
-
-		return globalSearch(f, w, t - 1, result);
+		return IntStream.range(0, t)
+				.mapToObj(i -> populateRandomSet(w).boxed().toList())
+				.map(params -> new Field(f.apply(params), params, fieldBorders(w, params, s), 0))
+				.collect(Collectors.toCollection(() -> new TreeSet<>(c)));
 	}
 
-	/// Berechnet schmälere Grenzen, welche um die funcPar liegen und nur percent so groß sind, wie die in w.
+	/// Berechnet schmälere Grenzen, welche um die funcPar liegen und nur percent so
+	/// groß sind, wie die in w.
 	private double[][] fieldBorders(double[][] w, List<Double> funcPar, double percent) {
 		double[] v = Stream.of(w).mapToDouble(p -> percent / 2 * (Math.abs(p[0]) + Math.abs(p[1]))).toArray();
 		return IntStream.range(0, w.length).mapToObj(i -> new double[] { funcPar.get(i) - v[i], funcPar.get(i) +
 				v[i] }).toArray(double[][]::new);
 	}
 
-	/// Sucht innerhalb des Feldes nach den besten Parameter und gibt dieses "Unterfeld" wieder zurück
-	/// n ... Anz. an Parameterwerten, die probiert werden (zwischen exzellent und normalen Feldern unterschiedlich)
+	/// Sucht innerhalb des Feldes nach den besten Parameter und gibt dieses
+	/// "Unterfeld" wieder zurück n ... Anz. an Parameterwerten, die probiert werden
+	/// (zwischen exzellent und normalen Feldern unterschiedlich)
 	private Field localSearch(Function<List<Double>, Double> f, Field prev, int t, Comparator<Field> c) {
-        // return prev after
-        if(prev.regressions >= 3) return prev;
+		// return prev after
+		if (prev.regressions >= 3)
+			return prev;
 
-        Field bestLocal = IntStream.range(0, t)
-                .mapToObj( i -> populateRandomSet(prev.borders).boxed().toList())
-                .map(params -> new Field(f.apply(params), params, null, 0))
-                .max(c)
-                .orElse(prev);
-        boolean improved = c.compare(bestLocal, prev) > 0;
-        var winner = improved ? bestLocal : prev;
-        double[][] newBorders = fieldBorders(prev.borders, winner.highestResultPar, s);
-		//du kannst hier drinnen wahrscheinlich wieder global search verwenden um t Felder zu bekommen
+		Field bestLocal = IntStream.range(0, t)
+				.mapToObj(i -> populateRandomSet(prev.borders).boxed().toList())
+				.map(params -> new Field(f.apply(params), params, null, 0))
+				.max(c)
+				.orElse(prev);
+		boolean improved = c.compare(bestLocal, prev) > 0;
+		var winner = improved ? bestLocal : prev;
+		double[][] newBorders = fieldBorders(prev.borders, winner.highestResultPar, s);
+		// du kannst hier drinnen wahrscheinlich wieder global search verwenden um t
+		// Felder zu bekommen
 
-		//Du musst dann noch das machen (siehe Skript):
-		//• Wenn innerhalb weniger Schritte in einem Feld kein Fortschritt er- zielt wird
-		// (kein Suchergebnis ist besser als ein früher auf diesem Feld gefundenes), wird dieses Feld nicht weiter
+		// Du musst dann noch das machen (siehe Skript):
+		// • Wenn innerhalb weniger Schritte in einem Feld kein Fortschritt er- zielt
+		// wird
+		// (kein Suchergebnis ist besser als ein früher auf diesem Feld gefundenes),
+		// wird dieses Feld nicht weiter
 		// bearbeitet, indem die Kundschafterin ein schlechtes Ergebnis zurückmeldet.
 		//
-		//• Ein Feld wird pro Schritt verkleinert, sodass sich die Suche auf den Teil beschränkt, wo das beste
+		// • Ein Feld wird pro Schritt verkleinert, sodass sich die Suche auf den Teil
+		// beschränkt, wo das beste
 		// Ergebnis im Feld zu ﬁnden war.
-		return new Field(winner.highestResult, winner.highestResultPar, newBorders, improved ? 0 : prev.regressions + 1);
+		return new Field(winner.highestResult, winner.highestResultPar, newBorders,
+				improved ? 0 : prev.regressions + 1);
 	}
 
 	// global und local search
-	public SortedSet<Field> search(int t, Function<List<Double>, Double> f, double [][] w, SortedSet<Field> prev, Comparator<Field> c) {
-		if(t == 0) return prev;
-		//Local search für die e exzellenten Felder
-		var newRes= prev.reversed().stream().limit(e).map(e -> localSearch(f, e, p, c)).collect(Collectors.toCollection(() -> new TreeSet<>(c)));
-		//Local search für die m-e normalen Felder
-		newRes.addAll(prev.reversed().stream().skip(e).limit(m-e).map(e -> localSearch(f, e, q, c))
+	public SortedSet<Field> search(int t, Function<List<Double>, Double> f, double[][] w, SortedSet<Field> prev,
+			Comparator<Field> c) {
+		if (t == 0)
+			return prev;
+		// Local search für die e exzellenten Felder
+		var newRes = prev.reversed().stream().limit(e).map(e -> localSearch(f, e, p, c))
+				.collect(Collectors.toCollection(() -> new TreeSet<>(c)));
+		// Local search für die m-e normalen Felder
+		newRes.addAll(prev.reversed().stream().skip(e).limit(m - e).map(e -> localSearch(f, e, q, c))
 				.collect(Collectors.toCollection(() -> new TreeSet<>(c))));
-		//Global search mit dem Rest und Rekursion
-		return search(t - 1, f, w, globalSearch(f, w, n - m, newRes), c);
+		// Global search mit dem Rest und Rekursion
+		newRes.addAll(globalSearch(f, w, n -m, c));
+		return search(t - 1, f, w, newRes, c);
 	}
 
 	/// Ausführung des Algorithmus
-	public Set<List<Double>>  run(Function<List<Double>, Double> f, Comparator<Double> c,
-													  double[][] w, int t) {
+	public Set<List<Double>> run(Function<List<Double>, Double> f, Comparator<Double> c,
+			double[][] w, int t) {
 		// init
-		var res = globalSearch(f, w, t, new TreeSet<Field>(Comparator.comparing(Field::highestResult, c)));
+		var res = globalSearch(f, w, t, Comparator.comparing(Field::highestResult));
 		res.reversed().stream().limit(r).map(Field::highestResultPar);
 		// liefert die n Einträge mit den höchsten Werten, exclusive der e exzellenten
 		// Einträge
@@ -119,9 +128,10 @@ public class BeeAlgorithm {
 				.map(Field::highestResultPar).collect(Collectors.toSet());
 	}
 
-	/// Borders sind die beschränkten Grenzen für diese Parameter
-	/// Regression wird hochgezählt, wenn das beste gefundene Ergebnis niedriger als das gespeicherte ist. Wenn
-	/// regression >= 3?, dann wird das Feld nicht mehr bearbeitet (bleibt aber erhalten).
+	/// Borders sind die beschränkten Grenzen für diese Parameter Regression wird
+	/// hochgezählt, wenn das beste gefundene Ergebnis niedriger als das gespeicherte
+	/// ist. Wenn regression >= 3?, dann wird das Feld nicht mehr bearbeitet (bleibt
+	/// aber erhalten).
 	private record Field(Double highestResult, List<Double> highestResultPar, double[][] borders, int regressions) {
 	}
 }
