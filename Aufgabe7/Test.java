@@ -28,7 +28,7 @@ public class Test {
         // Parameter sind bewusst eher groß, damit es auch Laufzeit gibt.
         int n = 400, m = 160, e = 40, p = 80, q = 30, r = 10;
         double s = 0.10;
-        int t = 15000;
+        int t = 6000;
 
         var bee = new BeeAlgorithm(n, m, e, p, q, s, r);
 
