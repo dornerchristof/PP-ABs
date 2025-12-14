@@ -72,7 +72,17 @@ public class BeeAlgorithm {
 	/// Sucht innerhalb des Feldes nach den besten Parameter und gibt dieses "Unterfeld" wieder zurück
 	/// n ... Anz. an Parameterwerten, die probiert werden (zwischen exzellent und normalen Feldern unterschiedlich)
 	private Field localSearch(Function<List<Double>, Double> f, Field prev, int t, Comparator<Field> c) {
+        // return prev after
+        if(prev.regressions >= 3) return prev;
 
+        Field bestLocal = IntStream.range(0, t)
+                .mapToObj( i -> populateRandomSet(prev.borders).boxed().toList())
+                .map(params -> new Field(f.apply(params), params, null, 0))
+                .max(c)
+                .orElse(prev);
+        boolean improved = c.compare(bestLocal, prev) > 0;
+        var winner = improved ? bestLocal : prev;
+        double[][] newBorders = fieldBorders(prev.borders, winner.highestResultPar, s);
 		//du kannst hier drinnen wahrscheinlich wieder global search verwenden um t Felder zu bekommen
 
 		//Du musst dann noch das machen (siehe Skript):
@@ -82,7 +92,7 @@ public class BeeAlgorithm {
 		//
 		//• Ein Feld wird pro Schritt verkleinert, sodass sich die Suche auf den Teil beschränkt, wo das beste
 		// Ergebnis im Feld zu ﬁnden war.
-		return new Field(null, null, null, 0);
+		return new Field(winner.highestResult, winner.highestResultPar, newBorders, improved ? 0 : prev.regressions + 1);
 	}
 
 	// global und local search
