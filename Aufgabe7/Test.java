@@ -2,6 +2,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.function.Function;
 
+/// Aufgabenteilung
+/// Christof Dorner:
+///     Bee Algorithmus mit Fokus auf die globale Suche
+///     Bee Algorithmus Kommentare
+/// Patrick Loser:
+///     ResultPresenter
+///     Test runs
+/// Tobias Kirnberger:
+///     Bee Algorithmus mit Fokus auf die lokale Suche
+///     Kommentare
+
 public class Test {
 
     public static void main(String[] args) {
@@ -23,10 +34,10 @@ public class Test {
 
         Function<List<Double>, Double> f = x -> Math.sin(Math.toRadians(x.getFirst()));
         double[][] w = new double[][]{{-10000.0, 8000.0}};
-        Comparator<Double> c = Comparator.naturalOrder(); // max
+        Comparator<Double> c = Comparator.naturalOrder();
 
         // Parameter sind bewusst eher groß, damit es auch Laufzeit gibt.
-        int n = 8000, m = 3200, e = 800, p = 1600, q = 600, r = 200;
+        int n = 8000, m = 3200, e = 800, p = 1600, q = 600, r = 10;
         double s = 0.10;
         int t = 2000;
 
@@ -60,7 +71,7 @@ public class Test {
         double[][] w = new double[][]{{-5.0, 5.0}, {-5.0, 5.0}};
         Comparator<Double> c = Comparator.naturalOrder(); // max
 
-        int n = 10000, m = 4000, e = 1000, p = 1800, q = 700, r = 200;
+        int n = 10000, m = 4000, e = 1000, p = 1800, q = 700, r = 10;
         double s = 0.12;
         int t = 2050;
 
@@ -92,7 +103,7 @@ public class Test {
         double[][] w = new double[][]{{-3.0, 3.0}};
         Comparator<Double> c = Comparator.naturalOrder(); // max score
 
-        int n = 10000, m = 3000, e = 1000, p = 1600, q = 600, r = 200;
+        int n = 10000, m = 3000, e = 1000, p = 1600, q = 600, r = 10;
         double s = 0.08;
         int t = 2500;
 
