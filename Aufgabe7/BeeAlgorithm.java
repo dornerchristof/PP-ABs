@@ -67,37 +67,21 @@ public class BeeAlgorithm {
 				v[i] }).toArray(double[][]::new);
 	}
 
-	/// Sucht innerhalb des Feldes nach den besten Parameter und gibt dieses
-	/// "Unterfeld" wieder zurück n ... Anz. an Parameterwerten, die probiert werden
-	/// (zwischen exzellent und normalen Feldern unterschiedlich)
 	private Field localSearch(Function<List<Double>, Double> f, Field prev, int t, Comparator<Field> c) {
-		// return prev after
-		if (prev.regressions >= 3)
-			return prev;
+		if (prev.regressions >= 3) return prev; //Return the previous element if already tried to find better point multiple times
 
+        // Result is the field with the highest highestResult property or prev if there is no improvement.
 		Field bestLocal = IntStream.range(0, t)
-				.mapToObj(i -> populateRandomSet(prev.borders).boxed().toList())
+				.mapToObj(i -> populateRandomSet(prev.borders).boxed().toList()) // Slect random points within the borders of the filed
+                // Add a field for every point. Borders are calculated later. This is just because the comparator needs fields to compare.
 				.map(params -> new Field(f.apply(params), params, null, 0))
-				.max(c)
-				.orElse(prev);
-		boolean improved = c.compare(bestLocal, prev) > 0;
+				.max(c) // Get the best field based on the comparator c.
+				.orElse(prev); // If there is no field, use the previous one.
+		boolean improved = c.compare(bestLocal, prev) > 0; // compare bestLocal to prev
 		var winner = improved ? bestLocal : prev;
 		double[][] newBorders = fieldBorders(prev.borders, winner.highestResultPar, s);
-		// du kannst hier drinnen wahrscheinlich wieder global search verwenden um t
-		// Felder zu bekommen
-
-		// Du musst dann noch das machen (siehe Skript):
-		// • Wenn innerhalb weniger Schritte in einem Feld kein Fortschritt er- zielt
-		// wird
-		// (kein Suchergebnis ist besser als ein früher auf diesem Feld gefundenes),
-		// wird dieses Feld nicht weiter
-		// bearbeitet, indem die Kundschafterin ein schlechtes Ergebnis zurückmeldet.
-		//
-		// • Ein Feld wird pro Schritt verkleinert, sodass sich die Suche auf den Teil
-		// beschränkt, wo das beste
-		// Ergebnis im Feld zu ﬁnden war.
-		return new Field(winner.highestResult, winner.highestResultPar, newBorders,
-				improved ? 0 : prev.regressions + 1);
+        // Return new Field with updated borders. Regression is increased if the Result is not improved.
+		return new Field(winner.highestResult, winner.highestResultPar, newBorders, improved ? 0 : prev.regressions + 1);
 	}
 
 	// global und local search
